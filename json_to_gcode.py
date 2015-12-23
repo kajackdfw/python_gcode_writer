@@ -38,7 +38,7 @@ if cuttingOps['config']['mode'] == 'absolute' :
 else:
     ncFirstLine = str.replace(ncFirstLine, '[mode]', 'G91')
 
-ncToolRadius = ( cuttingOps['config']['tool_diameter'] / 2 ) * -1
+ncToolRadius = float(cuttingOps['config']['tool_diameter']) * 0.5
 
 ncFile.write(ncFirstLine)
 ncFile.write("\n")
@@ -47,8 +47,30 @@ ncFile.write("(")
 ncFile.write(ncFileComment)
 ncFile.write(")\n")
 
+nextLine = 'G0 X' + str(ncToolRadius * -1 ) + ' Y' + str(ncToolRadius * -1 ) + " Z0 F40\n"
+ncFile.write(nextLine)
 
 
+# cut the border
+ncFile.write("M3\n")
+nextX = str( float(ncToolRadius * -1) )
+nextY = str( float( cuttingOps['border']['y']) + ncToolRadius )
+nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
+ncFile.write(nextLine)
+
+nextX = str( float(cuttingOps['border']['x']) + float(ncToolRadius * -1) )
+nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
+ncFile.write(nextLine)
+
+nextY = str(ncToolRadius * -1 )
+nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
+ncFile.write(nextLine)
+
+nextX = str(ncToolRadius * -1 )
+nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
+ncFile.write(nextLine)
+
+ncFile.write("M5\n")
 
 ncFile.write('(end of script)')
 ncFile.closed
