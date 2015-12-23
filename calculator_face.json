@@ -15,34 +15,38 @@
          "diameter" : "9.28" ,
          "x" : "10.20",
          "y" : "11.25",
-         "x_times" : "4",
-         "x_spacing" : "13.5",
-         "y_times" : "6",
-         "y_spacing" : "11.15"
+         "array" : {
+            "columns" : "4",
+            "x_spacing" : "13.5",
+            "rows" : "6",
+            "y_spacing" : "11.15"
+         }
       },
       "1" : {
          "cut" : "round",
          "diameter" : "2.10" ,
          "x" : "5.24",
          "y" : "4.70",
-         "x_times" : "2",
-         "x_spacing" : "49.97",
-         "y_times" : "2",
-         "y_spacing" : "111.36"
+         "array" : {
+           "columns" : "2",
+           "x_spacing" : "49.97",
+           "rows" : "2",
+           "y_spacing" : "111.36"
+         }
       },
       "2" : {
          "cut" : "rectangle",
          "x" : "30.20" ,
          "y" : "75.66",
          "wide" : "22.80",
-         "tall" : "7.20",
+         "tall" : "7.20"
       },
       "3" : {
          "cut" : "rectangle",
          "x" : "8.13" ,
          "y" : "88.39",
          "wide" : "45.00",
-         "tall" : "15.00",
+         "tall" : "15.00"
       }
     }
 }
