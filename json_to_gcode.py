@@ -51,6 +51,16 @@ nextLine = 'G0 X' + str(ncToolRadius * -1 ) + ' Y' + str(ncToolRadius * -1 ) + "
 ncFile.write(nextLine)
 
 
+# loop through the cuts
+for opp in cuttingOps:
+    try:
+        cutArray = opp['array']
+    except KeyError:
+        # Key is not present
+        pass
+
+# http://stackoverflow.com/questions/11479816/what-is-the-python-equivalent-for-a-case-switch-statement
+
 # cut the border
 ncFile.write("M3\n")
 nextX = str( float(ncToolRadius * -1) )
@@ -74,3 +84,16 @@ ncFile.write("M5\n")
 
 ncFile.write('(end of script)')
 ncFile.closed
+
+
+# define the function blocks
+def circle( oppInfo ):
+    print "You typed zero.\n"
+
+def rectangle( oppInfo ):
+    print "n is a perfect square\n"
+
+# map the inputs to the function blocks
+options = {'circle' : circle,
+           'rectangle' : rectangle
+}
