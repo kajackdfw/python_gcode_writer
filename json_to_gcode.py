@@ -21,11 +21,20 @@ import json
 
 # define the function blocks
 def circle( params, feedRate ):
-    ncLines = "draw circle at " + str(params['x']) + "\n"
+    ncLines = "G0 X" + str(params['x']) + " Y" + str(params['y']) + " F40\n"
+    ncLines = ncLines + "M3\n"
+    ncLines = ncLines + "circle"
+    ncLines = ncLines + "M5\n"
     return ncLines
 
 def rectangle( params, feedRate ):
-    ncLines = "n is a perfect rectangle\n"
+    ncLines = "G0 X" + str(params['x']) + " Y" + str(params['y']) + " F40\n"
+    ncLines = ncLines + "M3\n"
+    ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(params['y']) + " F" + str(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str(params['x']) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str(params['x']) + " Y" + str(params['y']) + " F" + str(feedRate) + "\n"
+    ncLines = ncLines + "M5\n"
     return ncLines
 
 def cross( params, feedRate ):
@@ -86,10 +95,10 @@ for oppNum, opp in cuttingOps['cuts'].iteritems():
         opp['row_spacing'] = float(opp['array']['y_spacing']) * scale
         print "spacings cleaned up for opp # = " + str(oppNum)
         print "start drawing " + str( opp['array']['columns'] ) + " columns"
-        for aCol in range( 1, int(opp['array']['columns']) ):
+        for aCol in range( 0, int(opp['array']['columns']) ):
             print "   aCol = " + str(aCol)
             print "   start drawing " + str( opp['array']['rows'] ) + " rows , spaced at " + str( opp['row_spacing'] )
-            for aRow in range( 1, int( opp['array']['rows'] ) ):
+            for aRow in range( 0, int( opp['array']['rows'] ) ):
                 arrayOpp = {}
                 arrayOpp['x'] = float(aCol) * opp['column_spacing'] + opp['tempX']
                 arrayOpp['y'] = float(aRow) * opp['row_spacing']    + opp['tempY']
