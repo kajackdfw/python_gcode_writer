@@ -2,17 +2,19 @@
     "config" : {
         "mode" : "absolute",
         "unit" : "mm",
-        "tool_diameter" : "0.35",
-        "cut_speed" : "10"
+        "tool_diameter" : "0.1",
+        "cut_speed" : "10",
+        "mark_speed" : "40",
+        "scale" : "0.9917"
     },
     "border" : {
         "shape" : "rectangle",
         "x" : "61",
         "y" : "120"
     },
-    "operations" : {
+    "cuts" : {
       "0" : {
-         "cut" : "round",
+         "shape" : "round",
          "diameter" : "9.28" ,
          "x" : "10.20",
          "y" : "11.25",
@@ -24,7 +26,7 @@
          }
       },
       "1" : {
-         "cut" : "round",
+         "shape" : "round",
          "diameter" : "2.10" ,
          "x" : "5.24",
          "y" : "4.70",
@@ -36,14 +38,14 @@
          }
       },
       "2" : {
-         "cut" : "rectangle",
+         "shape" : "rectangle",
          "x" : "30.20" ,
          "y" : "75.66",
          "wide" : "22.80",
          "tall" : "7.20"
       },
       "3" : {
-         "cut" : "rectangle",
+         "shape" : "rectangle",
          "x" : "8.13" ,
          "y" : "88.39",
          "wide" : "45.00",
