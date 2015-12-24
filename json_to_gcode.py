@@ -19,6 +19,27 @@ import json
 # M4 Spindle ON but reverse
 # M5 Laser OFF
 
+# define the function blocks
+def circle( params, feedRate ):
+    ncLines = "draw circle at " + str(params['x']) + "\n"
+    return ncLines
+
+def rectangle( params, feedRate ):
+    ncLines = "n is a perfect rectangle\n"
+    return ncLines
+
+def cross( params, feedRate ):
+    ncLines = "n is a perfect cross\n"
+    return ncLines
+
+# map the inputs to the function blocks
+cutShape = {'circle' : circle,
+            'round'  : circle,
+            'rectangle' : rectangle,
+            'cross' : cross
+}
+
+
 patternFile = open('calculator_face.json', 'r')
 ncFile = open('calculator_face.nc', 'w')
 
@@ -38,7 +59,8 @@ if cuttingOps['config']['mode'] == 'absolute' :
 else:
     ncFirstLine = str.replace(ncFirstLine, '[mode]', 'G91')
 
-ncToolRadius = float(cuttingOps['config']['tool_diameter']) * 0.5
+toolRadius = float(cuttingOps['config']['tool_diameter']) * 0.5
+scale = float( cuttingOps['config']['scale'] )
 
 ncFile.write(ncFirstLine)
 ncFile.write("\n")
@@ -47,36 +69,56 @@ ncFile.write("(")
 ncFile.write(ncFileComment)
 ncFile.write(")\n")
 
-nextLine = 'G0 X' + str(ncToolRadius * -1 ) + ' Y' + str(ncToolRadius * -1 ) + " Z0 F40\n"
+nextLine = 'G0 X' + str(toolRadius * -1 ) + ' Y' + str(toolRadius * -1 ) + " Z0 F40\n"
 ncFile.write(nextLine)
 
 
-# loop through the cuts
-for opp in cuttingOps:
+# Loop through the CUTS
+for oppNum, opp in cuttingOps['cuts'].iteritems():
+    adjusted = []
+    opp['tempX'] = float( opp['x'] ) * scale
+    opp['tempY'] = float( opp['y'] ) * scale
+    opp['wide'] = float( opp['wide'] ) * scale
+    opp['tall'] = float( opp['tall'] ) * scale
     try:
-        cutArray = opp['array']
+        cutArray = opp['array'] # is there an array of this shape to process ? If not do once in exception
+        opp['column_spacing'] = float(opp['array']['x_spacing']) * scale
+        opp['row_spacing'] = float(opp['array']['y_spacing']) * scale
+        print "spacings cleaned up for opp # = " + str(oppNum)
+        print "start drawing " + str( opp['array']['columns'] ) + " columns"
+        for aCol in range( 1, int(opp['array']['columns']) ):
+            print "   aCol = " + str(aCol)
+            print "   start drawing " + str( opp['array']['rows'] ) + " rows , spaced at " + str( opp['row_spacing'] )
+            for aRow in range( 1, int( opp['array']['rows'] ) ):
+                arrayOpp = {}
+                arrayOpp['x'] = float(aCol) * opp['column_spacing'] + opp['tempX']
+                arrayOpp['y'] = float(aRow) * opp['row_spacing']    + opp['tempY']
+                arrayOpp['wide'] = opp['wide']
+                arrayOpp['tall'] = opp['tall']
+                ncFile.write( str(cutShape[opp['shape']]( arrayOpp, cuttingOps['config']['cut_speed'])) )
     except KeyError:
-        # Key is not present
-        pass
+        # Array key is not present
+        print "exception: missing array element for opp # = " + str(oppNum)
+        ncFile.write( cutShape[opp['shape']]( opp, cuttingOps['config']['cut_speed'] ))
 
 # http://stackoverflow.com/questions/11479816/what-is-the-python-equivalent-for-a-case-switch-statement
 
 # cut the border
 ncFile.write("M3\n")
-nextX = str( float(ncToolRadius * -1) )
-nextY = str( float( cuttingOps['border']['y']) + ncToolRadius )
+nextX = str( float(toolRadius * -1) )
+nextY = str( float( cuttingOps['border']['y']) + toolRadius )
 nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
 ncFile.write(nextLine)
 
-nextX = str( float(cuttingOps['border']['x']) + float(ncToolRadius * -1) )
+nextX = str( float(cuttingOps['border']['x']) + float(toolRadius * -1) )
 nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
 ncFile.write(nextLine)
 
-nextY = str(ncToolRadius * -1 )
+nextY = str(toolRadius * -1 )
 nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
 ncFile.write(nextLine)
 
-nextX = str(ncToolRadius * -1 )
+nextX = str(toolRadius * -1 )
 nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
 ncFile.write(nextLine)
 
@@ -86,14 +128,4 @@ ncFile.write('(end of script)')
 ncFile.closed
 
 
-# define the function blocks
-def circle( oppInfo ):
-    print "You typed zero.\n"
 
-def rectangle( oppInfo ):
-    print "n is a perfect square\n"
-
-# map the inputs to the function blocks
-options = {'circle' : circle,
-           'rectangle' : rectangle
-}
