@@ -23,21 +23,40 @@ import json
 # define the function blocks
 def circle( params, feedRate ):
     radius = float(params['radius'])
-    ncLines = "G0 X" + str(params['x']) + " Y" + str( float(params['y']) + radius ) + " F40\n"
-    ncLines = ncLines + "M3\n"
-    # G02 X0. Y0.5 I0.5 J0. F2.5
-    # X0.5 Y0. I0. J-0.5
-    # X0. Y-0.5 I-0.5 J0.
-    # X-0.5 Y0. I0. J0.5
-    ncLines = ncLines + "G02 X" + str(float(params['x']) + radius ) + " Y" + str( float(params['y']) + radius )
-    ncLines = ncLines + " I" + str(float(params['x']) + radius ) + " J" + str( params['y'] ) + "\n"
-    ncLines = ncLines + "G02 X" + str(float(params['x']) + radius ) + " Y" + str( float(params['y']) - radius )
-    ncLines = ncLines + " I" + str(params['x'] ) + " J" + str( float(params['y']) - radius ) + "\n"
-    ncLines = ncLines + "G02 X" + str(float(params['x']) - radius ) + " Y" + str( float(params['y']) - radius )
-    ncLines = ncLines + " I" + str(float(params['x']) - radius) + " J" + str( params['y'] ) + "\n"
-    ncLines = ncLines + "G02 X" + str(float(params['x']) - radius ) + " Y" + str( float(params['y']) + radius )
-    ncLines = ncLines + " I" + str(params['x']) + " J" + str( float(params['y']) + radius ) + "\n"
-    ncLines = ncLines + "M5\n"
+
+    #circles only need about 6 different numbers
+    x = float(params['x'])
+    y = float(params['y'])
+    leftPt   = float( x - radius )
+    rightPt  = float( x + radius )
+    topPt    = float( y + radius )
+    bottomPt = float( y - radius )
+
+    #(grbl sample)
+    #G17 G20 G90 G94 G54
+    ncLines = "G0 Z0.25\n"
+    ncLines = ncLines + "X" + str(leftPt) +" Y0.0\n"
+    ncLines = ncLines + "Z0.1\n"
+    ncLines = ncLines + "G01 Z0. F5.0\n"
+    ncLines = ncLines + "G02 X" + str(x)       +" Y" + str(topPt)    + " I" + str(leftPt)  + " J" + str(y)        + " F2.5\n"
+    ncLines = ncLines +     "X" + str(rightPt) +" Y" + str(y)        + " I" + str(x)       + " J" + str(bottomPt) + "\n"
+    ncLines = ncLines +     "X" + str(x)       +" Y" + str(bottomPt) + " I" + str(leftPt)  + " J" + str(y)        + "\n"
+    ncLines = ncLines +     "X" + str(leftPt)  +" Y" + str(y)        + " I" + str(x)       + " J" + str(topPt)    + "\n"
+    ncLines = ncLines + "G01 Z0.1 F5. \n"
+    #ncLines = ncLines + "G00 X0. Y0. Z0.25 \n"
+
+    #ncLines = "G0 X" + str(params['x']) + " Y" + str( float(params['y']) + radius ) + " F40\n"
+    #ncLines = ncLines + "M3\n"
+    # ncLines = ncLines + "G02 X" + str(float(params['x']) + radius ) + " Y" + str( float(params['y']) + radius )
+    # ncLines = ncLines + " I" + str(float(params['x']) + radius ) + " J" + str( params['y'] ) + "\n"
+    # ncLines = ncLines + "G02 X" + str(float(params['x']) + radius ) + " Y" + str( float(params['y']) - radius )
+    # ncLines = ncLines + " I" + str(params['x'] ) + " J" + str( float(params['y']) - radius ) + "\n"
+    # ncLines = ncLines + "G02 X" + str(float(params['x']) - radius ) + " Y" + str( float(params['y']) - radius )
+    # ncLines = ncLines + " I" + str(float(params['x']) - radius) + " J" + str( params['y'] ) + "\n"
+    # ncLines = ncLines + "G02 X" + str(float(params['x']) - radius ) + " Y" + str( float(params['y']) + radius )
+    # ncLines = ncLines + " I" + str(params['x']) + " J" + str( float(params['y']) + radius ) + "\n"
+    # ncLines = ncLines + "M5\n"
+
     return ncLines
 
 def rectangle( params, feedRate ):

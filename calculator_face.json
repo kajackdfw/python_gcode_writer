@@ -14,7 +14,7 @@
     },
     "cuts" : {
       "0" : {
-         "shape" : "round",
+         "shape" : "circle",
          "diameter" : "9.28" ,
          "x" : "10.20",
          "y" : "11.25",
@@ -26,7 +26,7 @@
          }
       },
       "1" : {
-         "shape" : "round",
+         "shape" : "circle",
          "diameter" : "2.10" ,
          "x" : "5.24",
          "y" : "4.70",
