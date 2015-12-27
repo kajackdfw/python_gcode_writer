@@ -29,8 +29,14 @@ def circle( params, feedRate ):
     # X0.5 Y0. I0. J-0.5
     # X0. Y-0.5 I-0.5 J0.
     # X-0.5 Y0. I0. J0.5
-    ncLines = ncLines + "G02 X" + str(float(params['x']) + radius ) + " Y" + str( params['y'] ) + " I" + str(radius) + " J0. F2" + str(feedRate)
-    ncLines = ncLines + "circle"
+    ncLines = ncLines + "G02 X" + str(float(params['x']) + radius ) + " Y" + str( float(params['y']) + radius )
+    ncLines = ncLines + " I" + str(float(params['x']) + radius ) + " J" + str( params['y'] ) + "\n"
+    ncLines = ncLines + "G02 X" + str(float(params['x']) + radius ) + " Y" + str( float(params['y']) - radius )
+    ncLines = ncLines + " I" + str(params['x'] ) + " J" + str( float(params['y']) - radius ) + "\n"
+    ncLines = ncLines + "G02 X" + str(float(params['x']) - radius ) + " Y" + str( float(params['y']) - radius )
+    ncLines = ncLines + " I" + str(float(params['x']) - radius) + " J" + str( params['y'] ) + "\n"
+    ncLines = ncLines + "G02 X" + str(float(params['x']) - radius ) + " Y" + str( float(params['y']) + radius )
+    ncLines = ncLines + " I" + str(params['x']) + " J" + str( float(params['y']) + radius ) + "\n"
     ncLines = ncLines + "M5\n"
     return ncLines
 
@@ -85,40 +91,38 @@ ncFile.write("(")
 ncFile.write(ncFileComment)
 ncFile.write(")\n")
 
-nextLine = 'G0 X' + str(toolRadius * -1 ) + ' Y' + str(toolRadius * -1 ) + " Z0 F40\n"
-ncFile.write(nextLine)
+
 
 
 # Loop through the CUTS
 for oppNum, opp in cuttingOps['cuts'].iteritems():
-    adjusted = []
     opp['tempX'] = float( opp['x'] ) * scale
     opp['tempY'] = float( opp['y'] ) * scale
     if ( opp['shape'] == 'rectangle' ) : opp['wide'] = float( opp['wide'] ) * scale
     if ( opp['shape'] == 'rectangle' ) : opp['tall'] = float( opp['tall'] ) * scale
     if ( opp['shape'] == 'circle' ) : opp['radius'] = float( opp['diameter']) * 0.5 * scale
-    try:
+    if 'array' not in opp:
+        ncFile.write( cutShape[ opp['shape'] ]( opp, cuttingOps['config']['cut_speed'] ) )
+    else:
         cutArray = opp['array'] # is there an array of this shape to process ? If not do once in exception
         opp['column_spacing'] = float(opp['array']['x_spacing']) * scale
         opp['row_spacing'] = float(opp['array']['y_spacing']) * scale
         print "spacings cleaned up for opp # = " + str(oppNum)
         print "start drawing " + str( opp['array']['columns'] ) + " columns"
         for aCol in range( 0, int(opp['array']['columns']) ):
-            print "   aCol = " + str(aCol)
-            print "   start drawing " + str( opp['array']['rows'] ) + " rows , spaced at " + str( opp['row_spacing'] )
             for aRow in range( 0, int( opp['array']['rows'] ) ):
                 arrayOpp = {}
                 arrayOpp['x'] = float(aCol) * opp['column_spacing'] + opp['tempX']
                 arrayOpp['y'] = float(aRow) * opp['row_spacing']    + opp['tempY']
-                arrayOpp['wide'] = opp['wide']
-                arrayOpp['tall'] = opp['tall']
+                if ( opp['shape'] == 'rectangle' ) :arrayOpp['wide'] = opp['wide']
+                if ( opp['shape'] == 'rectangle' ) :arrayOpp['tall'] = opp['tall']
+                if ( opp['shape'] == 'circle' ) :arrayOpp['radius'] = float( float(opp['diameter']) / 2.0 )
                 ncFile.write( str(cutShape[opp['shape']]( arrayOpp, cuttingOps['config']['cut_speed'])) )
-    except KeyError:
-        # Array key is not present
-        print "exception: missing array element for opp # = " + str(oppNum)
-        ncFile.write( cutShape[ opp['shape'] ]( opp, cuttingOps['config']['cut_speed'] ) )
 
-# cut the border
+# cut the border last
+nextLine = 'G0 X' + str(toolRadius * -1 ) + ' Y' + str(toolRadius * -1 ) + " Z0 F40\n"
+ncFile.write(nextLine)
+
 ncFile.write("M3\n")
 nextX = str( float(toolRadius * -1) )
 nextY = str( float( cuttingOps['border']['y']) + toolRadius )
@@ -138,6 +142,10 @@ nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_
 ncFile.write(nextLine)
 
 ncFile.write("M5\n")
+
+nextX = str( float(cuttingOps['border']['x']) + 3.0 )
+nextY = str( -toolRadius )
+nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
 
 ncFile.write('(end of script)')
 ncFile.closed
