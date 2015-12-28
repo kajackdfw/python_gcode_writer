@@ -1,5 +1,7 @@
 import json
 
+# TODOS : feedrate is behaving differently for rectangles and circles
+
 # Config Settings
 # G17 XY Plane
 # G18 XZ Plane
@@ -66,7 +68,7 @@ cutShape = {'circle' : circle,
 }
 
 
-patternFile = open('examples/calculator_face.json', 'r')
+patternFile = open('input/calculator_face.json', 'r')
 ncFile = open('output/calculator_face.nc', 'w')
 
 jstr = str(patternFile.read())
