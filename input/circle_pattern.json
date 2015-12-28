@@ -3,8 +3,7 @@
         "mode" : "absolute",
         "unit" : "inches",
         "tool_diameter" : "0.01",
-        "cut_speed" : "10",
-        "mark_speed" : "40",
+        "default_speed" : "10",
         "scale" : "0.9917"
     },
     "border" : {

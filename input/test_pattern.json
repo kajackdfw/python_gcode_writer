@@ -1,0 +1,62 @@
+{
+    "config" : {
+        "mode" : "absolute",
+        "unit" : "mm",
+        "tool_diameter" : "0.1",
+        "default_speed" : "40",
+        "scale" : "0.9917"
+    },
+    "border" : {
+        "shape" : "rectangle",
+        "x" : "50.8",
+        "y" : "50.8",
+        "speed" : "30"
+    },
+    "cuts" : {
+      "0" : {
+         "shape" : "circle",
+         "diameter" : "9.0" ,
+         "x" : "12.0",
+         "y" : "12.0",
+         "speed" : "40"
+      },
+      "1" : {
+         "shape" : "circle",
+         "diameter" : "9.0" ,
+         "x" : "24.0",
+         "y" : "12.0",
+         "speed" : "50"
+      },
+      "2" : {
+         "shape" : "circle",
+         "diameter" : "9.0" ,
+         "x" : "36.0",
+         "y" : "12.0",
+         "speed" : "60"
+      },
+      "3" : {
+         "shape" : "rectangle",
+         "x" : "3.0" ,
+         "y" : "45.0",
+         "wide" : "46.8",
+         "tall" : "3.00",
+         "speed" : "10"
+      },
+      "4" : {
+         "shape" : "rectangle",
+         "x" : "3.0" ,
+         "y" : "40.0",
+         "wide" : "46.8",
+         "tall" : "3.00",
+         "speed" : "20"
+      },
+      "5" : {
+         "shape" : "rectangle",
+         "x" : "3.0" ,
+         "y" : "35.0",
+         "wide" : "46.8",
+         "tall" : "3.00",
+         "speed" : "30"
+      }
+    }
+}
