@@ -1,5 +1,4 @@
 G17 G20 G90 G94 G54
-({u'border': {u'y': u'3', u'x': u'3', u'shape': u'rectangle'}, u'config': {u'cut_speed': u'10', u'scale': u'0.9917', u'tool_diameter': u'0.01', u'mark_speed': u'40', u'unit': u'inches', u'mode': u'absolute'}, u'cuts': {u'0': {u'y': u'1.50', u'diameter': u'1.0', u'shape': u'circle', u'x': u'2.0'}}})
 G0 X1.50415 Y1.5 Z0.1
 G01 Z0. F20.0
 M3
