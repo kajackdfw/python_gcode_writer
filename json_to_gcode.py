@@ -68,8 +68,8 @@ cutShape = {'circle' : circle,
 }
 
 
-patternFile = open('input/calculator_face.json', 'r')
-ncFile = open('output/calculator_face.nc', 'w')
+patternFile = open('input/test_pattern.json', 'r')
+ncFile = open('output/test_pattern.nc', 'w')
 
 jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)
@@ -91,11 +91,7 @@ toolRadius = float(cuttingOps['config']['tool_diameter']) * 0.5
 scale = float( cuttingOps['config']['scale'] )
 
 ncFile.write(ncFirstLine + "\n")
-
 #ncFile.write("(" + str(ncFileComment) + ")\n") This produces a line that overloads the Grbl buffer, but it is handy for debugging in Python
-
-
-
 
 # Loop through the CUTS
 for oppNum, opp in cuttingOps['cuts'].iteritems():
@@ -104,8 +100,13 @@ for oppNum, opp in cuttingOps['cuts'].iteritems():
     if ( opp['shape'] == 'rectangle' ) : opp['wide'] = float( opp['wide'] ) * scale
     if ( opp['shape'] == 'rectangle' ) : opp['tall'] = float( opp['tall'] ) * scale
     if ( opp['shape'] == 'circle' ) : opp['radius'] = float( opp['diameter']) * 0.5 * scale
+    #shapeSpeed = float(cuttingOps['config']['default_speed'])
+    if 'speed' in opp:
+        shapeSpeed = float( opp['speed'] )
+    else:
+        shapeSpeed = float(cuttingOps['config']['default_speed'])
     if 'array' not in opp:
-        ncFile.write( cutShape[ opp['shape'] ]( opp, cuttingOps['config']['default_speed'] ) )
+        ncFile.write( cutShape[ opp['shape'] ]( opp, shapeSpeed ) )
     else:
         cutArray = opp['array'] # is there an array of this shape to process ? If not do once in exception
         opp['column_spacing'] = float(opp['array']['x_spacing']) * scale
@@ -120,7 +121,7 @@ for oppNum, opp in cuttingOps['cuts'].iteritems():
                 if ( opp['shape'] == 'rectangle' ) :arrayOpp['wide'] = opp['wide']
                 if ( opp['shape'] == 'rectangle' ) :arrayOpp['tall'] = opp['tall']
                 if ( opp['shape'] == 'circle' ) :arrayOpp['radius'] = float( float(opp['diameter']) / 2.0 )
-                ncFile.write( str(cutShape[opp['shape']]( arrayOpp, cuttingOps['config']['default_speed'])) )
+                ncFile.write( str(cutShape[opp['shape']]( arrayOpp, shapeSpeed) ) )
 
 # cut the border last
 nextLine = 'G0 X' + str(toolRadius * -1 ) + ' Y' + str(toolRadius * -1 ) + " Z0 F40\n"
