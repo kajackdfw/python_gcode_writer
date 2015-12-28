@@ -26,12 +26,12 @@ def circle( params, feedRate ):
     negRadius = radius * -1.0
 
     #circles only need about 6 different numbers
-    x = float(params['x'])  #2.0
-    y = float(params['y'])  #1.5
-    leftPt   = float( x - radius ) #1.5
-    rightPt  = float( x + radius ) #2.5
-    topPt    = float( y + radius ) #2.0
-    bottomPt = float( y - radius ) #1.0
+    x = float(params['x'])
+    y = float(params['y'])
+    leftPt   = float( x - radius )
+    rightPt  = float( x + radius )
+    topPt    = float( y + radius )
+    bottomPt = float( y - radius )
 
     ncLines = "G0 X" + str(leftPt) + " Y" + str(y) + " Z0.1\n"
     ncLines = ncLines + "G01 Z0. F" + str(feedRate) + "\n"
@@ -143,10 +143,6 @@ nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_
 ncFile.write(nextLine)
 
 ncFile.write("M5\n")
-
-nextX = str( float(cuttingOps['border']['x']) + 3.0 )
-nextY = str( -toolRadius )
-nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['cut_speed'] ) + "\n"
 
 ncFile.write('(end of script)')
 ncFile.closed
