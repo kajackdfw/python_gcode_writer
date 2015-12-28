@@ -66,8 +66,8 @@ cutShape = {'circle' : circle,
 }
 
 
-patternFile = open('circle_pattern.json', 'r')
-ncFile = open('circle_pattern.nc', 'w')
+patternFile = open('calculator_face.json', 'r')
+ncFile = open('calculator_face.nc', 'w')
 
 jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)
@@ -91,9 +91,9 @@ scale = float( cuttingOps['config']['scale'] )
 ncFile.write(ncFirstLine)
 ncFile.write("\n")
 
-ncFile.write("(")
-ncFile.write(ncFileComment)
-ncFile.write(")\n")
+#ncFile.write("(")
+#ncFile.write(ncFileComment)
+#ncFile.write(")\n")
 
 
 
