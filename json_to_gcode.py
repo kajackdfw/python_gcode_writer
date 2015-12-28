@@ -34,9 +34,9 @@ def circle( params, feedRate ):
     bottomPt = float( y - radius ) #1.0
 
     ncLines = "G0 X" + str(leftPt) + " Y" + str(y) + " Z0.1\n"
-    ncLines = ncLines + "G01 Z0. F20.0\n"
+    ncLines = ncLines + "G01 Z0. F" + str(feedRate) + "\n"
     ncLines = ncLines + "M3\n"
-    ncLines = ncLines + "G02 X" + str(x)       + " Y" + str(topPt)      + " I" + str(radius)    + " J0.0 F20.0\n"
+    ncLines = ncLines + "G02 X" + str(x)       + " Y" + str(topPt)      + " I" + str(radius)    + " J0.0 F" + str(feedRate) + "\n"
     ncLines = ncLines +     "X" + str(rightPt) + " Y" + str(y)          + " I0.0 J"             + str( negRadius ) + "\n"
     ncLines = ncLines +     "X" + str(x)       + " Y" + str( bottomPt ) + " I" + str(negRadius) + " J0.0\n"
     ncLines = ncLines +     "X" + str(leftPt)  + " Y" + str(y)          + " I0.0 J"             + str( radius ) + "\n"

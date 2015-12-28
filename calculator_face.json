@@ -3,8 +3,9 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.1",
-        "cut_speed" : "10",
-        "mark_speed" : "40",
+        "cut_speed" : "40",
+        "mark_speed" : "50",
+        "move_speed" : "50",
         "scale" : "0.9917"
     },
     "border" : {
