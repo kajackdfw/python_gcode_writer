@@ -88,12 +88,9 @@ else:
 toolRadius = float(cuttingOps['config']['tool_diameter']) * 0.5
 scale = float( cuttingOps['config']['scale'] )
 
-ncFile.write(ncFirstLine)
-ncFile.write("\n")
+ncFile.write(ncFirstLine + "\n")
 
-#ncFile.write("(")
-#ncFile.write(ncFileComment)
-#ncFile.write(")\n")
+#ncFile.write("(" + str(ncFileComment) + ")\n") This produces a line that overloads the Grbl buffer, but it is handy for debugging in Python
 
 
 
