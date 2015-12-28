@@ -36,7 +36,7 @@ def circle( params, feedRate ):
     bottomPt = float( y - radius )
 
     ncLines = "G0 X" + str(leftPt) + " Y" + str(y) + " Z0.1\n"
-    ncLines = ncLines + "G01 Z0. F" + str(feedRate) + "\n"
+    ncLines = ncLines + "G01 Z0.0\n"
     ncLines = ncLines + "M3\n"
     ncLines = ncLines + "G02 X" + str(x)       + " Y" + str(topPt)      + " I" + str(radius)    + " J0.0 F" + str(feedRate) + "\n"
     ncLines = ncLines +     "X" + str(rightPt) + " Y" + str(y)          + " I0.0 J"             + str( negRadius ) + "\n"
@@ -47,7 +47,7 @@ def circle( params, feedRate ):
     return ncLines
 
 def rectangle( params, feedRate ):
-    ncLines = "G0 X" + str(params['x']) + " Y" + str(params['y']) + " F40\n"
+    ncLines = "G0 X" + str(params['x']) + " Y" + str(params['y']) + "\n"
     ncLines = ncLines + "M3\n"
     ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(params['y']) + " F" + str(feedRate) + "\n"
     ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
@@ -93,6 +93,9 @@ scale = float( cuttingOps['config']['scale'] )
 ncFile.write(ncFirstLine + "\n")
 #ncFile.write("(" + str(ncFileComment) + ")\n") This produces a line that overloads the Grbl buffer, but it is handy for debugging in Python
 
+# sort the cuts ascending from bottom to top by 'y' value
+# sorted( cuttingOps['cuts'].  ??? ['y'] ??? )
+
 # Loop through the CUTS
 for oppNum, opp in cuttingOps['cuts'].iteritems():
     opp['tempX'] = float( opp['x'] ) * scale
@@ -100,13 +103,14 @@ for oppNum, opp in cuttingOps['cuts'].iteritems():
     if ( opp['shape'] == 'rectangle' ) : opp['wide'] = float( opp['wide'] ) * scale
     if ( opp['shape'] == 'rectangle' ) : opp['tall'] = float( opp['tall'] ) * scale
     if ( opp['shape'] == 'circle' ) : opp['radius'] = float( opp['diameter']) * 0.5 * scale
-    #shapeSpeed = float(cuttingOps['config']['default_speed'])
+    #toolSpeed = float(cuttingOps['config']['default_speed'])
     if 'speed' in opp:
-        shapeSpeed = float( opp['speed'] )
+        toolSpeed = float( opp['speed'] )
     else:
-        shapeSpeed = float(cuttingOps['config']['default_speed'])
+        toolSpeed = float(cuttingOps['config']['default_speed'])
+    ncFile.write("G0 F" + cuttingOps['config']['default_speed'] + "\n") # set the current movement speed between cuts
     if 'array' not in opp:
-        ncFile.write( cutShape[ opp['shape'] ]( opp, shapeSpeed ) )
+        ncFile.write( cutShape[ opp['shape'] ]( opp, toolSpeed ) )
     else:
         cutArray = opp['array'] # is there an array of this shape to process ? If not do once in exception
         opp['column_spacing'] = float(opp['array']['x_spacing']) * scale
@@ -121,28 +125,32 @@ for oppNum, opp in cuttingOps['cuts'].iteritems():
                 if ( opp['shape'] == 'rectangle' ) :arrayOpp['wide'] = opp['wide']
                 if ( opp['shape'] == 'rectangle' ) :arrayOpp['tall'] = opp['tall']
                 if ( opp['shape'] == 'circle' ) :arrayOpp['radius'] = float( float(opp['diameter']) / 2.0 )
-                ncFile.write( str(cutShape[opp['shape']]( arrayOpp, shapeSpeed) ) )
+                ncFile.write( str(cutShape[opp['shape']]( arrayOpp, toolSpeed) ) )
 
 # cut the border last
-nextLine = 'G0 X' + str(toolRadius * -1 ) + ' Y' + str(toolRadius * -1 ) + " Z0 F40\n"
+nextLine = 'G0 X' + str(toolRadius * -1 ) + ' Y' + str(toolRadius * -1 ) + " Z0 " + cuttingOps['config']['default_speed'] + "\n"
 ncFile.write(nextLine)
+if 'speed' in cuttingOps['border']:
+    toolSpeed = str( cuttingOps['border']['speed'] )
+else:
+    toolSpeed = str( cuttingOps['config']['default_speed'] )
 
 ncFile.write("M3\n")
 nextX = str( float(toolRadius * -1) )
 nextY = str( float( cuttingOps['border']['y']) + toolRadius )
-nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['default_speed'] ) + "\n"
+nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
 ncFile.write(nextLine)
 
 nextX = str( float(cuttingOps['border']['x']) + float(toolRadius * -1) )
-nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['default_speed'] ) + "\n"
+nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
 ncFile.write(nextLine)
 
 nextY = str(toolRadius * -1 )
-nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['default_speed'] ) + "\n"
+nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
 ncFile.write(nextLine)
 
 nextX = str(toolRadius * -1 )
-nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + str( cuttingOps['config']['default_speed'] ) + "\n"
+nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
 ncFile.write(nextLine)
 
 ncFile.write("M5\n")
