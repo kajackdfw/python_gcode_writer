@@ -1,6 +1,6 @@
 import json
 
-# TODOS : feedrate is behaving differently for rectangles and circles
+# TODOS : outside border should be cut counter-clockwise for routers, clockwise ok for holes/cavities
 
 # Config Settings
 # G17 XY Plane
@@ -49,9 +49,9 @@ def circle( params, feedRate ):
 def rectangle( params, feedRate ):
     ncLines = "G0 X" + str(params['x']) + " Y" + str(params['y']) + "\n"
     ncLines = ncLines + "M3\n"
-    ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(params['y']) + " F" + str(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
     ncLines = ncLines + "G0 X" + str(params['x']) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(params['y']) + " F" + str(feedRate) + "\n"
     ncLines = ncLines + "G0 X" + str(params['x']) + " Y" + str(params['y']) + " F" + str(feedRate) + "\n"
     ncLines = ncLines + "M5\n"
     return ncLines
@@ -66,6 +66,10 @@ cutShape = {'circle' : circle,
             'rectangle' : rectangle,
             'cross' : cross
 }
+
+def by_Location(cutOpp):
+    y_primary_x_secondary = float( cutOpp['y'] ) * 1000 + float( cutOpp['x'] )
+    return y_primary_x_secondary
 
 
 patternFile = open('input/test_pattern.json', 'r')
@@ -93,18 +97,15 @@ scale = float( cuttingOps['config']['scale'] )
 ncFile.write(ncFirstLine + "\n")
 #ncFile.write("(" + str(ncFileComment) + ")\n") This produces a line that overloads the Grbl buffer, but it is handy for debugging in Python
 
-# sort the cuts ascending from bottom to top by 'y' value
-# sorted( cuttingOps['cuts'].  ??? ['y'] ??? )
-
-# sort cuts by the index
+# create a Python List of Dictionaries we can can sort by values
 oppList = []
 for oppNum, opp in cuttingOps['cuts'].iteritems():
     oppList.insert(int(oppNum), opp)
 
-oppList.sort()
+sortedOperations = sorted(oppList, key = by_Location)
 
-# Loop through the CUTS
-for opp in oppList: # cuttingOps['cuts'].iteritems():
+# Loop through the operations
+for opp in sortedOperations: # cuttingOps['cuts'].iteritems():
     opp['tempX'] = float( opp['x'] ) * scale
     opp['tempY'] = float( opp['y'] ) * scale
     if ( opp['shape'] == 'rectangle' ) : opp['wide'] = float( opp['wide'] ) * scale
