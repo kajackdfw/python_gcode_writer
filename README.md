@@ -1,2 +1,2 @@
-# python_gcode_writer
-A python script to write a simple gcode file.
+# json_to_gcode.py
+A python script to convert a json file to a gcode / nc file .
