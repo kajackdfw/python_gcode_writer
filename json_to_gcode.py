@@ -66,8 +66,8 @@ cutShape = {'circle' : circle,
 }
 
 
-patternFile = open('calculator_face.json', 'r')
-ncFile = open('calculator_face.nc', 'w')
+patternFile = open('examples/calculator_face.json', 'r')
+ncFile = open('output/calculator_face.nc', 'w')
 
 jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)
