@@ -96,14 +96,20 @@ ncFile.write(ncFirstLine + "\n")
 # sort the cuts ascending from bottom to top by 'y' value
 # sorted( cuttingOps['cuts'].  ??? ['y'] ??? )
 
-# Loop through the CUTS
+# sort cuts by the index
+oppList = []
 for oppNum, opp in cuttingOps['cuts'].iteritems():
+    oppList.insert(int(oppNum), opp)
+
+oppList.sort()
+
+# Loop through the CUTS
+for opp in oppList: # cuttingOps['cuts'].iteritems():
     opp['tempX'] = float( opp['x'] ) * scale
     opp['tempY'] = float( opp['y'] ) * scale
     if ( opp['shape'] == 'rectangle' ) : opp['wide'] = float( opp['wide'] ) * scale
     if ( opp['shape'] == 'rectangle' ) : opp['tall'] = float( opp['tall'] ) * scale
     if ( opp['shape'] == 'circle' ) : opp['radius'] = float( opp['diameter']) * 0.5 * scale
-    #toolSpeed = float(cuttingOps['config']['default_speed'])
     if 'speed' in opp:
         toolSpeed = float( opp['speed'] )
     else:
@@ -115,7 +121,6 @@ for oppNum, opp in cuttingOps['cuts'].iteritems():
         cutArray = opp['array'] # is there an array of this shape to process ? If not do once in exception
         opp['column_spacing'] = float(opp['array']['x_spacing']) * scale
         opp['row_spacing'] = float(opp['array']['y_spacing']) * scale
-        print "spacings cleaned up for opp # = " + str(oppNum)
         print "start drawing " + str( opp['array']['columns'] ) + " columns"
         for aCol in range( 0, int(opp['array']['columns']) ):
             for aRow in range( 0, int( opp['array']['rows'] ) ):
