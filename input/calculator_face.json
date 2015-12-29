@@ -1,55 +1,55 @@
 {
     "config" : {
         "unit" : "mm",
-        "tool_diameter" : "0.1",
-        "default_speed" : "40",
+        "tool_diameter" : "0.100",
+        "default_speed" : "40.000",
         "scale" : "0.9917"
     },
     "border" : {
         "shape" : "rectangle",
-        "x" : "61",
-        "y" : "120"
+        "x" : "61.000",
+        "y" : "120.000"
     },
     "cuts" : {
       "0" : {
          "shape" : "circle",
-         "diameter" : "9.28" ,
-         "x" : "10.70",
-         "y" : "11.75",
-         "speed" : "80.0",
+         "diameter" : "9.280" ,
+         "x" : "10.700",
+         "y" : "11.750",
+         "speed" : "80.000",
          "array" : {
             "columns" : "4",
-            "x_spacing" : "13.5",
+            "x_spacing" : "13.500",
             "rows" : "6",
-            "y_spacing" : "11.15"
+            "y_spacing" : "11.150"
          }
       },
       "1" : {
          "shape" : "circle",
-         "diameter" : "2.10" ,
-         "x" : "5.24",
-         "y" : "4.70",
-         "speed" : "80.0",
+         "diameter" : "2.100" ,
+         "x" : "5.240",
+         "y" : "4.700",
+         "speed" : "80.000",
          "array" : {
            "columns" : "2",
-           "x_spacing" : "49.97",
+           "x_spacing" : "49.970",
            "rows" : "2",
-           "y_spacing" : "111.36"
+           "y_spacing" : "111.360"
          }
       },
       "2" : {
          "shape" : "rectangle",
-         "x" : "30.20" ,
-         "y" : "75.0",
-         "wide" : "22.80",
-         "tall" : "7.20"
+         "x" : "30.200" ,
+         "y" : "75.000",
+         "wide" : "22.800",
+         "tall" : "7.200"
       },
       "3" : {
          "shape" : "rectangle",
-         "x" : "8.13" ,
-         "y" : "88.2",
-         "wide" : "45.00",
-         "tall" : "15.00"
+         "x" : "8.130" ,
+         "y" : "88.200",
+         "wide" : "45.000",
+         "tall" : "15.000"
       }
     }
 }

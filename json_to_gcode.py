@@ -36,7 +36,7 @@ def circle( params, feedRate ):
     topPt    = float( y + radius )
     bottomPt = float( y - radius )
 
-    ncLines = "G00 X" + str(leftPt) + " Y" + str(y) + " Z0.1\n"
+    ncLines = "G00 X" + str3dec(leftPt) + " Y" + str3dec(y) + " Z0.1\n"
     ncLines = ncLines + "G01 Z0.0\n"
     ncLines = ncLines + "M3\n"
     ncLines = ncLines + "G02 X" + str3dec(x)       + " Y" + str3dec(topPt)      + " I" + str3dec(radius)    + " J0. F" + str3dec(feedRate) + "\n"
@@ -57,7 +57,7 @@ def polygon( params, feedRate ):
     y = float(params['y'])
 
 
-    ncLines = "G0 X" + str(x) + " Y" + str(y) + " Z0.1\n"
+    ncLines = "G0 X" + str3dec(x) + " Y" + str3dec(y) + " Z0.1\n"
 
     ncLines = ncLines + "M3\n"
 
@@ -67,12 +67,12 @@ def polygon( params, feedRate ):
 
 
 def rectangle( params, feedRate ):
-    ncLines = "G00 X" + str(params['x']) + " Y" + str(params['y']) + "\n"
+    ncLines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + "\n"
     ncLines = ncLines + "M3\n"
-    ncLines = ncLines + "G0 X" + str(params['x']) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(params['y']) + " F" + str(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str(params['x']) + " Y" + str(params['y']) + " F" + str(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
     ncLines = ncLines + "M5\n"
     return ncLines
 
@@ -92,7 +92,7 @@ def by_Location(cutOpp):
     return y_primary_x_secondary
 
 def str3dec( floatNumber ):
-    return str(round( floatNumber ,3))
+    return str( round( float(floatNumber) ,3))
 
 patternFile = open('input/calculator_face.json', 'r')
 ncFile = open('output/calculator_face.nc', 'w')
@@ -139,7 +139,6 @@ for opp in sortedOperations: # cuttingOps['cuts'].iteritems():
         cutArray = opp['array'] # is there an array of this shape to process ? If not do once in exception
         opp['column_spacing'] = float(opp['array']['x_spacing']) * scale
         opp['row_spacing'] = float(opp['array']['y_spacing']) * scale
-        print "start drawing " + str( opp['array']['columns'] ) + " columns"
         for aCol in range( 0, int(opp['array']['columns']) ):
             for aRow in range( 0, int( opp['array']['rows'] ) ):
                 arrayOpp = {}
@@ -151,28 +150,28 @@ for opp in sortedOperations: # cuttingOps['cuts'].iteritems():
                 ncFile.write( str(cutShape[opp['shape']]( arrayOpp, toolSpeed) ) )
 
 # cut the border last
-nextLine = 'G0 X' + str(toolRadius * -1 ) + ' Y' + str(toolRadius * -1 ) + " Z0 F" + cuttingOps['config']['default_speed'] + "\n"
+nextLine = 'G0 X' + str3dec(toolRadius * -1 ) + ' Y' + str3dec(toolRadius * -1 ) + " Z0 F" + cuttingOps['config']['default_speed'] + "\n"
 ncFile.write(nextLine)
 if 'speed' in cuttingOps['border']:
-    toolSpeed = str( cuttingOps['border']['speed'] )
+    toolSpeed = str3dec( cuttingOps['border']['speed'] )
 else:
-    toolSpeed = str( cuttingOps['config']['default_speed'] )
+    toolSpeed = str3dec( cuttingOps['config']['default_speed'] )
 
 ncFile.write("M3\n")
-nextX = str( float(toolRadius * -1) )
-nextY = str( float( cuttingOps['border']['y']) + toolRadius )
+nextX = str3dec( float(toolRadius * -1) )
+nextY = str3dec( float( cuttingOps['border']['y']) + toolRadius )
 nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
 ncFile.write(nextLine)
 
-nextX = str( float(cuttingOps['border']['x']) + float(toolRadius * -1) )
+nextX = str3dec( float(cuttingOps['border']['x']) + float(toolRadius * -1) )
 nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
 ncFile.write(nextLine)
 
-nextY = str(toolRadius * -1 )
+nextY = str3dec(toolRadius * -1 )
 nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
 ncFile.write(nextLine)
 
-nextX = str(toolRadius * -1 )
+nextX = str3dec(toolRadius * -1 )
 nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
 ncFile.write(nextLine)
 
