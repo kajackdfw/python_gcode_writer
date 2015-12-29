@@ -131,7 +131,7 @@ for opp in sortedOperations: # cuttingOps['cuts'].iteritems():
         toolSpeed = float( opp['speed'] )
     else:
         toolSpeed = float(cuttingOps['config']['default_speed'])
-    ncFile.write("G0 F" + cuttingOps['config']['default_speed'] + "\n") # set the current movement speed between cuts
+    #ncFile.write("G0 F" + cuttingOps['config']['default_speed'] + "\n") # set the current movement speed between cuts
     if 'array' not in opp:
         ncFile.write( cutShape[ opp['shape'] ]( opp, toolSpeed ) )
     else:
