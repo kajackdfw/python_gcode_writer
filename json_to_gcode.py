@@ -11,6 +11,7 @@ import json
 # G54 circle mode
 # G90 absolute coordinates
 # G91 relative mode
+# G93
 # G94 feed units per minute
 # G95 feed rate relative spindle revolutions
 
@@ -46,6 +47,25 @@ def circle( params, feedRate ):
 
     return ncLines
 
+
+def polygon( params, feedRate ):
+    radius = float(params['radius'])
+
+
+    #circles only need about 6 different numbers
+    x = float(params['x'])
+    y = float(params['y'])
+
+
+    ncLines = "G0 X" + str(x) + " Y" + str(y) + " Z0.1\n"
+
+    ncLines = ncLines + "M3\n"
+
+    ncLines = ncLines + "M5\n"
+    ncLines = ncLines + "G01 Z1\n"
+    return ncLines
+
+
 def rectangle( params, feedRate ):
     ncLines = "G0 X" + str(params['x']) + " Y" + str(params['y']) + "\n"
     ncLines = ncLines + "M3\n"
@@ -72,6 +92,7 @@ def by_Location(cutOpp):
     return y_primary_x_secondary
 
 
+
 patternFile = open('input/calculator_face.json', 'r')
 ncFile = open('output/calculator_face.nc', 'w')
 
@@ -79,7 +100,7 @@ jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)
 ncFileComment = str(cuttingOps)
 
-ncFirstLine = "G17 [unit] G90 G94 G54"
+ncFirstLine = "G17 [unit] G90 G93 G54"
 
 if cuttingOps['config']['unit'] == 'mm' :
     ncFirstLine = str.replace(ncFirstLine, '[unit]', 'G21')
