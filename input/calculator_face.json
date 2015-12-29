@@ -1,6 +1,5 @@
 {
     "config" : {
-        "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.1",
         "default_speed" : "40",
@@ -17,6 +16,7 @@
          "diameter" : "9.28" ,
          "x" : "10.20",
          "y" : "11.25",
+         "speed" : "80.0",
          "array" : {
             "columns" : "4",
             "x_spacing" : "13.5",
@@ -29,6 +29,7 @@
          "diameter" : "2.10" ,
          "x" : "5.24",
          "y" : "4.70",
+         "speed" : "80.0",
          "array" : {
            "columns" : "2",
            "x_spacing" : "49.97",

@@ -72,24 +72,19 @@ def by_Location(cutOpp):
     return y_primary_x_secondary
 
 
-patternFile = open('input/test_pattern.json', 'r')
-ncFile = open('output/test_pattern.nc', 'w')
+patternFile = open('input/calculator_face.json', 'r')
+ncFile = open('output/calculator_face.nc', 'w')
 
 jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)
 ncFileComment = str(cuttingOps)
 
-ncFirstLine = "G17 [unit] [mode] G94 G54"
+ncFirstLine = "G17 [unit] G90 G94 G54"
 
 if cuttingOps['config']['unit'] == 'mm' :
     ncFirstLine = str.replace(ncFirstLine, '[unit]', 'G21')
 else:
     ncFirstLine = str.replace(ncFirstLine, '[unit]', 'G20')
-
-if cuttingOps['config']['mode'] == 'absolute' :
-    ncFirstLine = str.replace(ncFirstLine, '[mode]', 'G90')
-else:
-    ncFirstLine = str.replace(ncFirstLine, '[mode]', 'G91')
 
 toolRadius = float(cuttingOps['config']['tool_diameter']) * 0.5
 scale = float( cuttingOps['config']['scale'] )
@@ -134,7 +129,7 @@ for opp in sortedOperations: # cuttingOps['cuts'].iteritems():
                 ncFile.write( str(cutShape[opp['shape']]( arrayOpp, toolSpeed) ) )
 
 # cut the border last
-nextLine = 'G0 X' + str(toolRadius * -1 ) + ' Y' + str(toolRadius * -1 ) + " Z0 " + cuttingOps['config']['default_speed'] + "\n"
+nextLine = 'G0 X' + str(toolRadius * -1 ) + ' Y' + str(toolRadius * -1 ) + " Z0 F" + cuttingOps['config']['default_speed'] + "\n"
 ncFile.write(nextLine)
 if 'speed' in cuttingOps['border']:
     toolSpeed = str( cuttingOps['border']['speed'] )
