@@ -36,13 +36,13 @@ def circle( params, feedRate ):
     topPt    = float( y + radius )
     bottomPt = float( y - radius )
 
-    ncLines = "G0 X" + str(leftPt) + " Y" + str(y) + " Z0.1\n"
+    ncLines = "G00 X" + str(leftPt) + " Y" + str(y) + " Z0.1\n"
     ncLines = ncLines + "G01 Z0.0\n"
     ncLines = ncLines + "M3\n"
-    ncLines = ncLines + "G02 X" + str(x)       + " Y" + str(topPt)      + " I" + str(radius)    + " J0.0 F" + str(feedRate) + "\n"
-    ncLines = ncLines +     "X" + str(rightPt) + " Y" + str(y)          + " I0.0 J"             + str( negRadius ) + "\n"
-    ncLines = ncLines +     "X" + str(x)       + " Y" + str( bottomPt ) + " I" + str(negRadius) + " J0.0\n"
-    ncLines = ncLines +     "X" + str(leftPt)  + " Y" + str(y)          + " I0.0 J"             + str( radius ) + "\n"
+    ncLines = ncLines + "G02 X" + str3dec(x)       + " Y" + str3dec(topPt)      + " I" + str3dec(radius)    + " J0. F" + str3dec(feedRate) + "\n"
+    ncLines = ncLines +     "X" + str3dec(rightPt) + " Y" + str3dec(y)          + " I0.0 J"             + str3dec( negRadius ) + "\n"
+    ncLines = ncLines +     "X" + str3dec(x)       + " Y" + str3dec( bottomPt ) + " I" + str3dec(negRadius) + " J0.0\n"
+    ncLines = ncLines +     "X" + str3dec(leftPt)  + " Y" + str3dec(y)          + " I0.0 J"             + str3dec( radius ) + "\n"
     ncLines = ncLines + "M5\n"
 
     return ncLines
@@ -67,7 +67,7 @@ def polygon( params, feedRate ):
 
 
 def rectangle( params, feedRate ):
-    ncLines = "G0 X" + str(params['x']) + " Y" + str(params['y']) + "\n"
+    ncLines = "G00 X" + str(params['x']) + " Y" + str(params['y']) + "\n"
     ncLines = ncLines + "M3\n"
     ncLines = ncLines + "G0 X" + str(params['x']) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
     ncLines = ncLines + "G0 X" + str(float(params['x']) + float(params['wide'])) + " Y" + str(float(params['y']) + float(params['tall'])) + " F" + str(feedRate) + "\n"
@@ -91,7 +91,8 @@ def by_Location(cutOpp):
     y_primary_x_secondary = float( cutOpp['y'] ) * 1000 + float( cutOpp['x'] )
     return y_primary_x_secondary
 
-
+def str3dec( floatNumber ):
+    return str(round( floatNumber ,3))
 
 patternFile = open('input/calculator_face.json', 'r')
 ncFile = open('output/calculator_face.nc', 'w')
