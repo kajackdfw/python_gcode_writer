@@ -1,4 +1,5 @@
 import json
+import math
 
 # TODOS : outside border should be cut counter-clockwise for routers, clockwise ok for holes/cavities
 
@@ -44,23 +45,26 @@ def circle( params, feedRate ):
     ncLines = ncLines +     "X" + str3dec(x)       + " Y" + str3dec( bottomPt ) + " I" + str3dec(negRadius) + " J0.0\n"
     ncLines = ncLines +     "X" + str3dec(leftPt)  + " Y" + str3dec(y)          + " I0.0 J"             + str3dec( radius ) + "\n"
     ncLines = ncLines + "M5\n"
-
     return ncLines
 
 
 def polygon( params, feedRate ):
-    radius = float(params['radius'])
+    radius = float(params['diameter']) / 2.0
+    segmentAngle = ( math.pi * 2.0 ) / float(params['sides'])
+    centerX = float(params['x'])
+    centerY = float(params['y'])
+    startX = float(params['x'])
+    startY = float(params['y']) + radius
 
-
-    #circles only need about 6 different numbers
-    x = float(params['x'])
-    y = float(params['y'])
-
-
-    ncLines = "G0 X" + str3dec(x) + " Y" + str3dec(y) + " Z0.1\n"
-
+    ncLines = "G00 X" + str3dec(startX) + " Y" + str3dec(startY) + " Z0.1\n" # start point
+    ncLines = ncLines + "G00 Z-1. F"+ str3dec(feedRate) +" \n"
     ncLines = ncLines + "M3\n"
+    for index in range( 1,int(params['sides']) ):
+        x = centerX + ( radius * math.sin( float(index) * segmentAngle ))
+        y = centerY + ( radius * math.cos( float(index) * segmentAngle ))
+        ncLines = ncLines + "G00 X" + str3dec(x) + " Y" + str3dec(y) + " \n"
 
+    ncLines = ncLines + "G00 X" + str3dec(startX) + " Y" + str3dec(startY) + " \n"
     ncLines = ncLines + "M5\n"
     ncLines = ncLines + "G01 Z1\n"
     return ncLines
@@ -76,13 +80,15 @@ def rectangle( params, feedRate ):
     ncLines = ncLines + "M5\n"
     return ncLines
 
+
 def cross( params, feedRate ):
     ncLines = "n is a perfect cross\n"
     return ncLines
 
+
 # map the inputs to the function blocks
 cutShape = {'circle' : circle,
-            'round'  : circle,
+            'polygon'  : polygon,
             'rectangle' : rectangle,
             'cross' : cross
 }
@@ -94,8 +100,8 @@ def by_Location(cutOpp):
 def str3dec( floatNumber ):
     return str( round( float(floatNumber) ,3))
 
-patternFile = open('input/calculator_face.json', 'r')
-ncFile = open('output/calculator_face.nc', 'w')
+patternFile = open('input/test_pattern.json', 'r')
+ncFile = open('output/test_pattern.nc', 'w')
 
 jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)

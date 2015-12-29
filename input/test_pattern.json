@@ -57,6 +57,30 @@
          "wide" : "46.8",
          "tall" : "3.00",
          "speed" : "30"
+      },
+      "6" : {
+         "shape" : "polygon",
+         "diameter" : "9.0" ,
+         "x" : "12.0",
+         "y" : "24.0",
+         "sides" : "3",
+         "speed" : "100"
+      },
+      "7" : {
+         "shape" : "polygon",
+         "diameter" : "9.0" ,
+         "x" : "24.0",
+         "y" : "24.0",
+         "sides" : "6",
+         "speed" : "100"
+      },
+      "8" : {
+         "shape" : "polygon",
+         "diameter" : "9.0" ,
+         "x" : "36.0",
+         "y" : "24.0",
+         "sides" : "32",
+         "speed" : "100"
       }
     }
 }
