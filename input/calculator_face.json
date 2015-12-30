@@ -19,9 +19,9 @@
          "speed" : "200.000",
          "array" : {
             "columns" : "4",
-            "x_spacing" : "13.500",
+            "x_spacing" : "13.470",
             "rows" : "6",
-            "y_spacing" : "11.120"
+            "y_spacing" : "11.100"
          }
       },
       "1" : {
@@ -34,7 +34,7 @@
            "columns" : "2",
            "x_spacing" : "50.070",
            "rows" : "2",
-           "y_spacing" : "111.60"
+           "y_spacing" : "111.80"
          }
       },
       "2" : {
