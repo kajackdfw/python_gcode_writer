@@ -114,6 +114,11 @@ if cuttingOps['config']['unit'] == 'mm' :
 else:
     ncFirstLine = str.replace(ncFirstLine, '[unit]', 'G20')
 
+if 'spindle' in cuttingOps['config'] and cuttingOps['config']['spindle'] == 'off' :
+    spindleOffOn = "(M3)\n"
+else:
+    spindleOffOn = "M3 \n"
+
 toolRadius = float(cuttingOps['config']['tool_diameter']) * 0.5
 scale = float( cuttingOps['config']['scale'] )
 

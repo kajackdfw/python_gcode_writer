@@ -4,7 +4,9 @@
         "unit" : "mm",
         "tool_diameter" : "0.1",
         "default_speed" : "40",
-        "scale" : "0.9917"
+        "scale" : "0.9917",
+        "sort_cuts" : "false",
+        "spindle" : "off"
     },
     "border" : {
         "shape" : "rectangle",
@@ -25,14 +27,14 @@
          "diameter" : "9.0" ,
          "x" : "24.0",
          "y" : "12.0",
-         "speed" : "50"
+         "speed" : "120"
       },
       "2" : {
          "shape" : "circle",
          "diameter" : "9.0" ,
          "x" : "12.0",
          "y" : "12.0",
-         "speed" : "10"
+         "speed" : "140"
       },
       "3" : {
          "shape" : "rectangle",
