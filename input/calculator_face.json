@@ -2,12 +2,12 @@
     "config" : {
         "unit" : "mm",
         "tool_diameter" : "0.100",
-        "default_speed" : "40.000",
+        "default_speed" : "30.000",
         "scale" : "0.9917"
     },
     "border" : {
         "shape" : "rectangle",
-        "x" : "61.000",
+        "x" : "60.080",
         "y" : "120.000"
     },
     "cuts" : {
@@ -19,7 +19,7 @@
          "speed" : "130.000",
          "array" : {
             "columns" : "4",
-            "x_spacing" : "13.500",
+            "x_spacing" : "13.475",
             "rows" : "6",
             "y_spacing" : "11.150"
          }
@@ -32,7 +32,7 @@
          "speed" : "80.000",
          "array" : {
            "columns" : "2",
-           "x_spacing" : "49.970",
+           "x_spacing" : "49.670",
            "rows" : "2",
            "y_spacing" : "111.360"
          }

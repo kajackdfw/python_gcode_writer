@@ -100,8 +100,8 @@ def by_Location(cutOpp):
 def str3dec( floatNumber ):
     return str( round( float(floatNumber) ,3))
 
-patternFile = open('input/test_pattern.json', 'r')
-ncFile = open('output/test_pattern.nc', 'w')
+patternFile = open('input/calculator_face.json', 'r')
+ncFile = open('output/calculator_face.nc', 'w')
 
 jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)
