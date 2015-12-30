@@ -1,13 +1,13 @@
 {
     "config" : {
         "unit" : "mm",
-        "tool_diameter" : "0.100",
-        "default_speed" : "20.000",
+        "tool_diameter" : "0.080",
+        "default_speed" : "15.000",
         "scale" : "0.9917"
     },
     "border" : {
         "shape" : "rectangle",
-        "x" : "60.080",
+        "x" : "60.100",
         "y" : "120.000"
     },
     "cuts" : {
@@ -16,12 +16,12 @@
          "diameter" : "9.280" ,
          "x" : "10.700",
          "y" : "11.750",
-         "speed" : "150.000",
+         "speed" : "170.000",
          "array" : {
             "columns" : "4",
-            "x_spacing" : "13.575",
+            "x_spacing" : "13.560",
             "rows" : "6",
-            "y_spacing" : "11.170"
+            "y_spacing" : "11.160"
          }
       },
       "1" : {
@@ -32,7 +32,7 @@
          "speed" : "80.000",
          "array" : {
            "columns" : "2",
-           "x_spacing" : "50.000",
+           "x_spacing" : "50.020",
            "rows" : "2",
            "y_spacing" : "111.360"
          }
@@ -40,7 +40,7 @@
       "2" : {
          "shape" : "rectangle",
          "x" : "30.200" ,
-         "y" : "75.000",
+         "y" : "74.500",
          "wide" : "22.800",
          "tall" : "7.200"
       },
