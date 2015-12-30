@@ -6,7 +6,7 @@
         "default_speed" : "40",
         "scale" : "0.9917",
         "sort_cuts" : "false",
-        "spindle" : "off"
+        "spindle" : "on"
     },
     "border" : {
         "shape" : "rectangle",
