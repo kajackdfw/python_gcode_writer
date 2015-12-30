@@ -12,8 +12,9 @@ import math
 # G54 circle mode
 # G90 absolute coordinates
 # G91 relative mode
-# G93
-# G94 feed units per minute
+
+# G93  inverse time mode
+# G94 feed units per minute or degrees per minute
 # G95 feed rate relative spindle revolutions
 
 # Operations
@@ -73,10 +74,10 @@ def polygon( params, feedRate ):
 def rectangle( params, feedRate ):
     ncLines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
     ncLines = ncLines + "M3\n"
-    ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
+    ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " \n"
+    ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " \n"
+    ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(params['y']) + " \n"
+    ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " \n"
     ncLines = ncLines + "M5\n"
     return ncLines
 
