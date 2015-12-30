@@ -38,7 +38,7 @@ def circle( params, feedRate ):
     bottomPt = float( y - radius )
 
     ncLines = "G00 X" + str3dec(leftPt) + " Y" + str3dec(y) + " Z0.1\n"
-    ncLines = ncLines + "G01 Z0.0\n"
+    ncLines = ncLines + "G01 Z0.0 F"+ str3dec(feedRate) +"\n"
     ncLines = ncLines + "M3\n"
     ncLines = ncLines + "G02 X" + str3dec(x)       + " Y" + str3dec(topPt)      + " I" + str3dec(radius)    + " J0. F" + str3dec(feedRate) + "\n"
     ncLines = ncLines +     "X" + str3dec(rightPt) + " Y" + str3dec(y)          + " I0.0 J"             + str3dec( negRadius ) + "\n"
@@ -107,7 +107,7 @@ jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)
 ncFileComment = str(cuttingOps)
 
-ncFirstLine = "G17 [unit] G90 G93 G54"
+ncFirstLine = "G17 [unit] G90 G94 G54"
 
 if cuttingOps['config']['unit'] == 'mm' :
     ncFirstLine = str.replace(ncFirstLine, '[unit]', 'G21')

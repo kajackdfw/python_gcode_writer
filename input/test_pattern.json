@@ -18,14 +18,14 @@
          "diameter" : "9.0" ,
          "x" : "36.0",
          "y" : "12.0",
-         "speed" : "40"
+         "speed" : "100"
       },
       "1" : {
          "shape" : "circle",
          "diameter" : "9.0" ,
          "x" : "24.0",
          "y" : "12.0",
-         "speed" : "50"
+         "speed" : "80"
       },
       "2" : {
          "shape" : "circle",
