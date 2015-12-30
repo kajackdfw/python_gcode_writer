@@ -1,0 +1,23 @@
+{
+    "config" : {
+        "unit" : "mm",
+        "tool_diameter" : "0.01",
+        "default_speed" : "10",
+        "scale" : "0.9917"
+    },
+    "border" : {
+        "shape" : "rectangle",
+        "x" : "86",
+        "y" : "55"
+    },
+    "cuts" : {
+      "0" : {
+         "shape" : "rectangle",
+         "x" : "25.0",
+         "y" : "25.0",
+         "wide" : "11.500",
+         "tall" : "15.5",
+         "speed" : "4.0"
+      }
+    }
+}
