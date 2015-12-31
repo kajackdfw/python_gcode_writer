@@ -100,7 +100,6 @@ def rectangle( params, feedRate ):
         ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
         ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
         ncLines = ncLines + "M5\n"
-
     return ncLines
 
 
