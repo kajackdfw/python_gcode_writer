@@ -25,7 +25,7 @@ import math
 # M5 Laser OFF
 
 # define the function blocks
-def circle( params, feedRate ):
+def circle( params, feed_rate ):
     radius = float(params['radius'])
     negRadius = radius * -1.0
 
@@ -38,9 +38,9 @@ def circle( params, feedRate ):
     bottomPt = float( y - radius )
 
     ncLines = "G00 X" + str3dec(leftPt) + " Y" + str3dec(y) + " Z0.1\n"
-    ncLines = ncLines + "G01 Z0.0 F"+ str3dec(feedRate) +"\n"
+    ncLines = ncLines + "G01 Z0.0 F"+ str3dec(feed_rate) +"\n"
     ncLines = ncLines + "M3\n"
-    ncLines = ncLines + "G02 X" + str3dec(x)       + " Y" + str3dec(topPt)      + " I" + str3dec(radius)    + " J0. F" + str3dec(feedRate) + "\n"
+    ncLines = ncLines + "G02 X" + str3dec(x)       + " Y" + str3dec(topPt)      + " I" + str3dec(radius)    + " J0. F" + str3dec(feed_rate) + "\n"
     ncLines = ncLines +     "X" + str3dec(rightPt) + " Y" + str3dec(y)          + " I0.0 J"             + str3dec( negRadius ) + "\n"
     ncLines = ncLines +     "X" + str3dec(x)       + " Y" + str3dec( bottomPt ) + " I" + str3dec(negRadius) + " J0.0\n"
     ncLines = ncLines +     "X" + str3dec(leftPt)  + " Y" + str3dec(y)          + " I0.0 J"             + str3dec( radius ) + "\n"
@@ -48,7 +48,7 @@ def circle( params, feedRate ):
     return ncLines
 
 
-def polygon( params, feedRate ):
+def polygon (params, feed_rate):
     radius = float(params['diameter']) / 2.0
     segmentAngle = ( math.pi * 2.0 ) / float(params['sides'])
     centerX = float(params['x'])
@@ -62,7 +62,7 @@ def polygon( params, feedRate ):
     for index in range( 1,int(params['sides']) ):
         x = centerX + ( radius * math.sin( float(index) * segmentAngle ))
         y = centerY + ( radius * math.cos( float(index) * segmentAngle ))
-        ncLines = ncLines + "G01 X" + str3dec(x) + " Y" + str3dec(y) + " F"+ str3dec(feedRate) +" \n"
+        ncLines = ncLines + "G01 X" + str3dec(x) + " Y" + str3dec(y) + " F"+ str3dec(feed_rate) +" \n"
 
     ncLines = ncLines + "G00 X" + str3dec(startX) + " Y" + str3dec(startY) + " \n"
     ncLines = ncLines + "M5\n"
@@ -70,7 +70,7 @@ def polygon( params, feedRate ):
     return ncLines
 
 
-def rectangle( params, feedRate ):
+def rectangle (params, feed_rate):
     top = float(params['y']) + float(params['tall'])
     right = float(params['x']) + float(params['wide'])
     left = float(params['x'])
@@ -80,30 +80,30 @@ def rectangle( params, feedRate ):
         ncLines = "G00 X" + str3dec(left) + " Y" + str3dec(bottom + rad) + " \n"
         ncLines = ncLines + "M3\n"
         # left side
-        ncLines = ncLines + "G01 X"  + str3dec(left)  + " Y" + str3dec(top - rad) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G01 X"  + str3dec(left)  + " Y" + str3dec(top - rad) + " F" + str3dec(feed_rate) + "\n"
         ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(top) + " I" + str3dec(rad) + " J0 F500\n"
         # top
-        ncLines = ncLines + "G01 X"  + str3dec(right - rad) + " Y" + str3dec(top) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G01 X"  + str3dec(right - rad) + " Y" + str3dec(top) + " F" + str3dec(feed_rate) + "\n"
         ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(top) + " I" + str3dec(rad) + " J" + str3dec(rad * -1) + " F500\n"
         # right
-        ncLines = ncLines + "G01 X"  + str3dec(right) + " Y" + str3dec(bottom + rad) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G01 X"  + str3dec(right) + " Y" + str3dec(bottom + rad) + " F" + str3dec(feed_rate) + "\n"
         ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(bottom) + " I"+ str3dec(rad) +" J" + str3dec(rad) +" F500\n"
         # bottom
-        ncLines = ncLines + "G01 X"  + str3dec(left + rad) + " Y" + str3dec(bottom) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G01 X"  + str3dec(left + rad) + " Y" + str3dec(bottom) + " F" + str3dec(feed_rate) + "\n"
         ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(bottom) + " I0 J" + str3dec(rad) + " F500\n"
         ncLines = ncLines + "M5\n"
     else:
-        ncLines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
+        ncLines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feed_rate) + "\n"
         ncLines = ncLines + "M3\n"
-        ncLines = ncLines + "G01 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G01 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G01 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G01 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feed_rate) + "\n"
+        ncLines = ncLines + "G01 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feed_rate) + "\n"
+        ncLines = ncLines + "G01 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(params['y']) + " F" + str3dec(feed_rate) + "\n"
+        ncLines = ncLines + "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feed_rate) + "\n"
         ncLines = ncLines + "M5\n"
     return ncLines
 
 
-def cross( params, feedRate ):
+def cross( params, feed_rate ):
     ncLines = "n is a perfect cross\n"
     return ncLines
 
