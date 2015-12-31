@@ -2,7 +2,7 @@
     "config" : {
         "mode" : "absolute",
         "unit" : "mm",
-        "tool_diameter" : "0.01",
+        "tool_diameter" : "0.02",
         "default_speed" : "10",
         "scale" : "0.9917"
     },
