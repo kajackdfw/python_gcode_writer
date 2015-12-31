@@ -81,16 +81,16 @@ def rectangle( params, feedRate ):
         ncLines = ncLines + "M3\n"
         # left side
         ncLines = ncLines + "G01 X"  + str3dec(left)  + " Y" + str3dec(top - rad) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(top) + " I" + str3dec(rad) + " J" + str3dec(rad) + " F720\n"
+        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(top) + " I0 J" + str3dec(rad) + " F500\n"
         # top
         ncLines = ncLines + "G01 X"  + str3dec(right - rad) + " Y" + str3dec(top) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(top) + " I" + str3dec(rad) + " J" + str3dec(rad * -1) + " F720\n"
+        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(top) + " I" + str3dec(rad) + " J" + str3dec(rad * -1) + " F500\n"
         # right
         ncLines = ncLines + "G01 X"  + str3dec(right) + " Y" + str3dec(bottom + rad) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(bottom) + " I0 J" + str3dec(rad * -1) +" F720\n"
+        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(bottom) + " I"+ str3dec(rad) +" J" + str3dec(rad) +" F500\n"
         # bottom
         ncLines = ncLines + "G01 X"  + str3dec(left + rad) + " Y" + str3dec(bottom) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(bottom) + " I0 J" + str3dec(rad) + " F720\n"
+        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(bottom) + " I0 J" + str3dec(rad) + " F500\n"
         ncLines = ncLines + "M5\n"
     else:
         ncLines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
@@ -193,19 +193,19 @@ else:
 ncFile.write("M3\n")
 nextX = str3dec( float(toolRadius * -1) )
 nextY = str3dec( float( cuttingOps['border']['y']) + toolRadius )
-nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
+nextLine = "G01 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
 ncFile.write(nextLine)
 
 nextX = str3dec( float(cuttingOps['border']['x']) + float(toolRadius * -1) )
-nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
+nextLine = "G01 X"+ nextX + " Y" + nextY + " \n"
 ncFile.write(nextLine)
 
 nextY = str3dec(toolRadius * -1 )
-nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
+nextLine = "G01 X"+ nextX + " Y" + nextY + " \n"
 ncFile.write(nextLine)
 
 nextX = str3dec(toolRadius * -1 )
-nextLine = "G0 X"+ nextX + " Y" + nextY + " F" + toolSpeed + "\n"
+nextLine = "G01 X"+ nextX + " Y" + nextY + " \n"
 ncFile.write(nextLine)
 
 ncFile.write("M5\n")

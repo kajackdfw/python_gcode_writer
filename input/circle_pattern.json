@@ -3,7 +3,7 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.02",
-        "default_speed" : "60",
+        "default_speed" : "120",
         "scale" : "0.9917"
     },
     "border" : {
