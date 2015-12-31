@@ -81,16 +81,16 @@ def rectangle( params, feedRate ):
         ncLines = ncLines + "M3\n"
         # left side
         ncLines = ncLines + "G0 X"  + str3dec(left)  + " Y" + str3dec(top - rad) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(top) + " I" + str3dec(rad) + " J0 F720 \n"
+        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(top) + " I" + str3dec(rad) + " J0. \n"
         # top
         ncLines = ncLines + "G0 X"  + str3dec(right - rad) + " Y" + str3dec(top) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(top) + " I0 J" + str3dec(rad * -1) + " F720 \n"
+        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(top) + " I0 J" + str3dec(rad * -1) + " \n"
         # right
         ncLines = ncLines + "G0 X"  + str3dec(right) + " Y" + str3dec(bottom + rad) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(bottom) + " I0 J" + str3dec(rad * -1) +" F720 \n"
+        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(bottom) + " I0 J" + str3dec(rad * -1) +" \n"
         # bottom
-        ncLines = ncLines + "G0 X"  + str3dec(left - rad) + " Y" + str3dec(bottom) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(bottom) + " I" + str3dec(rad * -1) + " J0 F720 \n"
+        ncLines = ncLines + "G0 X"  + str3dec(left + rad) + " Y" + str3dec(bottom) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(bottom) + " I0 J" + str3dec(rad) + " \n"
         ncLines = ncLines + "M5\n"
     else:
         ncLines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
