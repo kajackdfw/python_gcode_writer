@@ -81,7 +81,7 @@ def rectangle( params, feedRate ):
         ncLines = ncLines + "M3\n"
         # left side
         ncLines = ncLines + "G01 X"  + str3dec(left)  + " Y" + str3dec(top - rad) + " F" + str3dec(feedRate) + "\n"
-        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(top) + " I0 J" + str3dec(rad) + " F500\n"
+        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(top) + " I" + str3dec(rad) + "J0 F500\n"
         # top
         ncLines = ncLines + "G01 X"  + str3dec(right - rad) + " Y" + str3dec(top) + " F" + str3dec(feedRate) + "\n"
         ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(top) + " I" + str3dec(rad) + " J" + str3dec(rad * -1) + " F500\n"
