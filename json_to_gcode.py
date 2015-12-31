@@ -71,13 +71,36 @@ def polygon( params, feedRate ):
 
 
 def rectangle( params, feedRate ):
-    ncLines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
-    ncLines = ncLines + "M3\n"
-    ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
-    ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
-    ncLines = ncLines + "M5\n"
+    top = float(params['y']) + float(params['tall'])
+    right = float(params['x']) + float(params['wide'])
+    left = float(params['x'])
+    bottom = float(params['y'])
+    if 'radius' in params and params['radius'] > 0 :
+        rad = float(params['radius'])
+        ncLines = "G00 X" + str3dec(left) + " Y" + str3dec(bottom + rad) + " \n"
+        ncLines = ncLines + "M3\n"
+        # left side
+        ncLines = ncLines + "G0 X"  + str3dec(left)  + " Y" + str3dec(top - rad) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(top) + " I" + str3dec(rad) + " J0 F720 \n"
+        # top
+        ncLines = ncLines + "G0 X"  + str3dec(right - rad) + " Y" + str3dec(top) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(top) + " I0 J" + str3dec(rad * -1) + " F720 \n"
+        # right
+        ncLines = ncLines + "G0 X"  + str3dec(right) + " Y" + str3dec(bottom + rad) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G02 X" + str3dec(right) + " Y" + str3dec(bottom) + " I0 J" + str3dec(rad * -1) +" F720 \n"
+        # bottom
+        ncLines = ncLines + "G0 X"  + str3dec(left - rad) + " Y" + str3dec(bottom) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G02 X" + str3dec(left) + " Y" + str3dec(bottom) + " I" + str3dec(rad * -1) + " J0 F720 \n"
+        ncLines = ncLines + "M5\n"
+    else:
+        ncLines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "M3\n"
+        ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(float(params['y']) + float(params['tall'])) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G0 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "G0 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feedRate) + "\n"
+        ncLines = ncLines + "M5\n"
+
     return ncLines
 
 
@@ -100,8 +123,8 @@ def by_Location(cutOpp):
 def str3dec( floatNumber ):
     return str( round( float(floatNumber) ,3))
 
-patternFile = open('input/calculator_face.json', 'r')
-ncFile = open('output/calculator_face.nc', 'w')
+patternFile = open('input/circle_pattern.json', 'r')
+ncFile = open('output/circle_pattern.nc', 'w')
 
 jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)

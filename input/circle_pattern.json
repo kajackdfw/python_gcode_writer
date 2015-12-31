@@ -1,22 +1,24 @@
 {
     "config" : {
         "mode" : "absolute",
-        "unit" : "inches",
+        "unit" : "mm",
         "tool_diameter" : "0.01",
         "default_speed" : "10",
         "scale" : "0.9917"
     },
     "border" : {
         "shape" : "rectangle",
-        "x" : "3",
-        "y" : "3"
+        "x" : "50.8",
+        "y" : "50.8"
     },
     "cuts" : {
       "0" : {
-         "shape" : "circle",
-         "diameter" : "1.0" ,
-         "x" : "2.0",
-         "y" : "1.50"
+         "shape" : "rectangle",
+         "radius" : "5.0" ,
+         "x" : "10.0",
+         "y" : "10.0",
+         "wide" : "30.8",
+         "tall" : "30.8"
       }
     }
 }
