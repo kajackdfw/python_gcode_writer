@@ -144,8 +144,8 @@ def str3dec(floatNumber):
     return str(round(float(floatNumber), 3))
 
 
-patternFile = open('input/circle_pattern.json', 'r')
-ncFile = open('output/circle_pattern.nc', 'w')
+patternFile = open('input/calculator_face.json', 'r')
+ncFile = open('output/calculator_face.nc', 'w')
 
 jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)
@@ -202,6 +202,7 @@ for opp in sortedOperations:  # cuttingOps['cuts'].iteritems():
                 if (opp['shape'] == 'rectangle'): arrayOpp['wide'] = opp['wide']
                 if (opp['shape'] == 'rectangle'): arrayOpp['tall'] = opp['tall']
                 if (opp['shape'] == 'circle'): arrayOpp['radius'] = float(float(opp['diameter']) / 2.0)
+                if 'radius' in opp: arrayOpp['radius'] = float(opp['radius'])
                 ncFile.write(str(cutShape[opp['shape']](arrayOpp, toolSpeed)))
 
 # cut the border last
