@@ -57,12 +57,12 @@ def polygon( params, feedRate ):
     startY = float(params['y']) + radius
 
     ncLines = "G00 X" + str3dec(startX) + " Y" + str3dec(startY) + " Z0.1\n" # start point
-    ncLines = ncLines + "G00 Z-1. F"+ str3dec(feedRate) +" \n"
+    ncLines = ncLines + "G00 Z-1. \n"
     ncLines = ncLines + "M3\n"
     for index in range( 1,int(params['sides']) ):
         x = centerX + ( radius * math.sin( float(index) * segmentAngle ))
         y = centerY + ( radius * math.cos( float(index) * segmentAngle ))
-        ncLines = ncLines + "G00 X" + str3dec(x) + " Y" + str3dec(y) + " \n"
+        ncLines = ncLines + "G01 X" + str3dec(x) + " Y" + str3dec(y) + " F"+ str3dec(feedRate) +" \n"
 
     ncLines = ncLines + "G00 X" + str3dec(startX) + " Y" + str3dec(startY) + " \n"
     ncLines = ncLines + "M5\n"
