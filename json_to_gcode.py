@@ -29,6 +29,7 @@ import math
 def circle(params, feed_rate):
     radius = float(params['radius'])
     neg_radius = radius * -1.0
+    cross = radius / 4.0
 
     # circles only need about 6 different numbers
     x = float(params['x'])
@@ -38,11 +39,14 @@ def circle(params, feed_rate):
     top_pt = float(y + radius)
     bottom_pt = float(y - radius)
 
-    ncLines = "G00 X" + str3dec(left_pt) + " Y" + str3dec(y) + " Z0.1\n"
-    ncLines = ncLines + "G01 Z0.0 F" + str3dec(feed_rate) + "\n"
+    # warm up laser by drawing cross hair
+    ncLines = "G00 X" + str3dec(x) + " Y" + str3dec(y + cross) + " Z0.1\n"
     ncLines = ncLines + "M3\n"
-    ncLines = ncLines + "G02 X" + str3dec(x) + " Y" + str3dec(top_pt) + " I" + str3dec(radius) + " J0. F" + str3dec(
-        feed_rate) + "\n"
+    ncLines = ncLines + "G00 Z0.0 F" + str3dec(feed_rate) + "\n"
+    ncLines = ncLines + "G00 X" + str3dec(x) + " Y" + str3dec(y - cross) + " Z0.1\n"
+    ncLines = ncLines + "G00 X" + str3dec(x + cross) + " Y" + str3dec(y) + " Z0.1\n"
+    ncLines = ncLines + "G00 X" + str3dec(left_pt) + " Y" + str3dec(y) + " \n"
+    ncLines = ncLines + "G02 X" + str3dec(x) + " Y" + str3dec(top_pt) + " I" + str3dec(radius) + " J0. F" + str3dec(feed_rate) + "\n"
     ncLines = ncLines + "X" + str3dec(right_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(neg_radius) + "\n"
     ncLines = ncLines + "X" + str3dec(x) + " Y" + str3dec(bottom_pt) + " I" + str3dec(neg_radius) + " J0.0\n"
     ncLines = ncLines + "X" + str3dec(left_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(radius) + "\n"
