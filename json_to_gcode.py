@@ -40,12 +40,15 @@ def circle(params, feed_rate):
     bottom_pt = float(y - radius)
 
     # warm up laser by drawing cross hair
-    ncLines = "G00 X" + str3dec(x) + " Y" + str3dec(y + cross) + " Z0.1\n"
-    ncLines = ncLines + "M3\n"
-    ncLines = ncLines + "G00 Z0.0 F" + str3dec(feed_rate) + "\n"
-    ncLines = ncLines + "G00 X" + str3dec(x) + " Y" + str3dec(y - cross) + " Z0.1\n"
-    ncLines = ncLines + "G00 X" + str3dec(x + cross) + " Y" + str3dec(y) + " Z0.1\n"
+    ncLines = ""
+    if cross in params: ncLines = ncLines + cross( params )
+    #ncLines = "G00 X" + str3dec(x) + " Y" + str3dec(y + cross) + " Z0.1\n"
+    #ncLines = ncLines + "M3\n"
+    #ncLines = ncLines + "G00 Z0.0 F" + str3dec(feed_rate) + "\n"
+    #ncLines = ncLines + "G00 X" + str3dec(x) + " Y" + str3dec(y - cross) + " Z0.1\n"
+    #ncLines = ncLines + "G00 X" + str3dec(x + cross) + " Y" + str3dec(y) + " Z0.1\n"
     ncLines = ncLines + "G00 X" + str3dec(left_pt) + " Y" + str3dec(y) + " \n"
+    ncLines = ncLines + "M3\n"
     ncLines = ncLines + "G02 X" + str3dec(x) + " Y" + str3dec(top_pt) + " I" + str3dec(radius) + " J0. F" + str3dec(feed_rate) + "\n"
     ncLines = ncLines + "X" + str3dec(right_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(neg_radius) + "\n"
     ncLines = ncLines + "X" + str3dec(x) + " Y" + str3dec(bottom_pt) + " I" + str3dec(neg_radius) + " J0.0\n"
@@ -115,7 +118,7 @@ def rectangle(params, feed_rate):
 def corner(x_ctr, y_ctr, radius, start_rad, segments):
     corner_lines = "(start corner radius at "+ str(x_ctr) +", "+ str(y_ctr) +")\n"
     increment = math.pi / 2 / segments
-
+    # loop through the arc segments
     for segment in range(1, segments + 1):
         angle = start_rad + ( float(segment) * increment )
         x_point = math.sin(angle) * radius + float(x_ctr)
@@ -126,8 +129,21 @@ def corner(x_ctr, y_ctr, radius, start_rad, segments):
     return corner_lines
 
 
-def cross(params, feed_rate):
-    ncLines = "n is a perfect cross\n"
+def cross(params):
+    if 'cross' not in params: return ""
+
+    half_a_cross = float(params['cross']) / 2.0
+    ncLines = "(hole center cross)\n"
+    ncLines = ncLines + "G00 X" + str3dec(params['x']) + " Y" + str3dec( float(params['y']) + half_a_cross )
+    ncLines = ncLines + "M3 \n"
+    ncLines = ncLines + "G00 X" + str3dec(params['x']) + " Y" + str3dec( float(params['y']) - half_a_cross )
+    ncLines = ncLines + "M5 \n"
+    ncLines = ncLines + "G00 X" + str3dec(float(params['x']) + half_a_cross ) + " Y" + str3dec(params['y'])
+    ncLines = ncLines + "M3 \n"
+    if params['shape'] != "circle":
+        ncLines = ncLines + "G00 X" + str3dec(float(params['x']) - half_a_cross ) + " Y" + str3dec(params['y'])
+        ncLines = ncLines + "M5 \n"
+
     return ncLines
 
 
