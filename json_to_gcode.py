@@ -191,75 +191,74 @@ nc_file.write(ncFirstLine + "\n")
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
-for cut_number, cut in json_data_dic['cut_outs'].iteritems():
-    cut_list.insert(int(cut_number), cut)
+for cut_number, cut_values in json_data_dic['cut_outs'].iteritems():
+    cut_list.insert(int(cut_number), cut_values)
 
 sorted_cuts = sorted(cut_list, key=by_y_then_x)
 
 # Loop through the operations
-for opp in sorted_cuts:  # json_data_dic['cut_outs'].iteritems():
-    opp['tempX'] = float(opp['x']) * scale
-    opp['tempY'] = float(opp['y']) * scale
-    if opp['shape'] == 'rectangle':
-        opp['wide'] = float(opp['wide']) * scale
-    if opp['shape'] == 'rectangle':
-        opp['tall'] = float(opp['tall']) * scale
-    if opp['shape'] == 'circle':
-        opp['radius'] = float(opp['diameter']) * 0.5 * scale
-    if 'speed' in opp:
-        tool_speed = float(opp['speed'])
+for cut in sorted_cuts:  # json_data_dic['cut_outs'].iteritems():
+    cut['tempX'] = float(cut['x']) * scale
+    cut['tempY'] = float(cut['y']) * scale
+    if cut['shape'] == 'rectangle':
+        cut['wide'] = float(cut['wide']) * scale
+    if cut['shape'] == 'rectangle':
+        cut['tall'] = float(cut['tall']) * scale
+    if cut['shape'] == 'circle' and 'diameter' in cut:
+        cut['radius'] = float(cut['diameter']) * 0.5 * scale
+    if 'speed' in cut:
+        tool_speed = float(cut['speed'])
     else:
         tool_speed = float(json_data_dic['config']['default_speed'])
     # is there an array of this cut ?
-    if 'array' not in opp:
-        nc_file.write(cut_a_shape[opp['shape']](opp, tool_speed))
+    if 'array' not in cut:
+        nc_file.write(cut_a_shape[cut['shape']](cut, tool_speed))
     else:
-        cutArray = opp['array']  # is there an array of this shape to process ? If not do once in exception
-        opp['column_spacing'] = float(opp['array']['x_spacing']) * scale
-        opp['row_spacing'] = float(opp['array']['y_spacing']) * scale
-        for aCol in range(0, int(opp['array']['columns'])):
-            for aRow in range(0, int(opp['array']['rows'])):
+        cutArray = cut['array']  # is there an array of this shape to process ? If not do once in exception
+        cut['column_spacing'] = float(cut['array']['x_spacing']) * scale
+        cut['row_spacing'] = float(cut['array']['y_spacing']) * scale
+        for aCol in range(0, int(cut['array']['columns'])):
+            for aRow in range(0, int(cut['array']['rows'])):
                 cut_params = {}
-                cut_params['x'] = float(aCol) * opp['column_spacing'] + opp['tempX']
-                cut_params['y'] = float(aRow) * opp['row_spacing'] + opp['tempY']
-                if opp['shape'] == 'rectangle':
-                    cut_params['wide'] = opp['wide']
-                if opp['shape'] == 'rectangle':
-                    cut_params['tall'] = opp['tall']
-                if opp['shape'] == 'circle':
-                    cut_params['radius'] = float(float(opp['diameter']) / 2.0)
-                if 'radius' in opp:
-                    cut_params['radius'] = float(opp['radius'])
-                nc_file.write(str(cut_a_shape[opp['shape']](cut_params, tool_speed)))
+                cut_params['x'] = float(aCol) * cut['column_spacing'] + cut['tempX']
+                cut_params['y'] = float(aRow) * cut['row_spacing'] + cut['tempY']
+                if cut['shape'] == 'rectangle':
+                    cut_params['wide'] = cut['wide']
+                if cut['shape'] == 'rectangle':
+                    cut_params['tall'] = cut['tall']
+                if cut['shape'] == 'circle':
+                    cut_params['radius'] = float(float(cut['diameter']) / 2.0)
+                if 'radius' in cut:
+                    cut_params['radius'] = float(cut['radius'])
+                nc_file.write(str(cut_a_shape[cut['shape']](cut_params, tool_speed)))
 
-# cut the border last
-nextLine = 'G0 X' + str3dec(tool_radius * -1) + ' Y' + str3dec(tool_radius * -1) + \
-           " Z0 F" + json_data_dic['config']['default_speed'] + "\n"
-nc_file.write(nextLine)
+# lastly, prepare to cut the border
 if 'speed' in json_data_dic['border']:
     tool_speed = str3dec(json_data_dic['border']['speed'])
 else:
     tool_speed = str3dec(json_data_dic['config']['default_speed'])
 
-nc_file.write("M3\n")
-nextX = str3dec(float(tool_radius * -1))
-nextY = str3dec(float(json_data_dic['border']['y']) + tool_radius)
-nextLine = "G01 X" + nextX + " Y" + nextY + " F" + tool_speed + "\n"
-nc_file.write(nextLine)
+if 'border' not in json_data_dic or 'shape' not in json_data_dic['border']:
+    nc_file.write('(no border found)')
+    nc_file.close()
 
-nextX = str3dec(float(json_data_dic['border']['x']) + float(tool_radius * -1))
-nextLine = "G01 X" + nextX + " Y" + nextY + " \n"
-nc_file.write(nextLine)
+border_params = json_data_dic['border']
 
-nextY = str3dec(tool_radius * -1)
-nextLine = "G01 X" + nextX + " Y" + nextY + " \n"
-nc_file.write(nextLine)
+# prepare border vars for various shapes
+if json_data_dic['border']['shape'] == 'rectangle':
+    border_params['wide'] = float(border_params['wide']) + (tool_radius * 2.0)
+    border_params['tall'] = float(border_params['tall']) + (tool_radius * 2.0)
+    border_params['x'] = 0.0
+    border_params['y'] = 0.0
+    if 'radius' in json_data_dic['border']:
+        border_params['radius'] = float(border_params['radius']) + tool_radius
+    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
 
-nextX = str3dec(tool_radius * -1)
-nextLine = "G01 X" + nextX + " Y" + nextY + " \n"
-nc_file.write(nextLine)
-
-nc_file.write("M5\n")
+if json_data_dic['border']['shape'] == 'circle':
+    border_params['radius'] = float(border_params['diameter']) / 2.0 + tool_radius
+    border_params['x'] = border_params['radius']
+    border_params['y'] = border_params['radius']
+    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
 
 nc_file.write('(end of script)')
 nc_file.close()

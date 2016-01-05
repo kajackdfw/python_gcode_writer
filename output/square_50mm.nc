@@ -7,11 +7,36 @@ X31.963 Y27.5 I0.0 J-4.463
 X27.5 Y23.037 I-4.463 J0.0
 X23.037 Y27.5 I0.0 J4.463
 M5
-G0 X-1.0 Y-1.0 Z0 F40
+(rectangle)
+G00 X0.0 Y6.0 
 M3
-G01 X-1.0 Y56.0 F10.0
-G01 X54.0 Y56.0 
-G01 X54.0 Y-1.0 
-G01 X-1.0 Y-1.0 
+G01 X0.0 Y51.0 F10.0
+(start corner radius at 6.0, 51.0)
+G01 X0.457 Y53.296
+G01 X1.757 Y55.243
+G01 X3.704 Y56.543
+G01 X6.0 Y57.0
+(end corner)
+G01 X51.0 Y57.0 F10.0
+(start corner radius at 51.0, 51.0)
+G01 X53.296 Y56.543
+G01 X55.243 Y55.243
+G01 X56.543 Y53.296
+G01 X57.0 Y51.0
+(end corner)
+G01 X57.0 Y6.0 F10.0
+(start corner radius at 51.0, 6.0)
+G01 X56.543 Y3.704
+G01 X55.243 Y1.757
+G01 X53.296 Y0.457
+G01 X51.0 Y0.0
+(end corner)
+G01 X6.0 Y0.0 F10.0
+(start corner radius at 6.0, 6.0)
+G01 X3.704 Y0.457
+G01 X1.757 Y1.757
+G01 X0.457 Y3.704
+G01 X0.0 Y6.0
+(end corner)
 M5
 (end of script)

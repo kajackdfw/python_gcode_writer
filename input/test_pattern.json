@@ -10,8 +10,8 @@
     },
     "border" : {
         "shape" : "rectangle",
-        "x" : "50.8",
-        "y" : "50.8",
+        "wide" : "50.8",
+        "tall" : "50.8",
         "speed" : "20"
     },
     "cut_outs" : {

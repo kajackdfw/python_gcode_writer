@@ -7,8 +7,8 @@
     },
     "border" : {
         "shape" : "rectangle",
-        "x" : "86",
-        "y" : "55",
+        "wide" : "86",
+        "tall" : "55",
         "radius" : "4.0",
         "speed" : "1.0"
     },
