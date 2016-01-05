@@ -16,14 +16,14 @@
         "radius" : "5.0",
         "leadin" : "5.0"
     },
-    "cuts" : {
+    "cut_outs" : {
       "0" : {
          "shape" : "circle",
          "diameter" : "9.0" ,
          "x" : "27.5",
          "y" : "27.5",
          "speed" : "500",
-         "cross" : "5",
+         "cross_hair" : "5",
          "leadin" : "2.0"
       }
     }

@@ -12,7 +12,7 @@
         "radius" : "4.0",
         "speed" : "1.0"
     },
-    "cuts" : {
+    "cut_outs" : {
       "0" : {
          "shape" : "rectangle",
          "x" : "25.0",

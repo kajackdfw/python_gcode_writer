@@ -9,9 +9,10 @@
     "border" : {
         "shape" : "rectangle",
         "x" : "90.0",
-        "y" : "90.0"
+        "y" : "90.0",
+        "radius" : "9.00"
     },
-    "cuts" : {
+    "cut_outs" : {
       "0" : {
          "shape" : "rectangle",
          "radius" : "5.0" ,

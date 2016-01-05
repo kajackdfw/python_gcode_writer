@@ -10,7 +10,7 @@
         "x" : "60.600",
         "y" : "120.000"
     },
-    "cuts" : {
+    "cut_outs" : {
       "0" : {
          "shape" : "circle",
          "diameter" : "9.280" ,

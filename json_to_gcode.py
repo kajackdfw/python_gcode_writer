@@ -29,7 +29,6 @@ import math
 def circle(params, feed_rate):
     radius = float(params['radius'])
     neg_radius = radius * -1.0
-    cross = radius / 4.0
 
     # circles only need about 6 different numbers
     x = float(params['x'])
@@ -41,7 +40,7 @@ def circle(params, feed_rate):
 
     # warm up laser by drawing cross hair
     ncLines = ""
-    if cross in params: ncLines = ncLines + cross( params )
+    if cross_hair in params: ncLines = ncLines + cross_hair( params )
     #ncLines = "G00 X" + str3dec(x) + " Y" + str3dec(y + cross) + " Z0.1\n"
     #ncLines = ncLines + "M3\n"
     #ncLines = ncLines + "G00 Z0.0 F" + str3dec(feed_rate) + "\n"
@@ -129,10 +128,10 @@ def corner(x_ctr, y_ctr, radius, start_rad, segments):
     return corner_lines
 
 
-def cross(params):
-    if 'cross' not in params: return ""
+def cross_hair(params):
+    if 'cross_hair' not in params: return ""
 
-    half_a_cross = float(params['cross']) / 2.0
+    half_a_cross = float(params['cross_hair']) / 2.0
     ncLines = "(hole center cross)\n"
     ncLines = ncLines + "G00 X" + str3dec(params['x']) + " Y" + str3dec( float(params['y']) + half_a_cross )
     ncLines = ncLines + "M3 \n"
@@ -151,7 +150,7 @@ def cross(params):
 cutShape = {'circle': circle,
             'polygon': polygon,
             'rectangle': rectangle,
-            'cross': cross
+            'cross_hair': cross_hair
             }
 
 
@@ -183,7 +182,7 @@ if 'spindle' in cuttingOps['config'] and cuttingOps['config']['spindle'] == 'off
 else:
     spindleOffOn = "M3 \n"
 
-toolRadius = float(cuttingOps['config']['tool_diameter']) * 0.5
+tool_radius = float(cuttingOps['config']['tool_diameter']) * 0.5
 scale = float(cuttingOps['config']['scale'])
 
 ncFile.write(ncFirstLine + "\n")
@@ -191,25 +190,25 @@ ncFile.write(ncFirstLine + "\n")
 
 # create a Python List of Dictionaries we can can sort by values
 oppList = []
-for oppNum, opp in cuttingOps['cuts'].iteritems():
+for oppNum, opp in cuttingOps['cut_outs'].iteritems():
     oppList.insert(int(oppNum), opp)
 
 sortedOperations = sorted(oppList, key=by_Location)
 
 # Loop through the operations
-for opp in sortedOperations:  # cuttingOps['cuts'].iteritems():
+for opp in sortedOperations:  # cuttingOps['cut_outs'].iteritems():
     opp['tempX'] = float(opp['x']) * scale
     opp['tempY'] = float(opp['y']) * scale
-    if opp['shape'] == 'rectangle': opp['wide'] = float(opp['wide']) * scale
-    if opp['shape'] == 'rectangle': opp['tall'] = float(opp['tall']) * scale
-    if opp['shape'] == 'circle': opp['radius'] = float(opp['diameter']) * 0.5 * scale
+    if opp['shape'] == 'rectangle': opp['wide'] = float(opp['wide']) * scale ;
+    if opp['shape'] == 'rectangle': opp['tall'] = float(opp['tall']) * scale ;
+    if opp['shape'] == 'circle': opp['radius'] = float(opp['diameter']) * 0.5 * scale ;
     if 'speed' in opp:
-        toolSpeed = float(opp['speed'])
+        tool_speed = float(opp['speed'])
     else:
-        toolSpeed = float(cuttingOps['config']['default_speed'])
+        tool_speed = float(cuttingOps['config']['default_speed'])
     # ncFile.write("G0 F" + cuttingOps['config']['default_speed'] + "\n") # set the current movement speed between cuts
     if 'array' not in opp:
-        ncFile.write(cutShape[opp['shape']](opp, toolSpeed))
+        ncFile.write(cutShape[opp['shape']](opp, tool_speed))
     else:
         cutArray = opp['array']  # is there an array of this shape to process ? If not do once in exception
         opp['column_spacing'] = float(opp['array']['x_spacing']) * scale
@@ -219,36 +218,36 @@ for opp in sortedOperations:  # cuttingOps['cuts'].iteritems():
                 arrayOpp = {}
                 arrayOpp['x'] = float(aCol) * opp['column_spacing'] + opp['tempX']
                 arrayOpp['y'] = float(aRow) * opp['row_spacing'] + opp['tempY']
-                if (opp['shape'] == 'rectangle'): arrayOpp['wide'] = opp['wide']
-                if (opp['shape'] == 'rectangle'): arrayOpp['tall'] = opp['tall']
-                if (opp['shape'] == 'circle'): arrayOpp['radius'] = float(float(opp['diameter']) / 2.0)
-                if 'radius' in opp: arrayOpp['radius'] = float(opp['radius'])
-                ncFile.write(str(cutShape[opp['shape']](arrayOpp, toolSpeed)))
+                if (opp['shape'] == 'rectangle'): arrayOpp['wide'] = opp['wide'];
+                if (opp['shape'] == 'rectangle'): arrayOpp['tall'] = opp['tall'];
+                if (opp['shape'] == 'circle'): arrayOpp['radius'] = float(float(opp['diameter']) / 2.0);
+                if 'radius' in opp: arrayOpp['radius'] = float(opp['radius']);
+                ncFile.write(str(cutShape[opp['shape']](arrayOpp, tool_speed)))
 
 # cut the border last
-nextLine = 'G0 X' + str3dec(toolRadius * -1) + ' Y' + str3dec(toolRadius * -1) + " Z0 F" + cuttingOps['config'][
+nextLine = 'G0 X' + str3dec(tool_radius * -1) + ' Y' + str3dec(tool_radius * -1) + " Z0 F" + cuttingOps['config'][
     'default_speed'] + "\n"
 ncFile.write(nextLine)
 if 'speed' in cuttingOps['border']:
-    toolSpeed = str3dec(cuttingOps['border']['speed'])
+    tool_speed = str3dec(cuttingOps['border']['speed'])
 else:
-    toolSpeed = str3dec(cuttingOps['config']['default_speed'])
+    tool_speed = str3dec(cuttingOps['config']['default_speed'])
 
 ncFile.write("M3\n")
-nextX = str3dec(float(toolRadius * -1))
-nextY = str3dec(float(cuttingOps['border']['y']) + toolRadius)
-nextLine = "G01 X" + nextX + " Y" + nextY + " F" + toolSpeed + "\n"
+nextX = str3dec(float(tool_radius * -1))
+nextY = str3dec(float(cuttingOps['border']['y']) + tool_radius)
+nextLine = "G01 X" + nextX + " Y" + nextY + " F" + tool_speed + "\n"
 ncFile.write(nextLine)
 
-nextX = str3dec(float(cuttingOps['border']['x']) + float(toolRadius * -1))
+nextX = str3dec(float(cuttingOps['border']['x']) + float(tool_radius * -1))
 nextLine = "G01 X" + nextX + " Y" + nextY + " \n"
 ncFile.write(nextLine)
 
-nextY = str3dec(toolRadius * -1)
+nextY = str3dec(tool_radius * -1)
 nextLine = "G01 X" + nextX + " Y" + nextY + " \n"
 ncFile.write(nextLine)
 
-nextX = str3dec(toolRadius * -1)
+nextX = str3dec(tool_radius * -1)
 nextLine = "G01 X" + nextX + " Y" + nextY + " \n"
 ncFile.write(nextLine)
 

@@ -14,7 +14,7 @@
         "y" : "50.8",
         "speed" : "20"
     },
-    "cuts" : {
+    "cut_outs" : {
       "0" : {
          "shape" : "circle",
          "diameter" : "9.0" ,
