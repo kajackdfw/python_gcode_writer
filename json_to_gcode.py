@@ -27,6 +27,7 @@ import math
 
 # define the function blocks
 def circle(params, feed_rate):
+    ncLines = "(circle "+ str(params['radius']) +" radius) \n"
     radius = float(params['radius'])
     neg_radius = radius * -1.0
 
@@ -39,7 +40,6 @@ def circle(params, feed_rate):
     bottom_pt = float(y - radius)
 
     # warm up laser by drawing cross hair
-    ncLines = ""
     if cross_hair in params: ncLines = ncLines + cross_hair( params )
     #ncLines = "G00 X" + str3dec(x) + " Y" + str3dec(y + cross) + " Z0.1\n"
     #ncLines = ncLines + "M3\n"
@@ -57,6 +57,7 @@ def circle(params, feed_rate):
 
 
 def polygon(params, feed_rate):
+    ncLines = "(polygon "+ str( params['sides'] ) +" sided) \n"
     radius = float(params['diameter']) / 2.0
     segment_angle = (math.pi * 2.0) / float(params['sides'])
     center_x = float(params['x'])
@@ -64,7 +65,7 @@ def polygon(params, feed_rate):
     start_x = float(params['x'])
     start_y = float(params['y']) + radius
 
-    ncLines = "G00 X" + str3dec(start_x) + " Y" + str3dec(start_y) + " Z0.1\n"  # start point
+    ncLines = ncLines + "G00 X" + str3dec(start_x) + " Y" + str3dec(start_y) + " Z0.1\n"  # start point
     ncLines = ncLines + "G00 Z-1. \n"
     ncLines = ncLines + "M3\n"
     for index in range(1, int(params['sides'])):
@@ -79,13 +80,14 @@ def polygon(params, feed_rate):
 
 
 def rectangle(params, feed_rate):
+    ncLines = "(rectangle)\n"
     top = float(params['y']) + float(params['tall'])
     right = float(params['x']) + float(params['wide'])
     left = float(params['x'])
     bottom = float(params['y'])
     if 'radius' in params and params['radius'] > 0:
         rad = float(params['radius'])
-        ncLines = "G00 X" + str3dec(left) + " Y" + str3dec(bottom + rad) + " \n"
+        ncLines = ncLines + "G00 X" + str3dec(left) + " Y" + str3dec(bottom + rad) + " \n"
         ncLines = ncLines + "M3\n"
         # left side
         ncLines = ncLines + "G01 X" + str3dec(left) + " Y" + str3dec(top - rad) + " F" + str3dec(feed_rate) + "\n"
@@ -129,10 +131,10 @@ def corner(x_ctr, y_ctr, radius, start_rad, segments):
 
 
 def cross_hair(params):
-    if 'cross_hair' not in params: return ""
+    ncLines = "(cross_hair)\n"
+    if 'cross_hair' not in params: return ncLines
 
     half_a_cross = float(params['cross_hair']) / 2.0
-    ncLines = "(hole center cross)\n"
     ncLines = ncLines + "G00 X" + str3dec(params['x']) + " Y" + str3dec( float(params['y']) + half_a_cross )
     ncLines = ncLines + "M3 \n"
     ncLines = ncLines + "G00 X" + str3dec(params['x']) + " Y" + str3dec( float(params['y']) - half_a_cross )
@@ -163,8 +165,8 @@ def str3dec(floatNumber):
     return str(round(float(floatNumber), 3))
 
 
-patternFile = open('input/calculator_face.json', 'r')
-ncFile = open('output/calculator_face.nc', 'w')
+patternFile = open('input/square_50mm.json', 'r')
+ncFile = open('output/square_50mm.nc', 'w')
 
 jstr = str(patternFile.read())
 cuttingOps = json.loads(jstr)
