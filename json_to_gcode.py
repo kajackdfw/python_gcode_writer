@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 import json
 import math
+# from sys import argv
 
 
 # TODOS : outside border should be cut counter-clockwise for routers, clockwise ok for holes/cavities
@@ -163,9 +165,14 @@ def str3dec(float_number_or_string):
     return str(round(float(float_number_or_string), 3))
 
 
-patternFile = open('input/square_50mm.json', 'r')
-nc_file = open('output/square_50mm.nc', 'w')
-jstr = str(patternFile.read())
+
+# input_file, output_file = argv
+# print "Json file : ", input_file
+# print "Out to : ", output_file
+
+pattern_file = open("input/square_50mm.json", 'r')
+nc_file = open("output/square_50mm.nc", 'w')
+jstr = str(pattern_file.read())
 json_data_dic = json.loads(jstr)
 
 # template for first line of file
@@ -253,12 +260,16 @@ if json_data_dic['border']['shape'] == 'rectangle':
     border_params['y'] = kerf
     if 'radius' in json_data_dic['border']:
         border_params['radius'] = float(border_params['radius']) + kerf
+    if 'lead_in' in json_data_dic['border']:
+        border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
     nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
 
 if json_data_dic['border']['shape'] == 'circle':
-    border_params['radius'] = float(border_params['diameter']) / 2.0 + kerf
+    border_params['radius'] = float(border_params['diameter']) * scale / 2.0 + kerf
     border_params['x'] = border_params['radius'] * scale + kerf
     border_params['y'] = border_params['radius'] * scale + kerf
+    if 'lead_in' in json_data_dic['border']:
+        border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
     nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
 
 nc_file.write('(end of script)')
