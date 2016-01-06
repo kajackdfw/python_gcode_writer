@@ -182,7 +182,7 @@ if 'spindle' in json_data_dic['config'] and json_data_dic['config']['spindle'] =
 else:
     spindle_off_or_on = "M3 \n"
 
-tool_radius = float(json_data_dic['config']['tool_diameter']) * 0.5
+kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
 
 nc_file.write(ncFirstLine + "\n")
@@ -198,14 +198,16 @@ sorted_cuts = sorted(cut_list, key=by_y_then_x)
 
 # Loop through the operations
 for cut in sorted_cuts:  # json_data_dic['cut_outs'].iteritems():
-    cut['tempX'] = float(cut['x']) * scale
-    cut['tempY'] = float(cut['y']) * scale
+    origin_x = float(cut['x'])
+    origin_y = float(cut['y'])
+    cut['x'] = float(cut['x']) * scale + kerf
+    cut['y'] = float(cut['y']) * scale + kerf
     if cut['shape'] == 'rectangle':
-        cut['wide'] = float(cut['wide']) * scale
+        cut['wide'] = float(cut['wide']) * scale - kerf - kerf
     if cut['shape'] == 'rectangle':
-        cut['tall'] = float(cut['tall']) * scale
+        cut['tall'] = float(cut['tall']) * scale - kerf - kerf
     if cut['shape'] == 'circle' and 'diameter' in cut:
-        cut['radius'] = float(cut['diameter']) * 0.5 * scale
+        cut['radius'] = float(cut['diameter']) * 0.5 * scale - kerf
     if 'speed' in cut:
         tool_speed = float(cut['speed'])
     else:
@@ -220,16 +222,15 @@ for cut in sorted_cuts:  # json_data_dic['cut_outs'].iteritems():
         for aCol in range(0, int(cut['array']['columns'])):
             for aRow in range(0, int(cut['array']['rows'])):
                 cut_params = {}
-                cut_params['x'] = float(aCol) * cut['column_spacing'] + cut['tempX']
-                cut_params['y'] = float(aRow) * cut['row_spacing'] + cut['tempY']
+                cut_params['x'] = ( float(aCol) * cut['column_spacing'] + origin_x ) * scale + kerf
+                cut_params['y'] = ( float(aRow) * cut['row_spacing'] + origin_y ) * scale + kerf
                 if cut['shape'] == 'rectangle':
-                    cut_params['wide'] = cut['wide']
-                if cut['shape'] == 'rectangle':
-                    cut_params['tall'] = cut['tall']
+                    cut_params['wide'] = cut['wide'] * scale - kerf - kerf
+                    cut_params['tall'] = cut['tall'] * scale - kerf - kerf
                 if cut['shape'] == 'circle':
-                    cut_params['radius'] = float(float(cut['diameter']) / 2.0)
+                    cut_params['radius'] = float(float(cut['diameter']) / 2.0) * scale - kerf
                 if 'radius' in cut:
-                    cut_params['radius'] = float(cut['radius'])
+                    cut_params['radius'] = float(cut['radius']) * scale - kerf
                 nc_file.write(str(cut_a_shape[cut['shape']](cut_params, tool_speed)))
 
 # lastly, prepare to cut the border
@@ -246,18 +247,18 @@ border_params = json_data_dic['border']
 
 # prepare border vars for various shapes
 if json_data_dic['border']['shape'] == 'rectangle':
-    border_params['wide'] = float(border_params['wide']) + (tool_radius * 2.0)
-    border_params['tall'] = float(border_params['tall']) + (tool_radius * 2.0)
-    border_params['x'] = 0.0
-    border_params['y'] = 0.0
+    border_params['wide'] = float(border_params['wide']) + kerf + kerf
+    border_params['tall'] = float(border_params['tall']) + kerf + kerf
+    border_params['x'] = kerf
+    border_params['y'] = kerf
     if 'radius' in json_data_dic['border']:
-        border_params['radius'] = float(border_params['radius']) + tool_radius
+        border_params['radius'] = float(border_params['radius']) + kerf
     nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
 
 if json_data_dic['border']['shape'] == 'circle':
-    border_params['radius'] = float(border_params['diameter']) / 2.0 + tool_radius
-    border_params['x'] = border_params['radius']
-    border_params['y'] = border_params['radius']
+    border_params['radius'] = float(border_params['diameter']) / 2.0 + kerf
+    border_params['x'] = border_params['radius'] * scale + kerf
+    border_params['y'] = border_params['radius'] * scale + kerf
     nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
 
 nc_file.write('(end of script)')

@@ -2,9 +2,9 @@
     "config" : {
         "mode" : "absolute",
         "unit" : "mm",
-        "tool_diameter" : "2.0",
+        "tool_diameter" : "1.0",
         "default_speed" : "40",
-        "scale" : "0.9917",
+        "scale" : "2.0",
         "sort_cuts" : "false",
         "spindle" : "on"
     },
