@@ -247,8 +247,8 @@ border_params = json_data_dic['border']
 
 # prepare border vars for various shapes
 if json_data_dic['border']['shape'] == 'rectangle':
-    border_params['wide'] = float(border_params['wide']) + kerf + kerf
-    border_params['tall'] = float(border_params['tall']) + kerf + kerf
+    border_params['wide'] = float(border_params['wide']) * scale + kerf + kerf
+    border_params['tall'] = float(border_params['tall']) * scale + kerf + kerf
     border_params['x'] = kerf
     border_params['y'] = kerf
     if 'radius' in json_data_dic['border']:
