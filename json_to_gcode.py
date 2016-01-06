@@ -222,8 +222,8 @@ for cut in sorted_cuts:  # json_data_dic['cut_outs'].iteritems():
         for aCol in range(0, int(cut['array']['columns'])):
             for aRow in range(0, int(cut['array']['rows'])):
                 cut_params = {}
-                cut_params['x'] = ( float(aCol) * cut['column_spacing'] + origin_x ) * scale + kerf
-                cut_params['y'] = ( float(aRow) * cut['row_spacing'] + origin_y ) * scale + kerf
+                cut_params['x'] = (float(aCol) * cut['column_spacing'] + origin_x) * scale + kerf
+                cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * scale + kerf
                 if cut['shape'] == 'rectangle':
                     cut_params['wide'] = cut['wide'] * scale - kerf - kerf
                     cut_params['tall'] = cut['tall'] * scale - kerf - kerf
