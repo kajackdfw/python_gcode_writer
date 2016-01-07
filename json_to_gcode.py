@@ -27,7 +27,44 @@ from sys import argv
 # M4 Spindle ON but reverse
 # M5 Laser OFF
 
-# define the function blocks
+# define the drawing function blocks
+def irregular(params, feed_rate):
+   nc_lines = "(irregular) \n"
+   center_x = float(params['x'])
+   center_y = float(params['y'])
+   scale = float(1.0) # params['scale']
+   if 'relative_points' not in params:
+       return ""
+
+   # how many point sets
+   points_expected = len(params['relative_points'])
+   print "  points expected : ", str(points_expected)
+
+   # sort the lines, json decode shuffles them sometimes
+   line_list = []
+   for line_number, line_values in params['relative_points'].iteritems():
+       line_values['order'] = line_number
+       line_list.insert(int(line_number), line_values)
+   sorted_lines = sorted(line_list,key=by_order)
+
+   point_ctr = int(0)
+   for line in sorted_lines:
+       point_ctr += int(1)
+       #cut_params = {}
+       cut_x = float(center_x) + ( float(line['right']) * scale )
+       cut_y = float(center_y) + ( float(line['up']) * scale )
+       if point_ctr == 1:
+           nc_lines += "M3 \n"
+           first_x = cut_x
+           first_y = cut_y
+       nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " \n"
+
+   if 'close' in params and params['close'] == 'yes':
+       nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " \n"
+   nc_lines += "M5 \n"
+   return nc_lines
+
+
 def circle(params, feed_rate):
     nc_lines = "(circle " + str(params['radius']) + " radius) \n"
     radius = float(params['radius'])
@@ -43,7 +80,7 @@ def circle(params, feed_rate):
 
     # warm up laser by drawing cross hair
     if cross_hair in params:
-        nc_lines += cross_hair(params)
+        nc_lines += cross_hair(params, feed_rate)
     nc_lines += "G00 X" + str3dec(left_pt) + " Y" + str3dec(y) + " \n"
     nc_lines += "M3\n"
     nc_lines += "G02 X" + str3dec(x) + " Y" + str3dec(top_pt) + " I" + str3dec(radius) + \
@@ -129,7 +166,7 @@ def corner(x_ctr, y_ctr, radius, start_rad, segments):
     return corner_lines
 
 
-def cross_hair(params):
+def cross_hair(params, feed_rate):
     nc_lines = "(cross_hair)\n"
     if 'cross_hair' not in params:
         return nc_lines
@@ -150,9 +187,10 @@ def cross_hair(params):
 
 # map the inputs to the function blocks
 cut_a_shape = {'circle': circle,
+               'cross_hair': cross_hair,
+               'irregular': irregular,
                'polygon': polygon,
-               'rectangle': rectangle,
-               'cross_hair': cross_hair
+               'rectangle': rectangle
                }
 
 
@@ -160,6 +198,8 @@ def by_y_then_x(one_cut_with_params):
     y_primary_x_secondary = float(one_cut_with_params['y']) * 1000 + float(one_cut_with_params['x'])
     return y_primary_x_secondary
 
+def by_order(one_item):
+    return one_item['order']
 
 def str3dec(float_number_or_string):
     return str(round(float(float_number_or_string), 3))
@@ -200,8 +240,8 @@ kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
 
 nc_file.write(nc_first_line + "\n")
-# nc_file_comment = str(json_data_dic)
-# print("  (" + str(nc_file_comment) + ")\n")
+#nc_file_comment = str(json_data_dic)
+#print str(nc_file_comment)
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
@@ -215,6 +255,8 @@ for cut in sorted_cuts:  # json_data_dic['cut_outs'].iteritems():
     origin_y = float(cut['y'])
     cut['x'] = float(cut['x']) * scale + kerf
     cut['y'] = float(cut['y']) * scale + kerf
+    cut['scale'] = scale
+    cut['kerf'] = kerf
     if cut['shape'] == 'rectangle':
         cut['wide'] = float(cut['wide']) * scale - kerf - kerf
     if cut['shape'] == 'rectangle':

@@ -4,7 +4,7 @@
         "unit" : "mm",
         "tool_diameter" : "1.0",
         "default_speed" : "40",
-        "scale" : "2.0",
+        "scale" : "0.9917",
         "sort_cuts" : "false",
         "spindle" : "on"
     },
