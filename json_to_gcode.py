@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import json
 import math
-# from sys import argv
+from sys import argv
 
 
-# TODOS : outside border should be cut counter-clockwise for routers, clockwise ok for holes/cavities
+# TO DO : outside border should be cut counter-clockwise for routers, clockwise ok for holes/cavities
 
 # Config Settings
 # G17 XY Plane
@@ -165,24 +165,31 @@ def str3dec(float_number_or_string):
     return str(round(float(float_number_or_string), 3))
 
 
+# ---------------------------------------------------------------------------
+# Main program, convert a json array file to a g code nc file
+# ---------------------------------------------------------------------------
+if len(argv) != 3:
+    print "Invalid number of params!"
+    print "Try >python json_to_gcode.py input/square_50mm.json output/my_new_file.nc "
+    exit()
 
-# input_file, output_file = argv
-# print "Json file : ", input_file
-# print "Out to : ", output_file
+this_script, input_file, output_file = argv
 
-pattern_file = open("input/square_50mm.json", 'r')
-nc_file = open("output/square_50mm.nc", 'w')
-jstr = str(pattern_file.read())
-json_data_dic = json.loads(jstr)
+print "  Json file : ", input_file
+print "  Output to : ", output_file
+pattern_file = open(input_file, 'r')
+nc_file = open(output_file, 'w')
+json_array_string = str(pattern_file.read())
+json_data_dic = json.loads(json_array_string)
 
 # template for first line of file
-ncFirstLine = "G17 [unit] G90 G94 G54"
+nc_first_line = "G17 [unit] G90 G94 G54"
 
-# populate merge fields [xxx]
+# populate merge fields [xxx] in first line
 if json_data_dic['config']['unit'] == 'mm':
-    ncFirstLine = str.replace(ncFirstLine, '[unit]', 'G21')
+    nc_first_line = str.replace(nc_first_line, '[unit]', 'G21')
 else:
-    ncFirstLine = str.replace(ncFirstLine, '[unit]', 'G20')
+    nc_first_line = str.replace(nc_first_line, '[unit]', 'G20')
 
 if 'spindle' in json_data_dic['config'] and json_data_dic['config']['spindle'] == 'off':
     spindle_off_or_on = "(M3)\n"
@@ -192,15 +199,14 @@ else:
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
 
-nc_file.write(ncFirstLine + "\n")
+nc_file.write(nc_first_line + "\n")
 # nc_file_comment = str(json_data_dic)
-# print("(" + str(nc_file_comment) + ")\n")
+# print("  (" + str(nc_file_comment) + ")\n")
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
 for cut_number, cut_values in json_data_dic['cut_outs'].iteritems():
     cut_list.insert(int(cut_number), cut_values)
-
 sorted_cuts = sorted(cut_list, key=by_y_then_x)
 
 # Loop through the operations
@@ -274,3 +280,4 @@ if json_data_dic['border']['shape'] == 'circle':
 
 nc_file.write('(end of script)')
 nc_file.close()
+print "  File square_50mm.nc created!"
