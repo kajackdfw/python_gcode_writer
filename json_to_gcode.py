@@ -32,7 +32,7 @@ def irregular(params, feed_rate):
     nc_lines = "(irregular) \n"
     center_x = float(params['x'])
     center_y = float(params['y'])
-    scale = float(1.0) # params['scale']
+    rel_scale = float(1.0)
     if 'relative_points' not in params:
         return ""
 
@@ -45,14 +45,13 @@ def irregular(params, feed_rate):
     for line_number, line_values in params['relative_points'].iteritems():
         line_values['order'] = line_number
         line_list.insert(int(line_number), line_values)
-    sorted_lines = sorted(line_list,key=by_order)
+    sorted_lines = sorted(line_list, key=by_order)
 
     point_ctr = int(0)
     for line in sorted_lines:
         point_ctr += int(1)
-        #cut_params = {}
-        cut_x = float(center_x) + (float(line['right']) * scale)
-        cut_y = float(center_y) + (float(line['up']) * scale)
+        cut_x = float(center_x) + (float(line['right']) * rel_scale)
+        cut_y = float(center_y) + (float(line['up']) * rel_scale)
         if point_ctr == 1:
             nc_lines += "M3 \n"
             first_x = cut_x
@@ -198,8 +197,10 @@ def by_y_then_x(one_cut_with_params):
     y_primary_x_secondary = float(one_cut_with_params['y']) * 1000 + float(one_cut_with_params['x'])
     return y_primary_x_secondary
 
+
 def by_order(one_item):
     return one_item['order']
+
 
 def str3dec(float_number_or_string):
     return str(round(float(float_number_or_string), 3))
@@ -240,8 +241,8 @@ kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
 
 nc_file.write(nc_first_line + "\n")
-#nc_file_comment = str(json_data_dic)
-#print str(nc_file_comment)
+# nc_file_comment = str(json_data_dic)
+# print str(nc_file_comment)
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
