@@ -29,40 +29,40 @@ from sys import argv
 
 # define the drawing function blocks
 def irregular(params, feed_rate):
-   nc_lines = "(irregular) \n"
-   center_x = float(params['x'])
-   center_y = float(params['y'])
-   scale = float(1.0) # params['scale']
-   if 'relative_points' not in params:
-       return ""
+    nc_lines = "(irregular) \n"
+    center_x = float(params['x'])
+    center_y = float(params['y'])
+    scale = float(1.0) # params['scale']
+    if 'relative_points' not in params:
+        return ""
 
-   # how many point sets
-   points_expected = len(params['relative_points'])
-   print "  points expected : ", str(points_expected)
+    # how many point sets
+    points_expected = len(params['relative_points'])
+    print "  points expected : ", str(points_expected)
 
-   # sort the lines, json decode shuffles them sometimes
-   line_list = []
-   for line_number, line_values in params['relative_points'].iteritems():
-       line_values['order'] = line_number
-       line_list.insert(int(line_number), line_values)
-   sorted_lines = sorted(line_list,key=by_order)
+    # sort the lines, json decode shuffles them sometimes
+    line_list = []
+    for line_number, line_values in params['relative_points'].iteritems():
+        line_values['order'] = line_number
+        line_list.insert(int(line_number), line_values)
+    sorted_lines = sorted(line_list,key=by_order)
 
-   point_ctr = int(0)
-   for line in sorted_lines:
-       point_ctr += int(1)
-       #cut_params = {}
-       cut_x = float(center_x) + ( float(line['right']) * scale )
-       cut_y = float(center_y) + ( float(line['up']) * scale )
-       if point_ctr == 1:
-           nc_lines += "M3 \n"
-           first_x = cut_x
-           first_y = cut_y
-       nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " \n"
+    point_ctr = int(0)
+    for line in sorted_lines:
+        point_ctr += int(1)
+        #cut_params = {}
+        cut_x = float(center_x) + (float(line['right']) * scale)
+        cut_y = float(center_y) + (float(line['up']) * scale)
+        if point_ctr == 1:
+            nc_lines += "M3 \n"
+            first_x = cut_x
+            first_y = cut_y
+        nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " \n"
 
-   if 'close' in params and params['close'] == 'yes':
-       nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " \n"
-   nc_lines += "M5 \n"
-   return nc_lines
+    if 'close' in params and params['close'] == 'yes':
+        nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " \n"
+    nc_lines += "M5 \n"
+    return nc_lines
 
 
 def circle(params, feed_rate):
