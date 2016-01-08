@@ -48,6 +48,38 @@ def irregular(params, feed_rate):
         line_list.insert(int(line_number), line_values)
     one_set_of_lines = sorted(line_list, key=by_order)
 
+    if 'radial_copies' in params and params['radial_copies'] > 1:
+        # radial method
+        point_ctr = int(0)
+        irregular_dic = {}
+        if 'radial_offset' in params:
+            radial_offset = math.radians(float(params['radial_offset']))
+        else:
+            radial_offset = 0.0
+        if 'radial_increment' in params:
+            radial_increment = math.radians(float(params['radial_increment']))
+        elif 'radial_increment' not in params:
+            radial_increment = (math.pi * 2.0) / float(params['radial_copies'])
+        for line in one_set_of_lines:
+            irregular_dic[point_ctr] = {}
+            vector_x = (float(line['right']) * rel_scale)
+            vector_y = (float(line['up']) * rel_scale)
+            irregular_dic[point_ctr]['hypot'] = math.sqrt((vector_x * vector_x) + (vector_y * vector_y))
+            irregular_dic[point_ctr]['azimuth'] = math.atan(vector_x / vector_y)
+            point_ctr += int(1)
+        point_ctr += int(1)
+        irregular_dic[point_ctr] = {}
+        irregular_dic[point_ctr] = irregular_dic[0]
+        # print "    azim:{0}".format(irregular_dic[point_ctr]['azimuth'])
+        for radial in range(0, int(params['radial_copies'])):
+            for line in irregular_dic:
+                new_azimuth = float(line['azimuth']) + (radial * radial_increment)  # FIXME
+                new_x = math.sin(new_azimuth) * line['hypot']
+                new_y = math.cos(new_azimuth) * line['hypot']
+                nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
+        return nc_lines
+
+    # no radial params method
     point_ctr = int(0)
     for line in one_set_of_lines:
         point_ctr += int(1)
