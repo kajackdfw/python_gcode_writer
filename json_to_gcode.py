@@ -171,14 +171,14 @@ def cross_hair(params, feed_rate):
         return nc_lines
 
     half_a_cross = float(params['cross_hair']) / 2.0
-    nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + half_a_cross)
+    nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + half_a_cross) + "\n"
     nc_lines += "M3 \n"
-    nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) - half_a_cross)
+    nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) - half_a_cross) + "\n"
     nc_lines += "M5 \n"
-    nc_lines += "G00 X" + str3dec(float(params['x']) + half_a_cross) + " Y" + str3dec(params['y'])
+    nc_lines += "G00 X" + str3dec(float(params['x']) + half_a_cross) + " Y" + str3dec(params['y']) + "\n"
     nc_lines += "M3 \n"
     if params['shape'] != "circle":
-        nc_lines += "G00 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y'])
+        nc_lines += "G00 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + "\n"
         nc_lines += "M5 \n"
 
     return nc_lines
