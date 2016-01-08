@@ -4,7 +4,8 @@ import math
 from sys import argv
 
 
-# TO DO : outside border should be cut counter-clockwise for routers, clockwise ok for holes/cavities
+# TO DO : outside border should be cut counter-clockwise for routers,
+# and clockwise ok for holes/cavities
 
 # Config Settings
 # G17 XY Plane
@@ -40,15 +41,15 @@ def irregular(params, feed_rate):
     points_expected = len(params['relative_points'])
     print "  points expected : ", str(points_expected)
 
-    # sort the lines, json decode shuffles them sometimes
+    # create a list of dictionaries , we can sort by the dictionary field order
     line_list = []
     for line_number, line_values in params['relative_points'].iteritems():
         line_values['order'] = line_number
         line_list.insert(int(line_number), line_values)
-    sorted_lines = sorted(line_list, key=by_order)
+    one_set_of_lines = sorted(line_list, key=by_order)
 
     point_ctr = int(0)
-    for line in sorted_lines:
+    for line in one_set_of_lines:
         point_ctr += int(1)
         cut_x = float(center_x) + (float(line['right']) * rel_scale)
         cut_y = float(center_y) + (float(line['up']) * rel_scale)
@@ -56,10 +57,10 @@ def irregular(params, feed_rate):
             nc_lines += "M3 \n"
             first_x = cut_x
             first_y = cut_y
-        nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " \n"
+        nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
 
     if 'close' in params and params['close'] == 'yes':
-        nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " \n"
+        nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
     return nc_lines
 
@@ -81,7 +82,7 @@ def circle(params, feed_rate):
     if cross_hair in params:
         nc_lines += cross_hair(params, feed_rate)
     nc_lines += "G00 X" + str3dec(left_pt) + " Y" + str3dec(y) + " \n"
-    nc_lines += "M3\n"
+    nc_lines += "M3 \n"
     nc_lines += "G02 X" + str3dec(x) + " Y" + str3dec(top_pt) + " I" + str3dec(radius) + \
                 " J0. F" + str3dec(feed_rate) + "\n"
     nc_lines += "X" + str3dec(right_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(neg_radius) + "\n"
@@ -323,4 +324,4 @@ if json_data_dic['border']['shape'] == 'circle':
 
 nc_file.write('(end of script)')
 nc_file.close()
-print "  File square_50mm.nc created!"
+print '  File {0} created!'.format(output_file)

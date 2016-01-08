@@ -22,6 +22,9 @@
          "y" : "25.4",
          "speed" : "100",
          "close" : "yes",
+         "radial_offset" : "15.0",
+         "radial_increment" : "30",
+         "radial_copies" : "12",
          "relative_points" :
          {
              "0" : {
@@ -29,11 +32,11 @@
                 "up" : "15.5"
              },
              "1" : {
-                "right" : "3.0",
-                "up" : "12.0"
+                "right" : "2.0",
+                "up" : "15.5"
              },
              "2" : {
-                "right" : "1.0",
+                "right" : "0.0",
                 "up" : "11.5"
              }
          }
