@@ -31,9 +31,9 @@ from sys import argv
 # define the drawing function blocks
 def irregular(params, feed_rate):
     nc_lines = "(irregular) \n"
-    center_x = float(params['x'])
-    center_y = float(params['y'])
     rel_scale = float(1.0)
+    center_x = float(params['x']) * rel_scale
+    center_y = float(params['y']) * rel_scale
     if 'relative_points' not in params:
         return ""
 
@@ -60,23 +60,22 @@ def irregular(params, feed_rate):
             radial_increment = math.radians(float(params['radial_increment']))
         elif 'radial_increment' not in params:
             radial_increment = (math.pi * 2.0) / float(params['radial_copies'])
-        for line in one_set_of_lines:
-            irregular_dic[point_ctr] = {}
-            vector_x = (float(line['right']) * rel_scale)
-            vector_y = (float(line['up']) * rel_scale)
-            irregular_dic[point_ctr]['hypot'] = math.sqrt((vector_x * vector_x) + (vector_y * vector_y))
-            irregular_dic[point_ctr]['azimuth'] = math.atan(vector_x / vector_y)
-            point_ctr += int(1)
-        point_ctr += int(1)
-        irregular_dic[point_ctr] = {}
-        irregular_dic[point_ctr] = irregular_dic[0]
-        # print "    azim:{0}".format(irregular_dic[point_ctr]['azimuth'])
         for radial in range(0, int(params['radial_copies'])):
-            for line in irregular_dic:
-                new_azimuth = float(line['azimuth']) + (radial * radial_increment)  # FIXME
-                new_x = math.sin(new_azimuth) * line['hypot']
-                new_y = math.cos(new_azimuth) * line['hypot']
+            azim_adjust = radial * radial_increment + radial_offset
+            point_ctr = 1.0
+            for line in one_set_of_lines:
+                vector_x = (float(line['right']) * rel_scale)
+                vector_y = (float(line['up']) * rel_scale)
+                hypotenuse = math.sqrt((vector_x * vector_x) + (vector_y * vector_y))
+                new_azimuth = math.atan(vector_x / vector_y) + azim_adjust
+                new_x = center_x + math.sin(new_azimuth) * hypotenuse
+                new_y = center_y + math.cos(new_azimuth) * hypotenuse
                 nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
+                if point_ctr == 1:
+                    first_x = new_x
+                    first_y = new_y
+                point_ctr += int(1)
+            nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(first_x), str3dec(first_y), str3dec(feed_rate))
         return nc_lines
 
     # no radial params method
