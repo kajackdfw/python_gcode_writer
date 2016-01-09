@@ -50,8 +50,6 @@ def irregular(params, feed_rate):
 
     if 'radial_copies' in params and params['radial_copies'] > 1:
         # radial method
-        point_ctr = int(0)
-        irregular_dic = {}
         if 'radial_offset' in params:
             radial_offset = math.radians(float(params['radial_offset']))
         else:
