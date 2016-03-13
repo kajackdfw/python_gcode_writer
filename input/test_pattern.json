@@ -14,7 +14,7 @@
         "tall" : "50.8",
         "speed" : "20"
     },
-    "cut_outs" : {
+    "interior_cuts" : {
       "0" : {
          "shape" : "circle",
          "diameter" : "9.0" ,

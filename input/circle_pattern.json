@@ -12,7 +12,7 @@
         "tall" : "90.0",
         "radius" : "9.00"
     },
-    "cut_outs" : {
+    "interior_cuts" : {
       "0" : {
          "shape" : "rectangle",
          "radius" : "5.0" ,

@@ -276,12 +276,12 @@ nc_file.write(nc_first_line + "\n")
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
-for cut_number, cut_values in json_data_dic['cut_outs'].iteritems():
+for cut_number, cut_values in json_data_dic['interior_cuts'].iteritems():
     cut_list.insert(int(cut_number), cut_values)
 sorted_cuts = sorted(cut_list, key=by_y_then_x)
 
 # Loop through the operations
-for cut in sorted_cuts:  # json_data_dic['cut_outs'].iteritems():
+for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
     origin_x = float(cut['x'])
     origin_y = float(cut['y'])
     cut['x'] = float(cut['x']) * scale + kerf

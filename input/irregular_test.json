@@ -15,7 +15,7 @@
         "radius" : "3.0",
         "lead_in" : "3.0"
     },
-    "cut_outs" : {
+    "interior_cuts" : {
       "0" : {
          "shape" : "irregular",
          "x" : "25.4",
