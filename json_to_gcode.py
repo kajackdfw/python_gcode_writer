@@ -94,6 +94,18 @@ def irregular(params, feed_rate):
     return nc_lines
 
 
+def text(params, feedrate):
+    if len( str(params['text_string'])) > 0:
+        nc_lines = "(text \"" + params['text_string'] + "\" )\n"
+        for letter in params['text_string']:
+            print 'Current Letter :', letter
+
+
+        return nc_lines
+    else:
+        return "(no text string)";
+
+
 def circle(params, feed_rate):
     nc_lines = "(circle " + str(params['radius']) + " radius) \n"
     radius = float(params['radius'])
@@ -219,7 +231,8 @@ cut_a_shape = {'circle': circle,
                'cross_hair': cross_hair,
                'irregular': irregular,
                'polygon': polygon,
-               'rectangle': rectangle
+               'rectangle': rectangle,
+               'text': text,
                }
 
 
@@ -269,6 +282,7 @@ else:
 
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
+json_data_dic['config']['font_available'] = None ;
 
 nc_file.write(nc_first_line + "\n")
 # nc_file_comment = str(json_data_dic)
@@ -288,9 +302,13 @@ for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
     cut['y'] = float(cut['y']) * scale + kerf
     cut['scale'] = scale
     cut['kerf'] = kerf
+    if cut['shape'] == 'text' and json_data_dic['config']['font_available'] == None:
+        font_file = open('fonts/kajackdfw.json', 'r')
+        font_data = str(font_file.read())
+        json_data_dic['config']['font_available'] = json.loads(font_data)
+
     if cut['shape'] == 'rectangle':
         cut['wide'] = float(cut['wide']) * scale - kerf - kerf
-    if cut['shape'] == 'rectangle':
         cut['tall'] = float(cut['tall']) * scale - kerf - kerf
     if cut['shape'] == 'circle' and 'diameter' in cut:
         cut['radius'] = float(cut['diameter']) * 0.5 * scale - kerf

@@ -16,15 +16,16 @@
         "radius" : "5.0",
         "lead_in" : "5.0"
     },
-    "interior" : {
+    "interior_cuts" : {
       "0" : {
          "shape" : "text",
-         "height" : "20.0" ,
+         "height" : "20.0",
          "x" : "5.00",
          "y" : "5.00",
-         "speed" : "500",
+         "rotate" : "0.00",
+         "speed" : "10",
          "font" : "kajack",
-         "string" : "ABCx"
+         "text_string" : "ABCx"
       }
     }
 }
