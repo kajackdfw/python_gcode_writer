@@ -5,7 +5,7 @@
     "mode" : "relative",
     "unit" : "universal"
   },
-  "characters": {
+  "chars": {
     "A": {
       "char": "A",
       "width": "0.700",

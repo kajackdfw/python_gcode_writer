@@ -97,13 +97,28 @@ def irregular(params, feed_rate):
 def text(params, feedrate):
     if len( str(params['text_string'])) > 0:
         nc_lines = "(text \"" + params['text_string'] + "\" )\n"
+        start_x = float(params['x'])
+        start_y = float(params['y'])
+        cursor_x = float(params['x'])
+        cursor_y = float(params['y'])
+        string_length = 0
         for letter in params['text_string']:
-            print 'Current Letter :', letter
+            print 'Current Letter :', params['font']['chars'][ letter ]
 
 
         return nc_lines
     else:
         return "(no text string)";
+
+
+def load_font( font_file_name ):
+    font_file = open(font_file_name, 'r')
+    font_data = str(font_file.read())
+    raw_font_dic = json.loads(font_data)
+    for letter in raw_font_dic['chars'].items():
+        print 'Raw Letter :', letter[1]
+
+    return raw_font_dic
 
 
 def circle(params, feed_rate):
@@ -265,6 +280,7 @@ pattern_file = open(input_file, 'r')
 nc_file = open(output_file, 'w')
 json_array_string = str(pattern_file.read())
 json_data_dic = json.loads(json_array_string)
+json_data_dic['config']['font'] = None
 
 # template for first line of file
 nc_first_line = "G17 [unit] G90 G94 G54"
@@ -282,7 +298,6 @@ else:
 
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
-json_data_dic['config']['font_available'] = None ;
 
 nc_file.write(nc_first_line + "\n")
 # nc_file_comment = str(json_data_dic)
@@ -302,16 +317,14 @@ for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
     cut['y'] = float(cut['y']) * scale + kerf
     cut['scale'] = scale
     cut['kerf'] = kerf
-    if cut['shape'] == 'text' and json_data_dic['config']['font_available'] == None:
-        font_file = open('fonts/kajackdfw.json', 'r')
-        font_data = str(font_file.read())
-        json_data_dic['config']['font_available'] = json.loads(font_data)
-
-    if cut['shape'] == 'rectangle':
+    if cut['shape'] == 'text' and json_data_dic['config']['font'] == None:
+        json_data_dic['config']['font'] = load_font('fonts/kajack.json')
+    elif cut['shape'] == 'rectangle':
         cut['wide'] = float(cut['wide']) * scale - kerf - kerf
         cut['tall'] = float(cut['tall']) * scale - kerf - kerf
-    if cut['shape'] == 'circle' and 'diameter' in cut:
+    elif cut['shape'] == 'circle' and 'diameter' in cut:
         cut['radius'] = float(cut['diameter']) * 0.5 * scale - kerf
+
     if 'speed' in cut:
         tool_speed = float(cut['speed'])
     else:
