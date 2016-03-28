@@ -102,8 +102,11 @@ def text(params, feedrate):
         cursor_x = float(params['x'])
         cursor_y = float(params['y'])
         string_length = 0
+
+        print 'chars : ', json_data_dic['config']['font']
+
         for letter in params['text_string']:
-            print 'Current Letter :', params['font']['chars'][ letter ]
+            print 'Current Letter :', params['font']['chars'][ ord(letter) ]['char']
 
 
         return nc_lines
@@ -114,11 +117,13 @@ def text(params, feedrate):
 def load_font( font_file_name ):
     font_file = open(font_file_name, 'r')
     font_data = str(font_file.read())
-    raw_font_dic = json.loads(font_data)
-    for letter in raw_font_dic['chars'].items():
-        print 'Raw Letter :', letter[1]
+    raw_font_tuple = json.loads(font_data)
+    char_list = []
+    for char_index, char_values in raw_font_tuple['chars'].iteritems():
+        print 'Raw Letter :', char_index
+        cut_list.insert(ord(char_values['char']), char_values)
 
-    return raw_font_dic
+    return char_list
 
 
 def circle(params, feed_rate):
