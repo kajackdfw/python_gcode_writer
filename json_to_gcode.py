@@ -28,6 +28,10 @@ from sys import argv
 # M4 Spindle ON but reverse
 # M5 Laser OFF
 
+class Payload(object):
+    def __init__(self, j):
+        self.__dict__ = json.loads(j)
+
 # define the drawing function blocks
 def irregular(params, feed_rate):
     nc_lines = "(irregular) \n"
@@ -106,7 +110,7 @@ def text(params, feedrate):
         print 'chars : ', json_data_dic['config']['font']
 
         for letter in params['text_string']:
-            print 'Current Letter :', params['font']['chars'][ ord(letter) ]['char']
+            print 'Current Letter :', params['font']
 
 
         return nc_lines
@@ -117,12 +121,17 @@ def text(params, feedrate):
 def load_font( font_file_name ):
     font_file = open(font_file_name, 'r')
     font_data = str(font_file.read())
-    raw_font_tuple = json.loads(font_data)
-    char_list = []
-    for char_index, char_values in raw_font_tuple['chars'].iteritems():
-        print 'Raw Letter :', char_index
-        cut_list.insert(ord(char_values['char']), char_values)
 
+    p = Payload(font_data)
+    print p.config['unit']
+
+    raw_font_tuple = json.loads(font_data)
+    chars = {}
+    for char_index, char_values in raw_font_tuple['chars'].iteritems():
+        new_char = {'char': char_values['char'], 'strokes': char_values['strokes'] }
+        chars.update( new_char )
+
+    char_list = {'chars': chars}
     return char_list
 
 
