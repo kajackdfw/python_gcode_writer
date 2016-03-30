@@ -102,8 +102,9 @@ def text(params, feedrate):
         cursor_x = float(params['x'])
         cursor_y = float(params['y'])
         string_length = 0
+
         for letter in params['text_string']:
-            print 'Current Letter :', params['font']['chars'][ letter ]
+            print 'Current Letter :', params['font']
 
 
         return nc_lines
@@ -112,13 +113,21 @@ def text(params, feedrate):
 
 
 def load_font( font_file_name ):
-    font_file = open(font_file_name, 'r')
+    font_file = open('fonts/' + font_file_name + '.json', 'r')
     font_data = str(font_file.read())
     raw_font_dic = json.loads(font_data)
+    char_list = {}
     for letter in raw_font_dic['chars'].items():
-        print 'Raw Letter :', letter[1]
+        char_index = str(letter[1])
+        char_strokes = letter[1:2]
+        new_char = {}
+        new_char['strokes'] = char_strokes
+        char_list[ char_index ] = new_char
 
-    return raw_font_dic
+    new_font = {}
+    new_font['name'] = font_file_name
+    new_font['chars'] = char_list
+    return new_font
 
 
 def circle(params, feed_rate):
@@ -318,7 +327,7 @@ for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
     cut['scale'] = scale
     cut['kerf'] = kerf
     if cut['shape'] == 'text' and json_data_dic['config']['font'] == None:
-        json_data_dic['config']['font'] = load_font('fonts/kajack.json')
+        json_data_dic['config']['font'] = load_font('kajack')
     elif cut['shape'] == 'rectangle':
         cut['wide'] = float(cut['wide']) * scale - kerf - kerf
         cut['tall'] = float(cut['tall']) * scale - kerf - kerf
