@@ -28,6 +28,10 @@ from sys import argv
 # M4 Spindle ON but reverse
 # M5 Laser OFF
 
+class Payload(object):
+    def __init__(self, j):
+        self.__dict__ = json.loads(j)
+
 # define the drawing function blocks
 def irregular(params, feed_rate):
     nc_lines = "(irregular) \n"
@@ -103,6 +107,8 @@ def text(params, feedrate):
         cursor_y = float(params['y'])
         string_length = 0
 
+        print 'chars : ', json_data_dic['config']['font']
+
         for letter in params['text_string']:
             print 'Current Letter :', params['font']
 
@@ -113,21 +119,20 @@ def text(params, feedrate):
 
 
 def load_font( font_file_name ):
-    font_file = open('fonts/' + font_file_name + '.json', 'r')
+    font_file = open(font_file_name, 'r')
     font_data = str(font_file.read())
-    raw_font_dic = json.loads(font_data)
-    char_list = {}
-    for letter in raw_font_dic['chars'].items():
-        char_index = str(letter[1])
-        char_strokes = letter[1:2]
-        new_char = {}
-        new_char['strokes'] = char_strokes
-        char_list[ char_index ] = new_char
 
-    new_font = {}
-    new_font['name'] = font_file_name
-    new_font['chars'] = char_list
-    return new_font
+    p = Payload(font_data)
+    print p.config['unit']
+
+    raw_font_tuple = json.loads(font_data)
+    chars = {}
+    for char_index, char_values in raw_font_tuple['chars'].iteritems():
+        new_char = {'char': char_values['char'], 'strokes': char_values['strokes'] }
+        chars.update( new_char )
+
+    char_list = {'chars': chars}
+    return char_list
 
 
 def circle(params, feed_rate):
@@ -327,7 +332,7 @@ for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
     cut['scale'] = scale
     cut['kerf'] = kerf
     if cut['shape'] == 'text' and json_data_dic['config']['font'] == None:
-        json_data_dic['config']['font'] = load_font('kajack')
+        json_data_dic['config']['font'] = load_font('fonts/kajack.json')
     elif cut['shape'] == 'rectangle':
         cut['wide'] = float(cut['wide']) * scale - kerf - kerf
         cut['tall'] = float(cut['tall']) * scale - kerf - kerf
