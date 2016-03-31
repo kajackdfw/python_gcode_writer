@@ -110,10 +110,14 @@ def text(params, feedrate):
         print 'unit : ', system_font.config['unit']
 
         for letter in params['text_string']:
+            # check if our font supports each letter
             if system_font.chars.has_key( letter ):
-                print 'Char :', system_font.chars[ letter ]['char']
+                valid_char = letter
+            elif system_font.chars.has_key( letter.upper() ):
+                valid_char = letter.upper()
             else:
-                print 'Missing Char ' + letter + ' = ' + system_font.chars['undefined']['char']
+                valid_char = 'undefined'
+            print 'Char :', system_font.chars[ valid_char ]['char']
         return nc_lines
     else:
         return "(no text string)";
