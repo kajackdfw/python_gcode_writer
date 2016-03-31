@@ -107,12 +107,13 @@ def text(params, feedrate):
         cursor_y = float(params['y'])
         string_length = 0
 
-        print 'chars : ', json_data_dic['config']['font']
+        print 'unit : ', system_font.config['unit']
 
         for letter in params['text_string']:
-            print 'Current Letter :', params['font']
-
-
+            if system_font.chars.has_key( letter ):
+                print 'Char :', system_font.chars[ letter ]['char']
+            else:
+                print 'Missing Char ' + letter + ' = ' + system_font.chars['undefined']['char']
         return nc_lines
     else:
         return "(no text string)";
@@ -121,18 +122,9 @@ def text(params, feedrate):
 def load_font( font_file_name ):
     font_file = open(font_file_name, 'r')
     font_data = str(font_file.read())
-
     p = Payload(font_data)
-    print p.config['unit']
-
-    raw_font_tuple = json.loads(font_data)
-    chars = {}
-    for char_index, char_values in raw_font_tuple['chars'].iteritems():
-        new_char = {'char': char_values['char'], 'strokes': char_values['strokes'] }
-        chars.update( new_char )
-
-    char_list = {'chars': chars}
-    return char_list
+    #print 'unit : ' + p.config['unit']
+    return p
 
 
 def circle(params, feed_rate):
@@ -294,7 +286,7 @@ pattern_file = open(input_file, 'r')
 nc_file = open(output_file, 'w')
 json_array_string = str(pattern_file.read())
 json_data_dic = json.loads(json_array_string)
-json_data_dic['config']['font'] = None
+system_font = None
 
 # template for first line of file
 nc_first_line = "G17 [unit] G90 G94 G54"
@@ -308,7 +300,7 @@ else:
 if 'spindle' in json_data_dic['config'] and json_data_dic['config']['spindle'] == 'off':
     spindle_off_or_on = "(M3)\n"
 else:
-    spindle_off_or_on = "M3 \n"
+    spindle_off_or_on = "M3 S255 \n"
 
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
@@ -331,8 +323,11 @@ for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
     cut['y'] = float(cut['y']) * scale + kerf
     cut['scale'] = scale
     cut['kerf'] = kerf
-    if cut['shape'] == 'text' and json_data_dic['config']['font'] == None:
-        json_data_dic['config']['font'] = load_font('fonts/kajack.json')
+    if cut['shape'] == 'text' and system_font == None:
+        #system_font = load_font('fonts/kajack.json')
+        font_file = open('fonts/kajack.json', 'r')
+        font_data = str(font_file.read())
+        system_font = Payload(font_data)
     elif cut['shape'] == 'rectangle':
         cut['wide'] = float(cut['wide']) * scale - kerf - kerf
         cut['tall'] = float(cut['tall']) * scale - kerf - kerf
