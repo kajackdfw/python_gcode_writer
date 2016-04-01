@@ -118,6 +118,20 @@ def text(params, feedrate):
             else:
                 valid_char = 'undefined'
             print 'Char :', system_font.chars[ valid_char ]['char']
+            for seq, stroke in system_font.chars[ valid_char ]['strokes'].iteritems():
+                print stroke['type']
+                if stroke['type'] == 'start':
+                    cursor_x += float(stroke['x'])
+                    cursor_y += float(stroke['y'])
+                    nc_lines += 'G00 X' + str3dec( cursor_x ) + ' Y' + str3dec( cursor_y ) + '\n'
+                    nc_lines += 'M3 S125 \n'
+                elif stroke['type'] == 'line':
+                    cursor_x += float(stroke['x'])
+                    cursor_y += float(stroke['y'])
+                    nc_lines += 'G01 X' + str3dec( cursor_x ) + ' Y' + str3dec( cursor_y ) + ' F40 \n'
+
+            cursor_x = start_x + float(system_font.chars[ valid_char ]['width'])
+            cursor_y = start_y
         return nc_lines
     else:
         return "(no text string)";
