@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import json
 import math
+import collections
 from sys import argv
 
 
@@ -31,6 +32,17 @@ from sys import argv
 class Payload(object):
     def __init__(self, j):
         self.__dict__ = json.loads(j)
+
+
+def dictionary_to_list( some_dictionary ):
+    line_list = []
+    for line_number, line_values in some_dictionary.iteritems():
+        line_values['order'] = line_number
+        line_list.insert(int(line_number), line_values)
+    sorted_lines = sorted(line_list, key=by_order)
+    print sorted_lines
+    return sorted_lines
+
 
 # define the drawing function blocks
 def irregular(params, feed_rate):
@@ -105,6 +117,7 @@ def text(params, feedrate):
         start_y = float(params['y'])
         cursor_x = float(params['x'])
         cursor_y = float(params['y'])
+        scale = float(params['height'])
         string_length = 0
 
         print 'unit : ', system_font.config['unit']
@@ -118,30 +131,59 @@ def text(params, feedrate):
             else:
                 valid_char = 'undefined'
             print 'Char :', system_font.chars[ valid_char ]['char']
-            for seq, stroke in system_font.chars[ valid_char ]['strokes'].iteritems():
-                print stroke['type']
+
+            stroke_list = dictionary_to_list(system_font.chars[ valid_char ]['strokes'])
+
+            for stroke in stroke_list:
+                print '  ' + stroke['type']
                 if stroke['type'] == 'start':
-                    cursor_x += float(stroke['x'])
-                    cursor_y += float(stroke['y'])
+                    cursor_x += float(stroke['x']) * scale
+                    cursor_y += float(stroke['y']) * scale
                     nc_lines += 'G00 X' + str3dec( cursor_x ) + ' Y' + str3dec( cursor_y ) + '\n'
                     nc_lines += 'M3 S125 \n'
                 elif stroke['type'] == 'line':
-                    cursor_x += float(stroke['x'])
-                    cursor_y += float(stroke['y'])
+                    cursor_x = start_x + float(stroke['x']) * scale
+                    cursor_y + start_y + float(stroke['y']) * scale
                     nc_lines += 'G01 X' + str3dec( cursor_x ) + ' Y' + str3dec( cursor_y ) + ' F40 \n'
+                elif stroke['type'] == 'arc':
+                    cursor_x = start_x + float(stroke['x']) * scale
+                    cursor_y = start_y + float(stroke['y']) * scale
+                    nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, float(stroke['start']), float(stroke['end']), math.pi / 8 )
+                elif stroke['type'] == 'pin_down':
+                    nc_lines += 'M3 S125 \n'
+                elif stroke['type'] == 'pin_up':
+                    nc_lines += 'M5 \n'
+                elif stroke['type'] == 'move':
+                    cursor_x = start_x + float(stroke['x']) * scale
+                    cursor_y = start_y + float(stroke['y']) * scale
+                    nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
 
-            cursor_x = start_x + float(system_font.chars[ valid_char ]['width'])
+            nc_lines += 'M5 \n'
+            start_x += float(system_font.chars[ valid_char ]['width']) * scale
             cursor_y = start_y
         return nc_lines
     else:
         return "(no text string)";
 
 
+def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment):
+    corner_lines = "(start arc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
+    cords = int( math.pi / 2.0 / increment )
+    # loop through the arc cords
+    for segment in range(1, cords + 1):
+        angle = start_arc + (float(segment) * increment)
+        x_point = math.sin(angle) * radius + float(x_ctr)
+        y_point = math.cos(angle) * radius + float(y_ctr)
+        corner_lines += "G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + "\n"
+
+    corner_lines += "(end arc)\n"
+    return corner_lines
+
+
 def load_font( font_file_name ):
     font_file = open(font_file_name, 'r')
     font_data = str(font_file.read())
     p = Payload(font_data)
-    #print 'unit : ' + p.config['unit']
     return p
 
 
@@ -207,7 +249,7 @@ def rectangle(params, feed_rate):
         nc_lines += "M3\n"
         # left side
         nc_lines += "G01 X" + str3dec(left) + " Y" + str3dec(top - rad) + " F" + str3dec(feed_rate) + "\n"
-        nc_lines += corner(left + rad, top - rad, rad, math.pi * 1.5, 4)
+        nc_lines += corner(left + rad, top - rad, rad, math.pi * 1.5, 4) # upper left corner
         # top
         nc_lines += "G01 X" + str3dec(right - rad) + " Y" + str3dec(top) + " F" + str3dec(feed_rate) + "\n"
         nc_lines += corner(right - rad, top - rad, rad, 0.0, 4)
@@ -232,11 +274,12 @@ def rectangle(params, feed_rate):
     return nc_lines
 
 
-def corner(x_ctr, y_ctr, radius, start_rad, segments):
+# 90 degree arc for rectangles
+def corner(x_ctr, y_ctr, radius, start_rad, cords):
     corner_lines = "(start corner radius at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
-    increment = math.pi / 2 / segments
-    # loop through the arc segments
-    for segment in range(1, segments + 1):
+    increment = math.pi / 2 / cords
+    # loop through the arc cords
+    for segment in range(1, cords + 1):
         angle = start_rad + (float(segment) * increment)
         x_point = math.sin(angle) * radius + float(x_ctr)
         y_point = math.cos(angle) * radius + float(y_ctr)
