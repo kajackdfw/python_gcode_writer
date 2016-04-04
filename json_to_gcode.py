@@ -148,9 +148,9 @@ def text(params, feedrate):
                 elif stroke['type'] == 'arc':
                     cursor_x = start_x + (float(stroke['x']) * scale)
                     cursor_y = start_y + (float(stroke['y']) * scale)
-                    radian_start = float(stroke['start']) / 180 * math.pi
-                    radian_end = float(stroke['end']) / 180 * math.pi
-                    nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, math.pi / 16 )
+                    radian_start = math.radians(float(stroke['start']))
+                    radian_end = math.radians(float(stroke['end']))
+                    nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, math.radians(7.5))
                 elif stroke['type'] == 'pin_down':
                     nc_lines += 'M3 S125 \n'
                 elif stroke['type'] == 'pin_up':
@@ -170,7 +170,7 @@ def text(params, feedrate):
 
 def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment):
     corner_lines = "(start arc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
-    cords = int( math.pi / 2.0 / increment )
+    cords = int( ( end_arc - start_arc ) / increment )
     # loop through the arc cords
     for segment in range(1, cords + 1):
         angle = start_arc + (float(segment) * increment)
