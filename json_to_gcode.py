@@ -37,10 +37,10 @@ class Payload(object):
 def dictionary_to_list( some_dictionary ):
     line_list = []
     for line_number, line_values in some_dictionary.iteritems():
-        line_values['order'] = line_number
-        line_list.insert(int(line_number), line_values)
+        #line_values['order'] = line_number
+        line_list.insert(int(line_values['order']), line_values)
     sorted_lines = sorted(line_list, key=by_order)
-    print sorted_lines
+    #print sorted_lines
     return sorted_lines
 
 
@@ -137,18 +137,20 @@ def text(params, feedrate):
             for stroke in stroke_list:
                 print '  ' + stroke['type']
                 if stroke['type'] == 'start':
-                    cursor_x += float(stroke['x']) * scale
-                    cursor_y += float(stroke['y']) * scale
-                    nc_lines += 'G00 X' + str3dec( cursor_x ) + ' Y' + str3dec( cursor_y ) + '\n'
+                    cursor_x = start_x + (float(stroke['x']) * scale)
+                    cursor_y = start_y + (float(stroke['y']) * scale)
+                    nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
                     nc_lines += 'M3 S125 \n'
                 elif stroke['type'] == 'line':
-                    cursor_x = start_x + float(stroke['x']) * scale
-                    cursor_y + start_y + float(stroke['y']) * scale
-                    nc_lines += 'G01 X' + str3dec( cursor_x ) + ' Y' + str3dec( cursor_y ) + ' F40 \n'
+                    cursor_x = start_x + (float(stroke['x']) * scale)
+                    cursor_y = start_y + (float(stroke['y']) * scale)
+                    nc_lines += 'G01 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + ' F40 \n'
                 elif stroke['type'] == 'arc':
-                    cursor_x = start_x + float(stroke['x']) * scale
-                    cursor_y = start_y + float(stroke['y']) * scale
-                    nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, float(stroke['start']), float(stroke['end']), math.pi / 8 )
+                    cursor_x = start_x + (float(stroke['x']) * scale)
+                    cursor_y = start_y + (float(stroke['y']) * scale)
+                    radian_start = float(stroke['start']) / 180 * math.pi
+                    radian_end = float(stroke['end']) / 180 * math.pi
+                    nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, math.pi / 16 )
                 elif stroke['type'] == 'pin_down':
                     nc_lines += 'M3 S125 \n'
                 elif stroke['type'] == 'pin_up':
@@ -160,7 +162,7 @@ def text(params, feedrate):
 
             nc_lines += 'M5 \n'
             start_x += float(system_font.chars[ valid_char ]['width']) * scale
-            cursor_y = start_y
+            #start_y = start_y
         return nc_lines
     else:
         return "(no text string)";
