@@ -10,8 +10,8 @@
     },
     "border" : {
         "shape" : "rectangle",
-        "wide" : "100.0",
-        "tall" : "30.0",
+        "wide" : "80.0",
+        "tall" : "29.0",
         "speed" : "10",
         "radius" : "5.0",
         "lead_in" : "5.0",
@@ -26,7 +26,7 @@
          "rotate" : "0.00",
          "speed" : "10",
          "font" : "kajack",
-         "text_string" : "AGHIJ",
+         "text_string" : "LASER-MUTT",
          "spindle" : "255"
       }
     }
