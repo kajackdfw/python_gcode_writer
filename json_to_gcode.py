@@ -29,6 +29,8 @@ from sys import argv
 # M4 Spindle ON but reverse
 # M5 Laser OFF
 
+# ValueError: Expecting property name: line 338 column 7 (char 16779)
+
 class Payload(object):
     def __init__(self, j):
         self.__dict__ = json.loads(j)
@@ -120,7 +122,7 @@ def text(params, feedrate):
         scale = float(params['height'])
         string_length = 0
 
-        print 'unit : ', system_font.config['unit']
+        #print 'unit : ', system_font.config['unit']
 
         for letter in params['text_string']:
             # check if our font supports each letter
@@ -130,12 +132,12 @@ def text(params, feedrate):
                 valid_char = letter.upper()
             else:
                 valid_char = 'undefined'
-            print 'Char :', system_font.chars[ valid_char ]['char']
+            # print 'Char :', system_font.chars[ valid_char ]['char']
 
             stroke_list = dictionary_to_list(system_font.chars[ valid_char ]['strokes'])
 
             for stroke in stroke_list:
-                print '  ' + stroke['type']
+                # print '  ' + stroke['type']
                 if stroke['type'] == 'start':
                     cursor_x = start_x + (float(stroke['x']) * scale)
                     cursor_y = start_y + (float(stroke['y']) * scale)
@@ -212,7 +214,7 @@ def circle(params, feed_rate):
     nc_lines += "X" + str3dec(right_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(neg_radius) + "\n"
     nc_lines += "X" + str3dec(x) + " Y" + str3dec(bottom_pt) + " I" + str3dec(neg_radius) + " J0.0\n"
     nc_lines += "X" + str3dec(left_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(radius) + "\n"
-    nc_lines += "M5\n"
+    nc_lines += "M5 \n"
     return nc_lines
 
 
@@ -227,15 +229,15 @@ def polygon(params, feed_rate):
 
     nc_lines += "G00 X" + str3dec(start_x) + " Y" + str3dec(start_y) + " Z0.1\n"  # start point
     nc_lines += "G00 Z-1. \n"
-    nc_lines += "M3\n"
+    nc_lines += "M3 \n"
     for index in range(1, int(params['sides'])):
         x = center_x + (radius * math.sin(float(index) * segment_angle))
         y = center_y + (radius * math.cos(float(index) * segment_angle))
         nc_lines += "G01 X" + str3dec(x) + " Y" + str3dec(y) + " F" + str3dec(feed_rate) + " \n"
 
     nc_lines += "G00 X" + str3dec(start_x) + " Y" + str3dec(start_y) + " \n"
-    nc_lines += "M5\n"
-    nc_lines += "G01 Z1\n"
+    nc_lines += "M5 \n"
+    nc_lines += "G01 Z1 \n"
     return nc_lines
 
 

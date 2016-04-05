@@ -10,8 +10,8 @@
     },
     "border" : {
         "shape" : "rectangle",
-        "wide" : "80.0",
-        "tall" : "29.0",
+        "wide" : "113.0",
+        "tall" : "50.0",
         "speed" : "10",
         "radius" : "5.0",
         "lead_in" : "5.0",
@@ -20,13 +20,46 @@
     "interior_cuts" : {
       "0" : {
          "shape" : "text",
-         "height" : "20.0",
+         "height" : "10.0",
+         "x" : "5.00",
+         "y" : "35.00",
+         "rotate" : "0.00",
+         "speed" : "20",
+         "font" : "kajack",
+         "text_string" : "ABCDEFGHIJKLM",
+         "spindle" : "255"
+      },
+      "1" : {
+         "shape" : "text",
+         "height" : "10.0",
+         "x" : "5.00",
+         "y" : "25.00",
+         "rotate" : "0.00",
+         "speed" : "20",
+         "font" : "kajack",
+         "text_string" : "NOPQRSTUVWXYZ",
+         "spindle" : "255"
+      },
+      "2" : {
+         "shape" : "text",
+         "height" : "10.0",
+         "x" : "5.00",
+         "y" : "15.00",
+         "rotate" : "0.00",
+         "speed" : "20",
+         "font" : "kajack",
+         "text_string" : "1234567890 -_/",
+         "spindle" : "255"
+      },
+      "3" : {
+         "shape" : "text",
+         "height" : "10.0",
          "x" : "5.00",
          "y" : "5.00",
          "rotate" : "0.00",
-         "speed" : "10",
+         "speed" : "20",
          "font" : "kajack",
-         "text_string" : "OQZEVWXYZ",
+         "text_string" : ":,.?!@#$%&*()+-=",
          "spindle" : "255"
       }
     }
