@@ -10,7 +10,7 @@
     },
     "border" : {
         "shape" : "rectangle",
-        "wide" : "113.0",
+        "wide" : "107.0",
         "tall" : "50.0",
         "speed" : "10",
         "radius" : "5.0",
@@ -48,7 +48,7 @@
          "rotate" : "0.00",
          "speed" : "20",
          "font" : "kajack",
-         "text_string" : "1234567890 -_/",
+         "text_string" : "0123456789_/",
          "spindle" : "255"
       },
       "3" : {
