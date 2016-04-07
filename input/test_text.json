@@ -3,7 +3,7 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.01",
-        "default_speed" : "40",
+        "default_speed" : "80",
         "scale" : "0.9917",
         "sort_cuts" : "false",
         "spindle" : "on"
@@ -12,7 +12,7 @@
         "shape" : "rectangle",
         "wide" : "107.0",
         "tall" : "50.0",
-        "speed" : "10",
+        "speed" : "80",
         "radius" : "5.0",
         "lead_in" : "5.0",
         "spindle" : "255"
@@ -24,7 +24,7 @@
          "x" : "5.00",
          "y" : "35.00",
          "rotate" : "0.00",
-         "speed" : "20",
+         "speed" : "80",
          "font" : "kajack",
          "text_string" : "ABCDEFGHIJKLM",
          "spindle" : "255"
@@ -35,7 +35,7 @@
          "x" : "5.00",
          "y" : "25.00",
          "rotate" : "0.00",
-         "speed" : "20",
+         "speed" : "80",
          "font" : "kajack",
          "text_string" : "NOPQRSTUVWXYZ",
          "spindle" : "255"
@@ -46,7 +46,7 @@
          "x" : "5.00",
          "y" : "15.00",
          "rotate" : "0.00",
-         "speed" : "20",
+         "speed" : "80",
          "font" : "kajack",
          "text_string" : "0123456789_/",
          "spindle" : "255"
@@ -57,7 +57,7 @@
          "x" : "5.00",
          "y" : "5.00",
          "rotate" : "0.00",
-         "speed" : "20",
+         "speed" : "80",
          "font" : "kajack",
          "text_string" : ":,.?!@#$%&*()+-=",
          "spindle" : "255"

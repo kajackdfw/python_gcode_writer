@@ -112,18 +112,26 @@ def irregular(params, feed_rate):
     return nc_lines
 
 
-def text(params, feedrate):
+def text(params, feed_rate):
     if len( str(params['text_string'])) > 0:
         nc_lines = "(text \"" + params['text_string'] + "\" )\n"
         start_x = float(params['x'])
         start_y = float(params['y'])
         cursor_x = float(params['x'])
         cursor_y = float(params['y'])
+
+        # text settings
         scale = float(params['height'])
+        if params['unit'] == 'mm' and scale <= 10.0 :
+            arc_smoothness = math.radians(22.5);
+        elif params['unit'] == 'mm':
+            arc_smoothness = math.radians(11.25 / 2);
+        elif scale <= 0.41:
+            arc_smoothness = math.radians(22.5);
+        else:
+            arc_smoothness = math.radians(11.25 / 2);
+
         string_length = 0
-
-        #print 'unit : ', system_font.config['unit']
-
         for letter in params['text_string']:
             # check if our font supports each letter
             if system_font.chars.has_key( letter ):
@@ -146,21 +154,19 @@ def text(params, feedrate):
                 elif stroke['type'] == 'line':
                     cursor_x = start_x + (float(stroke['x']) * scale)
                     cursor_y = start_y + (float(stroke['y']) * scale)
-                    nc_lines += 'G01 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + ' F40 \n'
+                    nc_lines += 'G01 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + " F" + str3dec(feed_rate) + "\n"
                 elif stroke['type'] == 'arc':
                     cursor_x = start_x + (float(stroke['x']) * scale)
                     cursor_y = start_y + (float(stroke['y']) * scale)
                     radian_start = math.radians(float(stroke['start']))
                     radian_end = math.radians(float(stroke['end']))
-                    nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, math.radians(7.5))
-                elif stroke['type'] == 'pin_down':
-                    nc_lines += 'M3 S125 \n'
-                elif stroke['type'] == 'pin_up':
-                    nc_lines += 'M5 \n'
+                    nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
                 elif stroke['type'] == 'move':
+                    nc_lines += 'M5 \n'
                     cursor_x = start_x + float(stroke['x']) * scale
                     cursor_y = start_y + float(stroke['y']) * scale
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
+                    nc_lines += 'M3 S125 \n'
 
             nc_lines += 'M5 \n'
             start_x += float(system_font.chars[ valid_char ]['width']) * scale
@@ -170,7 +176,7 @@ def text(params, feedrate):
         return "(no text string)";
 
 
-def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment):
+def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
     corner_lines = "(start arc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
     cords = int( ( end_arc - start_arc ) / increment )
     # loop through the arc cords
@@ -178,7 +184,7 @@ def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment):
         angle = start_arc + (float(segment) * increment)
         x_point = math.sin(angle) * radius + float(x_ctr)
         y_point = math.cos(angle) * radius + float(y_ctr)
-        corner_lines += "G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + "\n"
+        corner_lines += "G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate) + "\n"
 
     corner_lines += "(end arc)\n"
     return corner_lines
@@ -371,13 +377,12 @@ kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
 
 nc_file.write(nc_first_line + "\n")
-# nc_file_comment = str(json_data_dic)
-# print str(nc_file_comment)
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
 for cut_number, cut_values in json_data_dic['interior_cuts'].iteritems():
     cut_list.insert(int(cut_number), cut_values)
+
 sorted_cuts = sorted(cut_list, key=by_y_then_x)
 
 # Loop through the operations
@@ -389,15 +394,17 @@ for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
     cut['scale'] = scale
     cut['kerf'] = kerf
     if cut['shape'] == 'text' and system_font == None:
-        #system_font = load_font('fonts/kajack.json')
         font_file = open('fonts/kajack.json', 'r')
         font_data = str(font_file.read())
         system_font = Payload(font_data)
+        cut['unit'] = json_data_dic['config']['unit']
     elif cut['shape'] == 'rectangle':
         cut['wide'] = float(cut['wide']) * scale - kerf - kerf
         cut['tall'] = float(cut['tall']) * scale - kerf - kerf
     elif cut['shape'] == 'circle' and 'diameter' in cut:
         cut['radius'] = float(cut['diameter']) * 0.5 * scale - kerf
+    elif cut['shape'] == 'text':
+        cut['unit'] = json_data_dic['config']['unit']
 
     if 'speed' in cut:
         tool_speed = float(cut['speed'])
@@ -415,13 +422,18 @@ for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
                 cut_params = {}
                 cut_params['x'] = (float(aCol) * cut['column_spacing'] + origin_x) * scale + kerf
                 cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * scale + kerf
+
                 if cut['shape'] == 'rectangle':
                     cut_params['wide'] = cut['wide'] * scale - kerf - kerf
                     cut_params['tall'] = cut['tall'] * scale - kerf - kerf
-                if cut['shape'] == 'circle':
+                elif cut['shape'] == 'circle':
                     cut_params['radius'] = float(float(cut['diameter']) / 2.0) * scale - kerf
+                elif cut['shape'] == 'text':
+                    cut_params['unit'] = json_data_dic['config']['unit']
+
                 if 'radius' in cut:
                     cut_params['radius'] = float(cut['radius']) * scale - kerf
+
                 nc_file.write(str(cut_a_shape[cut['shape']](cut_params, tool_speed)))
 
 # lastly, prepare to cut the border
