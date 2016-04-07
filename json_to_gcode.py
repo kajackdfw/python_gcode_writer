@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import json
 import math
-import collections
 from sys import argv
 
 
@@ -410,6 +409,7 @@ for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
         tool_speed = float(cut['speed'])
     else:
         tool_speed = float(json_data_dic['config']['default_speed'])
+
     # is there an array of this cut ?
     if 'array' not in cut:
         nc_file.write(cut_a_shape[cut['shape']](cut, tool_speed))
