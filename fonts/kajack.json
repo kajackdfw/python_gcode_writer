@@ -16,9 +16,7 @@
         "3": { "order": 3, "type": "line",  "x": "0.400", "y": "0.900" },
         "4": { "order": 4, "type": "arc",   "x": "0.400", "y": "0.700", "radius": "0.200", "start": "0", "end": "90" },
         "5": { "order": 5, "type": "line",  "x": "0.600", "y": "0.000" },
-        "6": { "order": 6, "type": "pin_up" },
         "7": { "order": 7, "type": "move",  "x": "0.600", "y": "0.500" },
-        "8": { "order": 8, "type": "pin_down" },
         "9": { "order": 9, "type": "line",  "x": "0.000", "y": "0.500" }
       }
     },
@@ -71,9 +69,7 @@
         "1": { "order": 1, "type": "line",  "x": "0.000", "y": "0.000" },
         "2": { "order": 2, "type": "line",  "x": "0.000", "y": "0.900" },
         "3": { "order": 3, "type": "line",  "x": "0.600", "y": "0.900" },
-        "4": { "order": 4, "type": "pin_up" },
         "5": { "order": 5, "type": "move",  "x": "0.000", "y": "0.500" },
-        "6": { "order": 6, "type": "pin_down" },
         "7": { "order": 7, "type": "line",  "x": "0.500", "y": "0.500" }
       }
     },
@@ -84,9 +80,7 @@
         "0": { "order": 0, "type": "start", "x": "0.000", "y": "0.000" },
         "1": { "order": 1, "type": "line",  "x": "0.000", "y": "0.900" },
         "2": { "order": 2, "type": "line",  "x": "0.600", "y": "0.900" },
-        "3": { "order": 3, "type": "pin_up" },
         "4": { "order": 4, "type": "move",  "x": "0.000", "y": "0.500" },
-        "5": { "order": 5, "type": "pin_down" },
         "6": { "order": 6, "type": "line",  "x": "0.600", "y": "0.500" }
       }
     },
@@ -112,12 +106,9 @@
       "strokes": {
         "0": { "order": 0, "type": "start", "x": "0.000", "y": "0.000" },
         "1": { "order": 1, "type": "line",  "x": "0.000", "y": "0.900" },
-        "2": { "order": 2, "type": "pin_up" },
         "3": { "order": 3, "type": "move",  "x": "0.000", "y": "0.500" },
-        "4": { "order": 4, "type": "pin_down" },
         "5": { "order": 5, "type": "line",  "x": "0.600", "y": "0.500" },
         "6": { "order": 6, "type": "move",  "x": "0.600", "y": "0.900" },
-        "7": { "order": 7, "type": "pin_down" },
         "8": { "order": 8, "type": "line",  "x": "0.600", "y": "0.000" }
       }
     },
@@ -127,13 +118,9 @@
       "strokes": {
         "0": { "order": 0, "type": "start", "x": "0.000", "y": "0.900" },
         "1": { "order": 1, "type": "line",  "x": "0.200", "y": "0.900" },
-        "2": { "order": 2, "type": "pin_up" },
         "3": { "order": 3, "type": "move",  "x": "0.100", "y": "0.900" },
-        "4": { "order": 4, "type": "pin_down" },
         "5": { "order": 5, "type": "line",  "x": "0.100", "y": "0.000" },
-        "6": { "order": 6, "type": "pin_up" },
         "7": { "order": 7, "type": "move",  "x": "0.000", "y": "0.000" },
-        "8": { "order": 8, "type": "pin_down" },
         "9": { "order": 9, "type": "line",  "x": "0.200", "y": "0.000" }
       }
     },
@@ -141,12 +128,10 @@
       "char": "J",
       "width": "0.700",
       "strokes": {
-        "0": { "order": 0, "type": "start", "x": "0.600", "y": "0.250" },
-        "1": { "order": 1, "type": "arc",   "x": "0.350", "y": "0.250", "radius": "0.250", "start": "90", "end": "180" },
-        "2": { "order": 2, "type": "line",  "x": "0.250", "y": "0.000" },
-        "3": { "order": 3, "type": "arc",   "x": "0.250", "y": "0.250", "radius": "0.250", "start": "180", "end": "270" },
-        "4": { "order": 4, "type": "line",  "x": "0.000", "y": "0.900" },
-        "5": { "order": 6, "type": "line",  "x": "0.100", "y": "0.900" }
+        "0": { "order": 0, "type": "start", "x": "0.600", "y": "0.800" },
+        "1": { "order": 1, "type": "line",  "x": "0.600", "y": "0.900" },
+        "2": { "order": 2, "type": "line",  "x": "0.600", "y": "0.300" },
+        "3": { "order": 3, "type": "arc",   "x": "0.300", "y": "0.300", "radius": "0.300", "start": "90", "end": "270" }
       }
     },
     "K": {
@@ -155,14 +140,10 @@
       "strokes": {
         "0": { "order": 0, "type": "start", "x": "0.000", "y": "0.000" },
         "1": { "order": 1, "type": "line",  "x": "0.000", "y": "0.900" },
-        "2": { "order": 2, "type": "pin_up" },
         "3": { "order": 3, "type": "move",  "x": "0.000", "y": "0.500" },
-        "4": { "order": 4, "type": "pin_down" },
         "5": { "order": 5, "type": "line",  "x": "0.200", "y": "0.500" },
         "6": { "order": 6, "type": "line",  "x": "0.500", "y": "0.900" },
-        "7": { "order": 7, "type": "pin_up" },
         "8": { "order": 8, "type": "move",  "x": "0.200", "y": "0.500" },
-        "9": { "order": 9, "type": "pin_down" },
         "10":{ "order": 10, "type": "line", "x": "0.300", "y": "0.500" },
         "11":{ "order": 11, "type": "line", "x": "0.500", "y": "0.000" },
         "12":{ "order": 12, "type": "line", "x": "0.600", "y": "0.000" }
@@ -237,9 +218,7 @@
         "6": { "order": 6, "type": "line",  "x": "0.400", "y": "0.900" },
         "7": { "order": 7, "type": "arc",   "x": "0.400", "y": "0.700", "radius": "0.200", "start": "0", "end": "90" },
         "8": { "order": 8, "type": "line",  "x": "0.600", "y": "0.250" },
-        "9": { "order": 9, "type": "pin_up" },
         "10":{ "order": 10, "type": "move",  "x": "0.350", "y": "0.250" },
-        "11":{ "order": 11, "type": "pin_down" },
         "12":{ "order": 12, "type": "line", "x": "0.600", "y": "0.000" }
       }
     },
@@ -252,9 +231,7 @@
         "2": { "order": 2, "type": "line",  "x": "0.400", "y": "0.900" },
         "3": { "order": 3, "type": "arc",   "x": "0.400", "y": "0.700", "radius": "0.200", "start": "0", "end": "180" },
         "4": { "order": 4, "type": "line",  "x": "0.000", "y": "0.500" },
-        "5": { "order": 5, "type": "pin_up" },
         "6": { "order": 6, "type": "move",  "x": "0.200", "y": "0.500" },
-        "7": { "order": 7, "type": "pin_down" },
         "8": { "order": 8, "type": "line", "x": "0.300", "y": "0.500" },
         "9": { "order": 9, "type": "line", "x": "0.500", "y": "0.000" },
         "10":{ "order": 10, "type": "line", "x": "0.600", "y": "0.000" }
@@ -267,9 +244,7 @@
         "0": { "order": 0, "type": "start", "x": "0.300", "y": "0.500" },
         "1": { "order": 1, "type": "arc",   "x": "0.350", "y": "0.250", "radius": "0.250", "start": "0", "end": "180" },
         "2": { "order": 2, "type": "line",  "x": "0.000", "y": "0.000" },
-        "3": { "order": 3, "type": "pin_up" },
         "4": { "order": 4, "type": "move",  "x": "0.300", "y": "0.500" },
-        "5": { "order": 5, "type": "pin_down" },
         "6": { "order": 6, "type": "line", "x": "0.200", "y": "0.500" },
         "7": { "order": 7, "type": "arc",   "x": "0.200", "y": "0.700", "radius": "0.200", "start": "180", "end": "360" },
         "8": { "order": 8, "type": "line", "x": "0.500", "y": "0.900" }
@@ -281,9 +256,7 @@
       "strokes": {
         "0": { "order": 0, "type": "start", "x": "0.000", "y": "0.900" },
         "1": { "order": 1, "type": "line",  "x": "0.600", "y": "0.900" },
-        "2": { "order": 2, "type": "pin_up" },
         "3": { "order": 3, "type": "move",  "x": "0.300", "y": "0.900" },
-        "4": { "order": 4, "type": "pin_down" },
         "5": { "order": 5, "type": "line",  "x": "0.300", "y": "0.000" }
       }
     },
@@ -330,9 +303,7 @@
         "1": { "order": 1, "type": "line",  "x": "0.000", "y": "0.100" },
         "2": { "order": 2, "type": "line",  "x": "0.600", "y": "0.800" },
         "3": { "order": 3, "type": "line",  "x": "0.600", "y": "0.900" },
-        "4": { "order": 4, "type": "pin_up" },
         "5": { "order": 5, "type": "move",  "x": "0.000", "y": "0.900" },
-        "6": { "order": 6, "type": "pin_down" },
         "7": { "order": 7, "type": "line",  "x": "0.000", "y": "0.800" },
         "8": { "order": 8, "type": "line",  "x": "0.600", "y": "0.100" },
         "9": { "order": 9, "type": "line",  "x": "0.600", "y": "0.000" }
@@ -345,9 +316,7 @@
         "0": { "order": 0, "type": "start", "x": "0.000", "y": "0.900" },
         "1": { "order": 1, "type": "line",  "x": "0.000", "y": "0.800" },
         "2": { "order": 2, "type": "line",  "x": "0.300", "y": "0.500" },
-        "3": { "order": 3, "type": "pin_up" },
         "4": { "order": 4, "type": "move",  "x": "0.600", "y": "0.900" },
-        "5": { "order": 5, "type": "pin_down" },
         "6": { "order": 6, "type": "line",  "x": "0.600", "y": "0.800" },
         "7": { "order": 7, "type": "line",  "x": "0.300", "y": "0.500" },
         "8": { "order": 8, "type": "line",  "x": "0.300", "y": "0.000" }
@@ -406,9 +375,7 @@
       "strokes": {
         "0": { "order": 0, "type": "start", "x": "0.150", "y": "0.200" },
         "1": { "order": 1, "type": "line",  "x": "0.150", "y": "0.250" },
-        "2": { "order": 2, "type": "pin_up" },
         "3": { "order": 3, "type": "move",  "x": "0.150", "y": "0.700" },
-        "4": { "order": 4, "type": "pin_down" },
         "5": { "order": 5, "type": "line",  "x": "0.150", "y": "0.750" }
       }
     },
@@ -418,9 +385,7 @@
       "strokes": {
         "0": { "order": 0, "type": "start", "x": "0.100", "y": "0.900" },
         "1": { "order": 1, "type": "line",  "x": "0.100", "y": "0.750" },
-        "2": { "order": 2, "type": "pin_up" },
         "3": { "order": 3, "type": "move",  "x": "0.200", "y": "0.900" },
-        "4": { "order": 4, "type": "pin_down" },
         "5": { "order": 5, "type": "line",  "x": "0.200", "y": "0.750" }
       }
     },
@@ -503,9 +468,7 @@
         "0": { "order": 0, "type": "start", "x": "0.000", "y": "0.900" },
         "1": { "order": 1, "type": "line", "x": "0.000", "y": "0.500" },
         "2": { "order": 2, "type": "line", "x": "0.500", "y": "0.500" },
-        "3": { "order": 3, "type": "pin_up" },
         "4": { "order": 4, "type": "move",  "x": "0.500", "y": "0.900" },
-        "5": { "order": 5, "type": "pin_down" },
         "6": { "order": 6, "type": "line", "x": "0.500", "y": "0.000" }
       }
     },
@@ -546,11 +509,9 @@
       "char": "8",
       "width": "0.60",
       "strokes": {
-        "0": { "order": 0, "type": "start", "x": "0.000", "y": "0.250" },
+        "0": { "order": 0, "type": "start", "x": "0.250", "y": "0.500" },
         "1": { "order": 1, "type": "arc",   "x": "0.250", "y": "0.250", "radius": "0.250", "start": "0", "end": "360" },
-        "2": { "order": 2, "type": "pin_up" },
         "3": { "order": 3, "type": "move",  "x": "0.200", "y": "0.500" },
-        "4": { "order": 4, "type": "pin_down" },
         "5": { "order": 5, "type": "arc",   "x": "0.200", "y": "0.700", "radius": "0.200", "start": "180", "end": "360" },
         "6": { "order": 6, "type": "line", "x": "0.300", "y": "0.900" },
         "7": { "order": 7, "type": "arc",   "x": "0.300", "y": "0.700", "radius": "0.200", "start": "0", "end": "180" }
