@@ -25,7 +25,7 @@
          "rotate" : "0.00",
          "speed" : "80",
          "font" : "kajack",
-         "text_string" : "15cm x 10cm Rectangle",
+         "text_string" : "15cm x 10cm Pattern",
          "spindle" : "255"
       },
       "1" : {

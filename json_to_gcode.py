@@ -45,19 +45,14 @@ def dictionary_to_list( some_dictionary ):
     return sorted_lines
 
 
-# define the drawing function blocks
-def irregular(params, feed_rate):
-    nc_lines = "(irregular) \n"
+# draw some lines, one line, one set of lines, or radial copies of lines
+def lines(params, feed_rate):
+    nc_lines = "(lines) \n"
     rel_scale = float(1.0)
     center_x = float(params['x']) * rel_scale
     center_y = float(params['y']) * rel_scale
     if 'relative_points' not in params:
         return ""
-
-    if 'close_loop' in params and params['close_loop'] == 'TRUE':
-        print '  close_loop'
-    else:
-        print '  dont close loop'
 
     # how many point sets
     points_expected = len(params['relative_points'])
@@ -73,7 +68,7 @@ def irregular(params, feed_rate):
 
     if 'radial_copies' in params and params['radial_copies'] > 1:
         # radial method
-        radial_count += 1
+        radial_count += int(1)
         if 'radial_offset' in params:
             radial_offset = math.radians(float(params['radial_offset']))
         else:
@@ -92,23 +87,34 @@ def irregular(params, feed_rate):
                 new_azimuth = math.atan(vector_x / vector_y) + azim_adjust
                 new_x = center_x + math.sin(new_azimuth) * hypotenuse
                 new_y = center_y + math.cos(new_azimuth) * hypotenuse
-                if point_ctr == 1:
+                if point_ctr == 1 and 'radial_chain' in params and params['radial_chain'] == 'TRUE':
+                    nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
+                    first_x = new_x
+                    first_y = new_y
+                elif point_ctr == 1:
                     nc_lines += "M3 S255 \n"
                     nc_lines += "G00 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     first_x = new_x
                     first_y = new_y
-                    if radial_count == 1 :
-                        original_x = new_x
-                        original_y = new_y
+                if radial_count == 1 and point_ctr == 1:
+                    original_x = new_x
+                    original_y = new_y
+                    print '  record expected end of radial X:' + str3dec(new_x) + ', Y:' + str3dec(new_y)
+
                 else:
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                 point_ctr += int(1)
             if 'close_loop' in params and params['close_loop'] == 'TRUE':
                 nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(first_x), str3dec(first_y), str3dec(feed_rate))
-            elif 'radial_chain' in params and params['radial_chain'] == 'FALSE':
-                nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(original_x), str3dec(original_y), str3dec(feed_rate))
-            if 'radial_chain' not in params:
                 nc_lines += "M5 \n"
+            elif 'radial_chain' not in params:
+                nc_lines += "M5 \n"
+            elif 'radial_chain' in params and params['radial_chain'] == 'TRUE':
+                print '  chain radial entities'
+            radial_count += int(1)
+        if 'radial_chain' in params and params['radial_chain'] == 'TRUE':
+                nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(original_x), str3dec(original_y), str3dec(feed_rate))
+        nc_lines += "M5 \n"
         return nc_lines
 
     # no radial params method
@@ -324,14 +330,14 @@ def cross_hair(params, feed_rate):
     half_a_cross = float(params['cross_hair']) / 2.0
     nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + half_a_cross) + "\n"
     nc_lines += "M3 \n"
-    nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) - half_a_cross) + "\n"
+    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) - half_a_cross) + "\n"
     nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(float(params['x']) + half_a_cross) + " Y" + str3dec(params['y']) + "\n"
     nc_lines += "M3 \n"
     if params['shape'] != "circle":
-        nc_lines += "G00 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + "\n"
-        nc_lines += "M5 \n"
+        nc_lines += "G01 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + "\n"
 
+    nc_lines += "M5 \n"
     return nc_lines
 
 
@@ -355,7 +361,7 @@ def str3dec(float_number_or_string):
 # map the inputs to the function blocks
 cut_a_shape = {'circle': circle,
                'cross_hair': cross_hair,
-               'irregular': irregular,
+               'lines': lines,
                'polygon': polygon,
                'rectangle': rectangle,
                'text': text,

@@ -17,7 +17,7 @@
     },
     "interior_cuts" : {
       "0" : {
-         "shape" : "irregular",
+         "shape" : "lines",
          "x" : "25.4",
          "y" : "25.4",
          "speed" : "100",
@@ -50,7 +50,7 @@
           "cross_hair" : "1.0"
       },
       "2" : {
-         "shape" : "irregular",
+         "shape" : "lines",
          "x" : "25.4",
          "y" : "25.4",
          "speed" : "100",
@@ -72,6 +72,34 @@
              "2" : {
                 "right" : "1.5",
                 "up" : "12.5"
+             }
+         }
+
+      },
+      "3" : {
+         "shape" : "lines",
+         "x" : "25.4",
+         "y" : "25.4",
+         "speed" : "100",
+         "close" : "yes",
+         "close_loop" : "TRUE",
+         "relative_points" :
+         {
+             "0" : {
+                "right" : "2.5",
+                "up" : "2.5"
+             },
+             "1" : {
+                "right" : "-2.5",
+                "up" : "2.5"
+             },
+             "2" : {
+                "right" : "-2.5",
+                "up" : "-2.5"
+             },
+             "3" : {
+                "right" : "2.5",
+                "up" : "-2.5"
              }
          }
 
