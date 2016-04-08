@@ -54,6 +54,11 @@ def irregular(params, feed_rate):
     if 'relative_points' not in params:
         return ""
 
+    if 'close_loop' in params and params['close_loop'] == 'TRUE':
+        print '  close_loop'
+    else:
+        print '  dont close loop'
+
     # how many point sets
     points_expected = len(params['relative_points'])
     print "  points expected : ", str(points_expected)
@@ -64,9 +69,11 @@ def irregular(params, feed_rate):
         line_values['order'] = line_number
         line_list.insert(int(line_number), line_values)
     one_set_of_lines = sorted(line_list, key=by_order)
+    radial_count = 0
 
     if 'radial_copies' in params and params['radial_copies'] > 1:
         # radial method
+        radial_count += 1
         if 'radial_offset' in params:
             radial_offset = math.radians(float(params['radial_offset']))
         else:
@@ -85,12 +92,23 @@ def irregular(params, feed_rate):
                 new_azimuth = math.atan(vector_x / vector_y) + azim_adjust
                 new_x = center_x + math.sin(new_azimuth) * hypotenuse
                 new_y = center_y + math.cos(new_azimuth) * hypotenuse
-                nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                 if point_ctr == 1:
+                    nc_lines += "M3 S255 \n"
+                    nc_lines += "G00 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     first_x = new_x
                     first_y = new_y
+                    if radial_count == 1 :
+                        original_x = new_x
+                        original_y = new_y
+                else:
+                    nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                 point_ctr += int(1)
-            nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(first_x), str3dec(first_y), str3dec(feed_rate))
+            if 'close_loop' in params and params['close_loop'] == 'TRUE':
+                nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(first_x), str3dec(first_y), str3dec(feed_rate))
+            elif 'radial_chain' in params and params['radial_chain'] == 'FALSE':
+                nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(original_x), str3dec(original_y), str3dec(feed_rate))
+            if 'radial_chain' not in params:
+                nc_lines += "M5 \n"
         return nc_lines
 
     # no radial params method
@@ -105,7 +123,7 @@ def irregular(params, feed_rate):
             first_y = cut_y
         nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
 
-    if 'close' in params and params['close'] == 'yes':
+    if 'close_loop' in params and params['close_loop'] == 'TRUE':
         nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
     return nc_lines
@@ -317,16 +335,6 @@ def cross_hair(params, feed_rate):
     return nc_lines
 
 
-# map the inputs to the function blocks
-cut_a_shape = {'circle': circle,
-               'cross_hair': cross_hair,
-               'irregular': irregular,
-               'polygon': polygon,
-               'rectangle': rectangle,
-               'text': text,
-               }
-
-
 def by_y_then_x(one_cut_with_params):
     y_primary_x_secondary = float(one_cut_with_params['y']) * 1000 + float(one_cut_with_params['x'])
     return y_primary_x_secondary
@@ -343,6 +351,16 @@ def str3dec(float_number_or_string):
 # ---------------------------------------------------------------------------
 # Main program, convert a json array file to a g code nc file
 # ---------------------------------------------------------------------------
+
+# map the inputs to the function blocks
+cut_a_shape = {'circle': circle,
+               'cross_hair': cross_hair,
+               'irregular': irregular,
+               'polygon': polygon,
+               'rectangle': rectangle,
+               'text': text,
+               }
+
 if len(argv) != 3:
     print "Invalid number of params!"
     print "Try >python json_to_gcode.py input/square_50mm.json output/my_new_file.nc "
@@ -385,7 +403,7 @@ for cut_number, cut_values in json_data_dic['interior_cuts'].iteritems():
 sorted_cuts = sorted(cut_list, key=by_y_then_x)
 
 # Loop through the operations
-for cut in sorted_cuts:  # json_data_dic['interior_cuts'].iteritems():
+for cut in sorted_cuts:
     origin_x = float(cut['x'])
     origin_y = float(cut['y'])
     cut['x'] = float(cut['x']) * scale + kerf

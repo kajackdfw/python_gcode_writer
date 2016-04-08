@@ -25,6 +25,7 @@
          "radial_offset" : "15.0",
          "radial_increment" : "30",
          "radial_copies" : "12",
+         "close_loop" : "TRUE",
          "relative_points" :
          {
              "0" : {
@@ -57,6 +58,7 @@
          "radial_offset" : "15.0",
          "radial_increment" : "30",
          "radial_copies" : "12",
+         "radial_chain" : "TRUE",
          "relative_points" :
          {
              "0" : {
@@ -64,12 +66,12 @@
                 "up" : "12.5"
              },
              "1" : {
-                "right" : "1.5",
-                "up" : "12.5"
-             },
-             "2" : {
                 "right" : "0.0",
                 "up" : "20.5"
+             },
+             "2" : {
+                "right" : "1.5",
+                "up" : "12.5"
              }
          }
 
