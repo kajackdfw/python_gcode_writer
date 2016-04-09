@@ -87,7 +87,12 @@ def lines(params, feed_rate):
                 new_azimuth = math.atan(vector_x / vector_y) + azim_adjust
                 new_x = center_x + math.sin(new_azimuth) * hypotenuse
                 new_y = center_y + math.cos(new_azimuth) * hypotenuse
-                if point_ctr == 1 and 'radial_chain' in params and params['radial_chain'] == 'TRUE':
+                if point_ctr == 1 and radial_count == 1 and 'radial_chain' in params and params['radial_chain'] == 'TRUE':
+                    nc_lines += "M5 \n"
+                    nc_lines += "G00 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
+                    first_x = new_x
+                    first_y = new_y
+                elif point_ctr == 1 and 'radial_chain' in params and params['radial_chain'] == 'TRUE':
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     first_x = new_x
                     first_y = new_y
@@ -96,6 +101,7 @@ def lines(params, feed_rate):
                     nc_lines += "G00 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     first_x = new_x
                     first_y = new_y
+
                 if radial_count == 1 and point_ctr == 1:
                     original_x = new_x
                     original_y = new_y
@@ -124,11 +130,12 @@ def lines(params, feed_rate):
         cut_x = float(center_x) + (float(line['right']) * rel_scale)
         cut_y = float(center_y) + (float(line['up']) * rel_scale)
         if point_ctr == 1:
-            nc_lines += "M3 \n"
             first_x = cut_x
             first_y = cut_y
-        nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
-
+            nc_lines += "G00 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
+            nc_lines += "M3 \n"
+        else:
+            nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
     if 'close_loop' in params and params['close_loop'] == 'TRUE':
         nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
@@ -328,15 +335,15 @@ def cross_hair(params, feed_rate):
         return nc_lines
 
     half_a_cross = float(params['cross_hair']) / 2.0
+    nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + half_a_cross) + "\n"
     nc_lines += "M3 \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) - half_a_cross) + "\n"
     nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(float(params['x']) + half_a_cross) + " Y" + str3dec(params['y']) + "\n"
     nc_lines += "M3 \n"
-    if params['shape'] != "circle":
-        nc_lines += "G01 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + "\n"
-
+    #if params['shape'] != "circle":
+    nc_lines += "G01 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + "\n"
     nc_lines += "M5 \n"
     return nc_lines
 
