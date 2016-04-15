@@ -5,14 +5,15 @@
         "tool_diameter" : "0.5",
         "default_speed" : "40",
         "scale" : "0.9917",
-        "spindle" : "on"
+        "spindle" : "249.0"
     },
     "border" : {
         "shape" : "rectangle",
         "wide" : "140.0",
         "tall" : "250.0",
         "speed" : "100",
-        "lead_in" : "1.0"
+        "lead_in" : "1.0",
+        "spindle" : "120"
     },
     "interior_cuts" : {
       "0": {
@@ -20,6 +21,7 @@
         "x": "0.0",
         "y": "0.0",
         "speed": "100",
+        "spindle" : "250.0",
         "close_loop": "TRUE",
         "relative_points": {
           "0": {
@@ -48,13 +50,23 @@
           "shape" : "cross_hair",
           "x" : "70.0",
           "y" : "75.0",
-          "cross_hair" : "2.0"
-    },
+          "cross_hair" : "2.0",
+          "spindle" : "252.0"
+      },
       "3" : {
          "shape" : "circle",
          "diameter" : "40.00" ,
+         "spindle" : "253.0",
          "x" : "70.0",
          "y" : "75.00",
+         "speed" : "100.000"
+      },
+      "4" : {
+         "shape" : "circle",
+         "diameter" : "6.35" ,
+         "spindle" : "254.0",
+         "x" : "70.0",
+         "y" : "25.00",
          "speed" : "100.000"
       }
 }}

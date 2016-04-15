@@ -56,7 +56,7 @@ def lines(params, feed_rate):
 
     # how many point sets
     points_expected = len(params['relative_points'])
-    print "  points expected : ", str(points_expected)
+    #print "  points expected : ", str(points_expected)
 
     # create a list of dictionaries , we can sort by the dictionary field order
     line_list = []
@@ -97,7 +97,7 @@ def lines(params, feed_rate):
                     first_x = new_x
                     first_y = new_y
                 elif point_ctr == 1:
-                    nc_lines += "M3 S255 \n"
+                    nc_lines += "M3 S" + params['spindle'] + " \n"
                     nc_lines += "G00 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     first_x = new_x
                     first_y = new_y
@@ -133,7 +133,7 @@ def lines(params, feed_rate):
             first_x = cut_x
             first_y = cut_y
             nc_lines += "G00 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
-            nc_lines += "M3 \n"
+            nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
         else:
             nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
     if 'close_loop' in params and params['close_loop'] == 'TRUE':
@@ -147,8 +147,8 @@ def text(params, feed_rate):
         nc_lines = "(text \"" + params['text_string'] + "\" )\n"
         start_x = float(params['x'])
         start_y = float(params['y'])
-        cursor_x = float(params['x'])
-        cursor_y = float(params['y'])
+        if 'spindle' not in params:
+            params['spindle'] = 255.0
 
         # text settings
         scale = float(params['height'])
@@ -180,7 +180,7 @@ def text(params, feed_rate):
                     cursor_x = start_x + (float(stroke['x']) * scale)
                     cursor_y = start_y + (float(stroke['y']) * scale)
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
-                    nc_lines += 'M3 S125 \n'
+                    nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
                 elif stroke['type'] == 'line':
                     cursor_x = start_x + (float(stroke['x']) * scale)
                     cursor_y = start_y + (float(stroke['y']) * scale)
@@ -196,7 +196,7 @@ def text(params, feed_rate):
                     cursor_x = start_x + float(stroke['x']) * scale
                     cursor_y = start_y + float(stroke['y']) * scale
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
-                    nc_lines += 'M3 S125 \n'
+                    nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
 
             nc_lines += 'M5 \n'
             start_x += float(system_font.chars[ valid_char ]['width']) * scale
@@ -244,7 +244,7 @@ def circle(params, feed_rate):
     if cross_hair in params:
         nc_lines += cross_hair(params, feed_rate)
     nc_lines += "G00 X" + str3dec(left_pt) + " Y" + str3dec(y) + " \n"
-    nc_lines += "M3 \n"
+    nc_lines += "M3 " + str3dec(params['spindle']) + " \n"
     nc_lines += "G02 X" + str3dec(x) + " Y" + str3dec(top_pt) + " I" + str3dec(radius) + \
                 " J0. F" + str3dec(feed_rate) + "\n"
     nc_lines += "X" + str3dec(right_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(neg_radius) + "\n"
@@ -265,7 +265,7 @@ def polygon(params, feed_rate):
 
     nc_lines += "G00 X" + str3dec(start_x) + " Y" + str3dec(start_y) + " Z0.1\n"  # start point
     nc_lines += "G00 Z-1. \n"
-    nc_lines += "M3 \n"
+    nc_lines += "M3 S" + params['spindle'] + " \n"
     for index in range(1, int(params['sides'])):
         x = center_x + (radius * math.sin(float(index) * segment_angle))
         y = center_y + (radius * math.cos(float(index) * segment_angle))
@@ -283,10 +283,14 @@ def rectangle(params, feed_rate):
     right = float(params['x']) + float(params['wide'])
     left = float(params['x'])
     bottom = float(params['y'])
+
+    if 'spindle' not in params:
+        params['spindle'] = 255.0
+
     if 'radius' in params and params['radius'] > 0:
         rad = float(params['radius'])
         nc_lines += "G00 X" + str3dec(left) + " Y" + str3dec(bottom + rad) + " \n"
-        nc_lines += "M3\n"
+        nc_lines += "M3 S" + params['spindle'] + " \n"
         # left side
         nc_lines += "G01 X" + str3dec(left) + " Y" + str3dec(top - rad) + " F" + str3dec(feed_rate) + "\n"
         nc_lines += corner(left + rad, top - rad, rad, math.pi * 1.5, 4) # upper left corner
@@ -302,7 +306,7 @@ def rectangle(params, feed_rate):
         nc_lines += "M5\n"
     else:
         nc_lines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feed_rate) + "\n"
-        nc_lines += "M3\n"
+        nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(
             float(params['y']) + float(params['tall'])) + " F" + str3dec(feed_rate) + "\n"
         nc_lines += "G01 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(
@@ -337,11 +341,11 @@ def cross_hair(params, feed_rate):
     half_a_cross = float(params['cross_hair']) / 2.0
     nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + half_a_cross) + "\n"
-    nc_lines += "M3 \n"
+    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) - half_a_cross) + "\n"
     nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(float(params['x']) + half_a_cross) + " Y" + str3dec(params['y']) + "\n"
-    nc_lines += "M3 \n"
+    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
     #if params['shape'] != "circle":
     nc_lines += "G01 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + "\n"
     nc_lines += "M5 \n"
@@ -398,10 +402,10 @@ if json_data_dic['config']['unit'] == 'mm':
 else:
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G20')
 
-if 'spindle' in json_data_dic['config'] and json_data_dic['config']['spindle'] == 'off':
-    spindle_off_or_on = "(M3)\n"
+if 'spindle' in json_data_dic['config'] :
+    spindle_default = float(json_data_dic['config']['spindle'])
 else:
-    spindle_off_or_on = "M3 S255 \n"
+    spindle_default = 255.0
 
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
@@ -441,6 +445,11 @@ for cut in sorted_cuts:
     else:
         tool_speed = float(json_data_dic['config']['default_speed'])
 
+    if 'spindle' in cut:
+        cut['spindle'] = float(cut['spindle'])
+    else:
+        cut['spindle'] = spindle_default
+
     # is there an array of this cut ?
     if 'array' not in cut:
         nc_file.write(cut_a_shape[cut['shape']](cut, tool_speed))
@@ -453,6 +462,7 @@ for cut in sorted_cuts:
                 cut_params = {}
                 cut_params['x'] = (float(aCol) * cut['column_spacing'] + origin_x) * scale + kerf
                 cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * scale + kerf
+                cut_params['spindle'] = cut['spindle']
 
                 if cut['shape'] == 'rectangle':
                     cut_params['wide'] = cut['wide'] * scale - kerf - kerf
@@ -478,6 +488,8 @@ if 'border' not in json_data_dic or 'shape' not in json_data_dic['border']:
     nc_file.close()
 
 border_params = json_data_dic['border']
+if 'spindle' not in border_params:
+    border_params['spindle'] = spindle_default
 
 # prepare border vars for various shapes
 if json_data_dic['border']['shape'] == 'rectangle':
@@ -489,6 +501,7 @@ if json_data_dic['border']['shape'] == 'rectangle':
         border_params['radius'] = float(border_params['radius']) + kerf
     if 'lead_in' in json_data_dic['border']:
         border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
+    nc_file.write("(rectangular border) \n")
     nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
 
 if json_data_dic['border']['shape'] == 'circle':
@@ -497,6 +510,7 @@ if json_data_dic['border']['shape'] == 'circle':
     border_params['y'] = border_params['radius'] * scale + kerf
     if 'lead_in' in json_data_dic['border']:
         border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
+    nc_file.write("(circular border) \n")
     nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
 
 nc_file.write('(end of script)')
