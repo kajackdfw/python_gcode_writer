@@ -7,5 +7,7 @@ Goal : Make the cnc machine cut what you want using a json array of geometry pat
 Version v0.01 : Completed: CNC Laser ready with circles, rectangles, polygons, rectangular and circular arrays.
   
 Version v0.02 : Completed : Will add some text support. Cut-Outs will become interior_cuts, laser power controlled by spindle speed for grbl shield and grbl 0.9
+Version v0.02.1 : Adding default spindle speed, and adding spindle attribute to all cut routines
+Version v0.02.2 : lower case letters in kajack font.
 
-Version v0.03 : In Planning
+Version v0.03 : Configuration file, and config parameter support in json_to_gcode.py

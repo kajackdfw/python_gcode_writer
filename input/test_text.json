@@ -11,7 +11,7 @@
     "border" : {
         "shape" : "rectangle",
         "wide" : "107.0",
-        "tall" : "50.0",
+        "tall" : "70.0",
         "speed" : "80",
         "radius" : "5.0",
         "lead_in" : "5.0",
@@ -60,6 +60,28 @@
          "speed" : "80",
          "font" : "kajack",
          "text_string" : ":,.?!@#$%&*()+-=",
+         "spindle" : "255"
+      },
+      "4" : {
+         "shape" : "text",
+         "height" : "10.0",
+         "x" : "5.00",
+         "y" : "55.00",
+         "rotate" : "0.00",
+         "speed" : "80",
+         "font" : "kajack",
+         "text_string" : "abcdefghijklm",
+         "spindle" : "255"
+      },
+      "5" : {
+         "shape" : "text",
+         "height" : "10.0",
+         "x" : "5.00",
+         "y" : "45.00",
+         "rotate" : "0.00",
+         "speed" : "80",
+         "font" : "kajack",
+         "text_string" : "nopqrstuvwxyz",
          "spindle" : "255"
       }
     }

@@ -204,7 +204,11 @@ def text(params, feed_rate):
 def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
     corner_lines = "(start arc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
     cords = int((end_arc - start_arc) / increment)
-    # loop through the arc cords
+    if start_arc > end_arc:
+        # Counter clockwise arc!!
+        cords = abs(cords)
+        increment *= -1.0
+
     for segment in range(1, cords + 1):
         angle = start_arc + (float(segment) * increment)
         x_point = math.sin(angle) * radius + float(x_ctr)
