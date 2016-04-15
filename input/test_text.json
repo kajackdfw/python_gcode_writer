@@ -70,7 +70,7 @@
          "rotate" : "0.00",
          "speed" : "80",
          "font" : "kajack",
-         "text_string" : "abcdefghijklm",
+         "text_string" : "abcdefghijklmn",
          "spindle" : "255"
       },
       "5" : {
