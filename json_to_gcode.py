@@ -35,13 +35,12 @@ class Payload(object):
         self.__dict__ = json.loads(j)
 
 
-def dictionary_to_list( some_dictionary ):
+def dictionary_to_list(some_dictionary):
     line_list = []
     for line_number, line_values in some_dictionary.iteritems():
-        #line_values['order'] = line_number
+        # line_values['order'] = line_number
         line_list.insert(int(line_values['order']), line_values)
     sorted_lines = sorted(line_list, key=by_order)
-    #print sorted_lines
     return sorted_lines
 
 
@@ -53,10 +52,6 @@ def lines(params, feed_rate):
     center_y = float(params['y']) * rel_scale
     if 'relative_points' not in params:
         return ""
-
-    # how many point sets
-    points_expected = len(params['relative_points'])
-    #print "  points expected : ", str(points_expected)
 
     # create a list of dictionaries , we can sort by the dictionary field order
     line_list = []
@@ -143,7 +138,7 @@ def lines(params, feed_rate):
 
 
 def text(params, feed_rate):
-    if len( str(params['text_string'])) > 0:
+    if len(str(params['text_string'])) > 0:
         nc_lines = "(text \"" + params['text_string'] + "\" )\n"
         start_x = float(params['x'])
         start_y = float(params['y'])
@@ -152,21 +147,21 @@ def text(params, feed_rate):
 
         # text settings
         scale = float(params['height'])
-        if params['unit'] == 'mm' and scale <= 10.0 :
-            arc_smoothness = math.radians(22.5);
+        if params['unit'] == 'mm' and scale <= 10.0:
+            arc_smoothness = math.radians(22.5)
         elif params['unit'] == 'mm':
-            arc_smoothness = math.radians(11.25 / 2);
+            arc_smoothness = math.radians(11.25 / 2)
         elif scale <= 0.41:
-            arc_smoothness = math.radians(22.5);
+            arc_smoothness = math.radians(22.5)
         else:
-            arc_smoothness = math.radians(11.25 / 2);
+            arc_smoothness = math.radians(11.25 / 2)
 
         string_length = 0
         for letter in params['text_string']:
             # check if our font supports each letter
-            if system_font.chars.has_key( letter ):
+            if letter in system_font.chars:
                 valid_char = letter
-            elif system_font.chars.has_key( letter.upper() ):
+            elif letter.upper() in system_font.chars:
                 valid_char = letter.upper()
             else:
                 valid_char = 'undefined'
@@ -199,16 +194,16 @@ def text(params, feed_rate):
                     nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
 
             nc_lines += 'M5 \n'
-            start_x += float(system_font.chars[ valid_char ]['width']) * scale
-            #start_y = start_y
+            start_x += float(system_font.chars[valid_char]['width']) * scale
+            # start_y = start_y
         return nc_lines
     else:
-        return "(no text string)";
+        return "(no text string)"
 
 
 def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
     corner_lines = "(start arc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
-    cords = int( ( end_arc - start_arc ) / increment )
+    cords = int((end_arc - start_arc) / increment)
     # loop through the arc cords
     for segment in range(1, cords + 1):
         angle = start_arc + (float(segment) * increment)
@@ -220,7 +215,7 @@ def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
     return corner_lines
 
 
-def load_font( font_file_name ):
+def load_font(font_file_name):
     font_file = open(font_file_name, 'r')
     font_data = str(font_file.read())
     p = Payload(font_data)
@@ -293,7 +288,7 @@ def rectangle(params, feed_rate):
         nc_lines += "M3 S" + params['spindle'] + " \n"
         # left side
         nc_lines += "G01 X" + str3dec(left) + " Y" + str3dec(top - rad) + " F" + str3dec(feed_rate) + "\n"
-        nc_lines += corner(left + rad, top - rad, rad, math.pi * 1.5, 4) # upper left corner
+        nc_lines += corner(left + rad, top - rad, rad, math.pi * 1.5, 4)  # upper left corner
         # top
         nc_lines += "G01 X" + str3dec(right - rad) + " Y" + str3dec(top) + " F" + str3dec(feed_rate) + "\n"
         nc_lines += corner(right - rad, top - rad, rad, 0.0, 4)
@@ -346,7 +341,6 @@ def cross_hair(params, feed_rate):
     nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(float(params['x']) + half_a_cross) + " Y" + str3dec(params['y']) + "\n"
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
-    #if params['shape'] != "circle":
     nc_lines += "G01 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + "\n"
     nc_lines += "M5 \n"
     return nc_lines
@@ -402,7 +396,7 @@ if json_data_dic['config']['unit'] == 'mm':
 else:
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G20')
 
-if 'spindle' in json_data_dic['config'] :
+if 'spindle' in json_data_dic['config']:
     spindle_default = float(json_data_dic['config']['spindle'])
 else:
     spindle_default = 255.0
@@ -427,7 +421,7 @@ for cut in sorted_cuts:
     cut['y'] = float(cut['y']) * scale + kerf
     cut['scale'] = scale
     cut['kerf'] = kerf
-    if cut['shape'] == 'text' and system_font == None:
+    if cut['shape'] == 'text' and system_font is None:
         font_file = open('fonts/kajack.json', 'r')
         font_data = str(font_file.read())
         system_font = Payload(font_data)

@@ -5,7 +5,7 @@
         "tool_diameter" : "0.5",
         "default_speed" : "40",
         "scale" : "0.9917",
-        "spindle" : "on"
+        "spindle" : "125.0"
     },
     "border" : {
         "shape" : "rectangle",
