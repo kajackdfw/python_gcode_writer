@@ -67,7 +67,7 @@
          "height" : "10.0",
          "x" : "5.00",
          "y" : "55.00",
-         "rotate" : "0.00",
+         "rotate" : "-30.00",
          "speed" : "80",
          "font" : "kajack",
          "text_string" : "abcdefghijklmn",

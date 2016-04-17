@@ -426,7 +426,7 @@ for cut in sorted_cuts:
     cut['scale'] = scale
     cut['kerf'] = kerf
     if cut['shape'] == 'text' and system_font is None:
-        font_file = open('fonts/kajack.json', 'r')
+        font_file = open('fonts/' + cut['font'] + '.json', 'r')
         font_data = str(font_file.read())
         system_font = Payload(font_data)
         cut['unit'] = json_data_dic['config']['unit']
