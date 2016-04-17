@@ -3,62 +3,37 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.002",
-        "default_speed" : "80",
+        "default_speed" : "5.1",
         "scale" : "0.9917",
         "sort_cuts" : "false",
-        "spindle" : "on"
+        "spindle" : "255.0"
     },
     "border" : {
         "shape" : "rectangle",
-        "wide" : "150.0",
-        "tall" : "100.0",
-        "speed" : "80",
+        "wide" : "30.0",
+        "tall" : "30.0",
+        "speed" : "3.333",
         "lead_in" : "5.0",
         "spindle" : "255"
     },
     "interior_cuts" : {
-      "0" : {
-         "shape" : "text",
-         "height" : "9.0",
-         "x" : "5.00",
-         "y" : "90.00",
-         "rotate" : "0.00",
-         "speed" : "80",
-         "font" : "kajack",
-         "text_string" : "15cm x 10cm Pattern",
-         "spindle" : "255"
-      },
-      "1" : {
-         "shape" : "text",
-         "height" : "9.0",
-         "x" : "5.00",
-         "y" : "80.00",
-         "rotate" : "0.00",
-         "speed" : "80",
-         "font" : "kajack",
-         "text_string" : "SPEED 100",
-         "spindle" : "255"
-      },
       "2" : {
          "shape" : "text",
-         "height" : "10.0",
-         "x" : "5.00",
-         "y" : "15.00",
+         "height" : "20.0",
+         "x" : "35.00",
+         "y" : "5.00",
          "rotate" : "0.00",
-         "speed" : "80",
+         "speed" : "10",
          "font" : "kajack",
-         "text_string" : "0123456789_/",
+         "text_string" : "Test",
          "spindle" : "255"
       },
       "3" : {
-         "shape" : "text",
-         "height" : "10.0",
-         "x" : "5.00",
-         "y" : "5.00",
-         "rotate" : "0.00",
-         "speed" : "80",
-         "font" : "kajack",
-         "text_string" : ":,.?!@#$%&*()+-=",
+         "shape" : "circle",
+         "radius" : "4.5",
+         "x" : "15.00",
+         "y" : "15.00",
+         "speed" : "2.0",
          "spindle" : "255"
       }
     }
