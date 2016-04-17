@@ -1,0 +1,88 @@
+{
+  "config" : {
+    "type" : "font",
+    "name" : "patterns",
+    "mode" : "relative",
+    "unit" : "universal"
+  },
+  "chars": {
+          "R": {
+      "char": "T",
+      "width": "0.500",
+      "strokes": {
+        "0": {
+          "order": 0,
+          "type": "start",
+          "x": "0.005",
+          "y": "0.000"
+        },
+        "1": {
+          "order": 1,
+          "type": "line",
+          "x": "0.500",
+          "y": "0.000"
+        },
+        "2": {
+          "order": 2,
+          "type": "line",
+          "x": "0.995",
+          "y": "1.000"
+        }
+      }
+    },
+    "S": {
+      "char": "S",
+      "width": "1.000",
+      "strokes": {
+        "0": {
+          "order": 0,
+          "type": "start",
+          "x": "0.005",
+          "y": "1.000"
+        },
+        "1": {
+          "order": 1,
+          "type": "line",
+          "x": "0.020",
+          "y": "0.000"
+        },
+        "2": {
+          "order": 2,
+          "type": "line",
+          "x": "0.980",
+          "y": "0.000"
+        },
+        "3": {
+          "order": 3,
+          "type": "line",
+          "x": "0.995",
+          "y": "1.000"
+        }
+      }
+    },
+    "T": {
+      "char": "T",
+      "width": "0.500",
+      "strokes": {
+        "0": {
+          "order": 0,
+          "type": "start",
+          "x": "0.005",
+          "y": "1.000"
+        },
+        "1": {
+          "order": 1,
+          "type": "line",
+          "x": "0.020",
+          "y": "0.000"
+        },
+        "2": {
+          "order": 2,
+          "type": "line",
+          "x": "0.500",
+          "y": "0.000"
+        }
+      }
+    }
+  }
+}
