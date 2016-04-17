@@ -243,7 +243,7 @@ def circle(params, feed_rate):
     if cross_hair in params:
         nc_lines += cross_hair(params, feed_rate)
     nc_lines += "G00 X" + str3dec(left_pt) + " Y" + str3dec(y) + " \n"
-    nc_lines += "M3 " + str3dec(params['spindle']) + " \n"
+    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
     nc_lines += "G02 X" + str3dec(x) + " Y" + str3dec(top_pt) + " I" + str3dec(radius) + \
                 " J0. F" + str3dec(feed_rate) + "\n"
     nc_lines += "X" + str3dec(right_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(neg_radius) + "\n"
