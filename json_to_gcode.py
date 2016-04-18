@@ -4,8 +4,7 @@ import math
 from sys import argv
 
 
-# TO DO : outside border should be cut counter-clockwise for routers,
-# and clockwise ok for holes/cavities
+# gcode reference list
 
 # Config Settings
 # G17 XY Plane
@@ -203,7 +202,8 @@ def text(params, feed_rate):
 
 def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
     corner_lines = "(start arc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
-    cords = int((end_arc - start_arc) / increment)
+    cords = int((end_arc - start_arc) / increment )
+    print 'cords = ' + str(cords)
     if start_arc > end_arc:
         # Counter clockwise arc!!
         cords = abs(cords)
@@ -229,15 +229,10 @@ def load_font(font_file_name):
 def circle(params, feed_rate):
     nc_lines = "(circle " + str(params['radius']) + " radius) \n"
     radius = float(params['radius'])
-    neg_radius = radius * -1.0
 
     # circles only need about 6 different numbers
     x = float(params['x'])
     y = float(params['y'])
-    left_pt = float(x - radius)
-    right_pt = float(x + radius)
-    top_pt = float(y + radius)
-    bottom_pt = float(y - radius)
 
     # warm up laser by drawing cross hair
     if cross_hair in params:
@@ -245,14 +240,8 @@ def circle(params, feed_rate):
     nc_lines += "G00 X" + str3dec(x) + " Y" + str3dec(y + radius ) + " \n"
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
 
-    smoothness = math.radians(11.25)
-    nc_lines += arc(x, y, radius, 0, 360, smoothness, feed_rate)
-    #nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
-    #nc_lines += "G02 X" + str3dec(x) + " Y" + str3dec(top_pt) + " I" + str3dec(radius) + \
-    #            " J0. F" + str3dec(feed_rate) + "\n"
-    #nc_lines += "X" + str3dec(right_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(neg_radius) + "\n"
-    #nc_lines += "X" + str3dec(x) + " Y" + str3dec(bottom_pt) + " I" + str3dec(neg_radius) + " J0.0\n"
-    #nc_lines += "X" + str3dec(left_pt) + " Y" + str3dec(y) + " I0.0 J" + str3dec(radius) + "\n"
+    smoothness = 11.25
+    nc_lines += arc(x, y, radius, 0, math.radians(360), math.radians(smoothness), feed_rate)
     nc_lines += "M5 \n"
     return nc_lines
 
