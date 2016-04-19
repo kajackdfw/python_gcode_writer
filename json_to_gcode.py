@@ -42,6 +42,32 @@ def dictionary_to_list(some_dictionary):
     sorted_lines = sorted(line_list, key=by_order)
     return sorted_lines
 
+def rotateCoordinate( xCoord, yCoord, rotation ):
+    pair = {}
+    pair['x'] = xCoord
+    pair['y'] = yCoord
+    if xCoord == 0 and yCoord == 0:
+        return pair
+    elif xCoord == 0 and yCoord > 0:
+        azim = math.radians(rotation)
+        hypot = yCoord
+    elif xCoord == 0 and yCoord < 0:
+        azim = math.pi + math.radians(rotation)
+        hypot = abs(yCoord)
+    elif xCoord > 0 and yCoord == 0:
+        azim = math.pi / 2.0 + math.radians(rotation)
+        hypot = abs(xCoord)
+    elif xCoord < 0 and yCoord == 0:
+        azim = math.pi * 1.5 + math.radians(rotation)
+        hypot = abs(xCoord)
+    else:
+        azim = math.atan( xCoord / yCoord )
+        hypot = math.sqrt( abs(xCoord) * abs(xCoord) + abs(yCoord) * abs(yCoord) )
+        print '  azim = ' + str( azim )
+
+    pair['x'] = math.sin(azim)
+    pair['y'] = math.cos(azim)
+    return pair
 
 # draw some lines, one line, one set of lines, or radial copies of lines
 def lines(params, feed_rate):
@@ -155,6 +181,12 @@ def text(params, feed_rate):
         else:
             arc_smoothness = math.radians(11.25 / 2)
 
+        # text rotation ?
+        if 'rotate' not in params or ('rotate' in params and float(params['rotate']) == 0):
+            params['rotate'] = 0.0
+        else:
+            params['rotate'] = float(params['rotate'])
+
         # Start processing the string
         for letter in params['text_string']:
             # check if our font supports each letter
@@ -169,6 +201,16 @@ def text(params, feed_rate):
             stroke_list = dictionary_to_list(system_font.chars[valid_char]['strokes'])
             for stroke in stroke_list:
                 # print '  ' + stroke['type']
+
+                # rotate x and y
+                if 'rotate' in params and params['rotate'] <> 0:
+                    newPair = rotateCoordinate(float(stroke['x']), float(stroke['y']), params['rotate'])
+                    stroke['x'] = newPair['x']
+                    stroke['y'] = newPair['y']
+                    arcAdjust = math.radians(params['rotate'])
+                else:
+                    arcAdjust = 0.0
+
                 if stroke['type'] == 'start':
                     cursor_x = start_x + (float(stroke['x']) * scale)
                     cursor_y = start_y + (float(stroke['y']) * scale)
@@ -181,8 +223,8 @@ def text(params, feed_rate):
                 elif stroke['type'] == 'arc':
                     cursor_x = start_x + (float(stroke['x']) * scale)
                     cursor_y = start_y + (float(stroke['y']) * scale)
-                    radian_start = math.radians(float(stroke['start']))
-                    radian_end = math.radians(float(stroke['end']))
+                    radian_start = math.radians(float(stroke['start'])) + arcAdjust
+                    radian_end = math.radians(float(stroke['end'])) + arcAdjust
                     nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
                 elif stroke['type'] == 'move':
                     nc_lines += 'M5 \n'
@@ -192,8 +234,13 @@ def text(params, feed_rate):
                     nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
 
             nc_lines += 'M5 \n'
-            start_x += float(system_font.chars[valid_char]['width']) * scale
-            # start_y = start_y
+            if params['rotate'] == 0:
+                start_x += float(system_font.chars[valid_char]['width']) * scale
+                # start_y = start_y
+            else:
+                start_x += float(system_font.chars[valid_char]['width']) * scale * math.sin(math.radians(90.0+params['rotate']))
+                start_y += float(system_font.chars[valid_char]['width']) * scale * math.cos(math.radians(90.0+params['rotate']))
+
         return nc_lines
     else:
         return "(no text string)"
@@ -202,7 +249,7 @@ def text(params, feed_rate):
 def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
     corner_lines = "(start arc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
     cords = int((end_arc - start_arc) / increment )
-    print 'cords = ' + str(cords)
+    #print 'cords = ' + str(cords)
     if start_arc > end_arc:
         # Counter clockwise arc!!
         cords = abs(cords)
