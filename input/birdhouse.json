@@ -3,7 +3,7 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.5",
-        "default_speed" : "60",
+        "default_speed" : "50",
         "scale" : "0.9917",
         "spindle" : "255.0"
     },
