@@ -155,7 +155,7 @@ def text(params, feed_rate):
         else:
             arc_smoothness = math.radians(11.25 / 2)
 
-        string_length = 0
+        # Start processing the string
         for letter in params['text_string']:
             # check if our font supports each letter
             if letter in system_font.chars:
@@ -164,10 +164,9 @@ def text(params, feed_rate):
                 valid_char = letter.upper()
             else:
                 valid_char = 'undefined'
-            # print 'Char :', system_font.chars[ valid_char ]['char']
 
-            stroke_list = dictionary_to_list(system_font.chars[ valid_char ]['strokes'])
-
+            # get ready to start drawing a letter
+            stroke_list = dictionary_to_list(system_font.chars[valid_char]['strokes'])
             for stroke in stroke_list:
                 # print '  ' + stroke['type']
                 if stroke['type'] == 'start':
