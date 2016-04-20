@@ -61,12 +61,12 @@ def rotateCoordinate( xCoord, yCoord, rotation ):
         azim = math.pi * 1.5 + math.radians(rotation)
         hypot = abs(xCoord)
     else:
-        azim = math.atan( xCoord / yCoord )
-        hypot = math.sqrt( abs(xCoord) * abs(xCoord) + abs(yCoord) * abs(yCoord) )
-        print '  azim = ' + str( azim )
+        azim = math.atan(xCoord / yCoord) + math.radians(rotation)
+        hypot = math.sqrt(abs(xCoord) * abs(xCoord) + abs(yCoord) * abs(yCoord))
 
-    pair['x'] = math.sin(azim)
-    pair['y'] = math.cos(azim)
+    print '  azim = ' + str(azim) + ', hypot = ' + str(hypot) + ', rotate = ' + str(rotation)
+    pair['x'] = math.sin(azim) * hypot
+    pair['y'] = math.cos(azim) * hypot
     return pair
 
 # draw some lines, one line, one set of lines, or radial copies of lines
@@ -191,25 +191,26 @@ def text(params, feed_rate):
         for letter in params['text_string']:
             # check if our font supports each letter
             if letter in system_font.chars:
-                valid_char = letter
+                supported_char = letter
             elif letter.upper() in system_font.chars:
-                valid_char = letter.upper()
+                supported_char = letter.upper()
             else:
-                valid_char = 'undefined'
+                supported_char = 'undefined'
 
             # get ready to start drawing a letter
-            stroke_list = dictionary_to_list(system_font.chars[valid_char]['strokes'])
+            print '  print a : ' + supported_char
+            stroke_list = dictionary_to_list(system_font.chars[supported_char]['strokes'])
             for stroke in stroke_list:
                 # print '  ' + stroke['type']
 
                 # rotate x and y
-                if 'rotate' in params and params['rotate'] <> 0:
+                if 'rotate' in params and params['rotate'] != 0:
                     newPair = rotateCoordinate(float(stroke['x']), float(stroke['y']), params['rotate'])
                     stroke['x'] = newPair['x']
                     stroke['y'] = newPair['y']
-                    arcAdjust = math.radians(params['rotate'])
+                    rotate_arc = math.radians(params['rotate'])
                 else:
-                    arcAdjust = 0.0
+                    rotate_arc = 0.0
 
                 if stroke['type'] == 'start':
                     cursor_x = start_x + (float(stroke['x']) * scale)
@@ -223,8 +224,8 @@ def text(params, feed_rate):
                 elif stroke['type'] == 'arc':
                     cursor_x = start_x + (float(stroke['x']) * scale)
                     cursor_y = start_y + (float(stroke['y']) * scale)
-                    radian_start = math.radians(float(stroke['start'])) + arcAdjust
-                    radian_end = math.radians(float(stroke['end'])) + arcAdjust
+                    radian_start = math.radians(float(stroke['start'])) + rotate_arc
+                    radian_end = math.radians(float(stroke['end'])) + rotate_arc
                     nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
                 elif stroke['type'] == 'move':
                     nc_lines += 'M5 \n'
@@ -235,11 +236,11 @@ def text(params, feed_rate):
 
             nc_lines += 'M5 \n'
             if params['rotate'] == 0:
-                start_x += float(system_font.chars[valid_char]['width']) * scale
+                start_x += float(system_font.chars[supported_char]['width']) * scale
                 # start_y = start_y
             else:
-                start_x += float(system_font.chars[valid_char]['width']) * scale * math.sin(math.radians(90.0+params['rotate']))
-                start_y += float(system_font.chars[valid_char]['width']) * scale * math.cos(math.radians(90.0+params['rotate']))
+                start_x += float(system_font.chars[supported_char]['width']) * scale * math.sin(math.radians(90.0+params['rotate']))
+                start_y += float(system_font.chars[supported_char]['width']) * scale * math.cos(math.radians(90.0+params['rotate']))
 
         return nc_lines
     else:
