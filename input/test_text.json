@@ -59,7 +59,7 @@
          "rotate" : "-5.00",
          "speed" : "80",
          "font" : "kajack",
-         "text_string" : ":,.?!@#$%&*()+-=",
+         "text_string" : "AAA:,.?!@#$%&*()+-=",
          "spindle" : "255"
       },
       "4" : {

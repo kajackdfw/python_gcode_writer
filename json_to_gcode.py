@@ -60,11 +60,13 @@ def rotateCoordinate( xCoord, yCoord, rotation ):
     elif xCoord < 0 and yCoord == 0:
         azim = math.pi * 1.5 + math.radians(rotation)
         hypot = abs(xCoord)
+    elif yCoord < 0:
+        azim = math.pi - math.atan(xCoord / abs(yCoord)) + math.radians(rotation)
+        hypot = math.sqrt(abs(xCoord) * abs(xCoord) + abs(yCoord) * abs(yCoord))
     else:
         azim = math.atan(xCoord / yCoord) + math.radians(rotation)
         hypot = math.sqrt(abs(xCoord) * abs(xCoord) + abs(yCoord) * abs(yCoord))
 
-    print '  azim = ' + str(azim) + ', hypot = ' + str(hypot) + ', rotate = ' + str(rotation)
     pair['x'] = math.sin(azim) * hypot
     pair['y'] = math.cos(azim) * hypot
     return pair
@@ -198,7 +200,7 @@ def text(params, feed_rate):
                 supported_char = 'undefined'
 
             # get ready to start drawing a letter
-            print '  print a : ' + supported_char
+            #print '  print a : ' + supported_char
             stroke_list = dictionary_to_list(system_font.chars[supported_char]['strokes'])
             for stroke in stroke_list:
                 # print '  ' + stroke['type']
@@ -206,31 +208,33 @@ def text(params, feed_rate):
                 # rotate x and y
                 if 'rotate' in params and params['rotate'] != 0:
                     newPair = rotateCoordinate(float(stroke['x']), float(stroke['y']), params['rotate'])
-                    stroke['x'] = newPair['x']
-                    stroke['y'] = newPair['y']
+                    rotated_x = newPair['x']
+                    rotated_y = newPair['y']
                     rotate_arc = math.radians(params['rotate'])
                 else:
                     rotate_arc = 0.0
+                    rotated_x = stroke['x']
+                    rotated_y = stroke['y']
 
                 if stroke['type'] == 'start':
-                    cursor_x = start_x + (float(stroke['x']) * scale)
-                    cursor_y = start_y + (float(stroke['y']) * scale)
+                    cursor_x = start_x + (float(rotated_x) * scale)
+                    cursor_y = start_y + (float(rotated_y) * scale)
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
                     nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
                 elif stroke['type'] == 'line':
-                    cursor_x = start_x + (float(stroke['x']) * scale)
-                    cursor_y = start_y + (float(stroke['y']) * scale)
+                    cursor_x = start_x + (float(rotated_x) * scale)
+                    cursor_y = start_y + (float(rotated_y) * scale)
                     nc_lines += 'G01 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + " F" + str3dec(feed_rate) + "\n"
                 elif stroke['type'] == 'arc':
-                    cursor_x = start_x + (float(stroke['x']) * scale)
-                    cursor_y = start_y + (float(stroke['y']) * scale)
+                    cursor_x = start_x + (float(rotated_x) * scale)
+                    cursor_y = start_y + (float(rotated_y) * scale)
                     radian_start = math.radians(float(stroke['start'])) + rotate_arc
                     radian_end = math.radians(float(stroke['end'])) + rotate_arc
                     nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
                 elif stroke['type'] == 'move':
                     nc_lines += 'M5 \n'
-                    cursor_x = start_x + float(stroke['x']) * scale
-                    cursor_y = start_y + float(stroke['y']) * scale
+                    cursor_x = start_x + float(rotated_x) * scale
+                    cursor_y = start_y + float(rotated_y) * scale
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
                     nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
 
