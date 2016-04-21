@@ -333,7 +333,7 @@ def rectangle(params, feed_rate):
     if 'radius' in params and params['radius'] > 0:
         rad = float(params['radius'])
         nc_lines += "G00 X" + str3dec(left) + " Y" + str3dec(bottom + rad) + " \n"
-        nc_lines += "M3 S" + params['spindle'] + " \n"
+        nc_lines += "M3 S" + str(params['spindle']) + " \n"
         # left side
         nc_lines += "G01 X" + str3dec(left) + " Y" + str3dec(top - rad) + " F" + str3dec(feed_rate) + "\n"
         nc_lines += corner(left + rad, top - rad, rad, math.pi * 1.5, 4)  # upper left corner

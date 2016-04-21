@@ -1,0 +1,78 @@
+{
+    "config" : {
+        "mode" : "absolute",
+        "unit" : "mm",
+        "tool_diameter" : "0.5",
+        "default_speed" : "40",
+        "scale" : "0.9917",
+        "spindle" : "125.0"
+    },
+    "border" : {
+        "shape" : "rectangle",
+        "wide" : "4.500",
+        "tall" : "4.300",
+        "speed" : "60",
+        "radius" : "0.500",
+        "lead_in" : "3.0"
+    },
+    "interior_cuts" : {
+      "0" : {
+         "shape" : "lines",
+         "x" : "0.000",
+         "y" : "0.000",
+         "relative_points" :
+         {
+             "0" : {
+                "right" : "2.881",
+                "up" : "0.726"
+             },
+             "1" : {
+                "right" : "2.480",
+                "up" : "1.45"
+             }
+         }
+      },
+      "2" : {
+         "shape" : "lines",
+         "x" : "0.000",
+         "y" : "0.000",
+         "relative_points" :
+         {
+             "0" : {
+                "right" : "1.619",
+                "up" : "0.476"
+             },
+             "1" : {
+                "right" : "1.492",
+                "up" : "0.534"
+             }
+         }
+      },
+      "3" : {
+         "shape" : "lines",
+         "x" : "2.250",
+         "y" : "2.000",
+         "speed" : "80",
+         "radial_offset" : "-135.0",
+         "radial_increment" : "45",
+         "radial_copies" : "7",
+         "radial_chain" : "TRUE",
+         "relative_points" :
+         {
+             "0" : {
+                "right" : "-0.5",
+                "up" : "0.5"
+             },
+             "1" : {
+                "right" : "0.0",
+                "up" : "0.25"
+             },
+             "2" : {
+                "right" : "0.5",
+                "up" : "0.5"
+             }
+         }
+      }
+
+    }
+}
