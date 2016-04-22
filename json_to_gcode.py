@@ -42,6 +42,7 @@ def dictionary_to_list(some_dictionary):
     sorted_lines = sorted(line_list, key=by_order)
     return sorted_lines
 
+
 def rotateCoordinate( xCoord, yCoord, rotation ):
     pair = {}
     pair['x'] = xCoord
@@ -71,9 +72,9 @@ def rotateCoordinate( xCoord, yCoord, rotation ):
     pair['y'] = math.cos(azim) * hypot
     return pair
 
+
 # draw some lines, one line, one set of lines, or radial copies of lines
 def lines(params, feed_rate):
-    nc_lines = "(lines) \n"
     rel_scale = float(1.0)
     center_x = float(params['x']) * rel_scale
     center_y = float(params['y']) * rel_scale
@@ -89,7 +90,7 @@ def lines(params, feed_rate):
     radial_count = 0
 
     if 'radial_copies' in params and params['radial_copies'] > 1:
-        # radial method
+        nc_lines = '( radial copies centered at X' + str3dec(center_x) + ', Y' + str3dec(center_y) + ' ) \n'
         radial_count += int(1)
         if 'radial_offset' in params:
             radial_offset = math.radians(float(params['radial_offset']))
@@ -109,17 +110,17 @@ def lines(params, feed_rate):
                 new_azimuth = math.atan(vector_x / vector_y) + azim_adjust
                 new_x = center_x + math.sin(new_azimuth) * hypotenuse
                 new_y = center_y + math.cos(new_azimuth) * hypotenuse
-                if point_ctr == 1 and radial_count == 1 and 'radial_chain' in params and params['radial_chain'] == 'TRUE':
+                if point_ctr == 1 and radial_count == 1 and 'close_chain' in params and params['close_chain'] == 'TRUE':
                     nc_lines += "M5 \n"
                     nc_lines += "G00 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     first_x = new_x
                     first_y = new_y
-                elif point_ctr == 1 and 'radial_chain' in params and params['radial_chain'] == 'TRUE':
+                elif point_ctr == 1 and 'close_chain' in params and params['close_chain'] == 'TRUE':
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     first_x = new_x
                     first_y = new_y
                 elif point_ctr == 1:
-                    nc_lines += "M3 S" + params['spindle'] + " \n"
+                    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
                     nc_lines += "G00 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     first_x = new_x
                     first_y = new_y
@@ -132,21 +133,22 @@ def lines(params, feed_rate):
                 else:
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                 point_ctr += int(1)
-            if 'close_loop' in params and params['close_loop'] == 'TRUE':
+            if 'close_links' in params and params['close_links'] == 'TRUE':
                 nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(first_x), str3dec(first_y), str3dec(feed_rate))
                 nc_lines += "M5 \n"
-            elif 'radial_chain' not in params:
+            elif 'close_chain' not in params:
                 nc_lines += "M5 \n"
-            elif 'radial_chain' in params and params['radial_chain'] == 'TRUE':
+            elif 'close_chain' in params and params['close_chain'] == 'TRUE':
                 print '  chain radial entities'
             radial_count += int(1)
-        if 'radial_chain' in params and params['radial_chain'] == 'TRUE':
+        if 'close_chain' in params and params['close_chain'] == 'TRUE':
                 nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(original_x), str3dec(original_y), str3dec(feed_rate))
         nc_lines += "M5 \n"
         return nc_lines
 
     # no radial params method
     point_ctr = int(0)
+    nc_lines = '( lines relative to X' + str3dec(center_x) + ', Y' + str3dec(center_y) + ' ) \n'
     for line in one_set_of_lines:
         point_ctr += int(1)
         cut_x = float(center_x) + (float(line['right']) * rel_scale)
@@ -158,7 +160,7 @@ def lines(params, feed_rate):
             nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
         else:
             nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
-    if 'close_loop' in params and params['close_loop'] == 'TRUE':
+    if 'close_links' in params and params['close_links'] == 'TRUE':
         nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
     return nc_lines

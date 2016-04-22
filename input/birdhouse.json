@@ -22,7 +22,7 @@
             "y": "0.0",
             "speed": "50",
             "spindle" : "255.0",
-            "close_loop": "TRUE",
+            "close_links": "TRUE",
             "relative_points": {
                 "0": {
                     "right": "15.0",

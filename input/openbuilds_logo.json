@@ -2,7 +2,7 @@
     "config" : {
         "mode" : "absolute",
         "unit" : "mm",
-        "tool_diameter" : "0.5",
+        "tool_diameter" : "0.002",
         "default_speed" : "40",
         "scale" : "0.9917",
         "spindle" : "125.0"
@@ -57,21 +57,41 @@
          "radial_increment" : "45",
          "radial_copies" : "7",
          "radial_chain" : "TRUE",
+         "close_chain" : "FALSE",
          "relative_points" :
          {
-             "0" : {
-                "right" : "-0.5",
-                "up" : "0.5"
-             },
-             "1" : {
-                "right" : "0.0",
-                "up" : "0.25"
-             },
-             "2" : {
-                "right" : "0.5",
-                "up" : "0.5"
-             }
+             "0" : { "right" : "-0.631", "up" : "1.524" },
+             "1" : { "right" : "-0.505", "up" : "1.570" },
+             "2" : { "right" : "-0.375", "up" : "1.607" },
+             "3" : { "right" : "-0.250", "up" : "2.186" },
+             "4" : { "right" :  "0.000", "up" : "2.200" },
+             "5" : { "right" :  "0.250", "up" : "2.186" },
+             "6" : { "right" :  "0.375", "up" : "1.609" },
+             "7" : { "right" :  "0.505", "up" : "1.571" },
+             "8" : { "right" :  "0.631", "up" : "1.524"}
          }
+      },
+      "5" : {
+         "shape" : "text",
+         "height" : "0.69",
+         "x" : "0.00",
+         "y" : "4.500",
+         "rotate" : "0.00",
+         "speed" : "80",
+         "font" : "kajack",
+         "text_string" : "OPENBUILDS",
+         "spindle" : "255"
+      },
+      "6" : {
+         "shape" : "text",
+         "height" : "0.69",
+         "x" : "0.01",
+         "y" : "4.490",
+         "rotate" : "0.00",
+         "speed" : "80",
+         "font" : "kajack",
+         "text_string" : "OPENBUILDS",
+         "spindle" : "255"
       }
 
     }
