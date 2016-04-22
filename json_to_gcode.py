@@ -129,9 +129,9 @@ def lines(params, feed_rate):
                     original_x = new_x
                     original_y = new_y
                     print '  record expected end of radial X:' + str3dec(new_x) + ', Y:' + str3dec(new_y)
-
                 else:
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
+
                 point_ctr += int(1)
             if 'close_links' in params and params['close_links'] == 'TRUE':
                 nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(first_x), str3dec(first_y), str3dec(feed_rate))
@@ -140,7 +140,10 @@ def lines(params, feed_rate):
                 nc_lines += "M5 \n"
             elif 'close_chain' in params and params['close_chain'] == 'TRUE':
                 print '  chain radial entities'
+
             radial_count += int(1)
+
+        # just exited the radial loop and do ?
         if 'close_chain' in params and params['close_chain'] == 'TRUE':
                 nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(original_x), str3dec(original_y), str3dec(feed_rate))
         nc_lines += "M5 \n"
@@ -160,8 +163,10 @@ def lines(params, feed_rate):
             nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
         else:
             nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
+
     if 'close_links' in params and params['close_links'] == 'TRUE':
         nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " F" + str3dec(feed_rate) + " \n"
+
     nc_lines += "M5 \n"
     return nc_lines
 
@@ -232,7 +237,7 @@ def text(params, feed_rate):
                     cursor_y = start_y + (float(rotated_y) * scale)
                     radian_start = math.radians(float(stroke['start'])) + rotate_arc
                     radian_end = math.radians(float(stroke['end'])) + rotate_arc
-                    nc_lines += arc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
+                    nc_lines += farc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
                 elif stroke['type'] == 'move':
                     nc_lines += 'M5 \n'
                     cursor_x = start_x + float(rotated_x) * scale
@@ -253,8 +258,8 @@ def text(params, feed_rate):
         return "(no text string)"
 
 
-def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
-    corner_lines = "(start arc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
+def farc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
+    corner_lines = "" #  (start farc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
     cords = int((end_arc - start_arc) / increment )
     #print 'cords = ' + str(cords)
     if start_arc > end_arc:
@@ -268,7 +273,7 @@ def arc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
         y_point = math.cos(angle) * radius + float(y_ctr)
         corner_lines += "G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate) + "\n"
 
-    corner_lines += "(end arc)\n"
+    # corner_lines += "(end farc)\n"
     return corner_lines
 
 
@@ -277,6 +282,40 @@ def load_font(font_file_name):
     font_data = str(font_file.read())
     p = Payload(font_data)
     return p
+
+
+def arc(params, feed_rate):
+    arc_lines = "(start arc at " + str(params['x']) + ", " + str(params['y']) + ")\n"
+    cords = int((params['end'] - params['start']) / params['increment'])
+    #print 'cords = ' + str(cords)
+    if params['start'] > params['end']:
+        # Counter clockwise arc!!
+        cords = abs(cords)
+        params['increment'] *= -1.0
+
+    arc_lines += '(  cords = ' + str(cords) + ') \n'
+    arc_lines += '(  params_increment = ' + str(params['increment']) + ') \n'
+
+
+    first_x = math.sin(params['start']) * params['radius'] + params['x']
+    first_y = math.cos(params['start']) * params['radius'] + params['y']
+    arc_lines += "M5 \n"
+    arc_lines += "G00 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " \n"
+    arc_lines += "M3 F" + str3dec(feed_rate) + " \n"
+
+    for segment in range(1, cords ):
+        angle = params['start'] + (float(segment) * params['increment'])
+        x_point = math.sin(angle) * params['radius'] + params['x']
+        y_point = math.cos(angle) * params['radius'] + params['y']
+        arc_lines += "G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate) + "\n"
+        print "  G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate)
+
+    last_x = math.sin(params['end']) * params['radius'] + params['x']
+    last_y = math.cos(params['end']) * params['radius'] + params['y']
+    print "  G01 X" + str3dec(last_x) + " Y" + str3dec(last_y) + " F" + str3dec(feed_rate)
+
+    arc_lines += "(end arc)\n"
+    return arc_lines
 
 
 def circle(params, feed_rate):
@@ -294,7 +333,7 @@ def circle(params, feed_rate):
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
 
     smoothness = 11.25
-    nc_lines += arc(x, y, radius, 0, math.radians(360), math.radians(smoothness), feed_rate)
+    nc_lines += farc(x, y, radius, 0, math.radians(360), math.radians(smoothness), feed_rate)
     nc_lines += "M5 \n"
     return nc_lines
 
@@ -420,6 +459,7 @@ cut_a_shape = {'circle': circle,
                'polygon': polygon,
                'rectangle': rectangle,
                'text': text,
+               'arc': arc
                }
 
 if len(argv) != 3:
@@ -483,6 +523,14 @@ for cut in sorted_cuts:
         cut['radius'] = float(cut['diameter']) * 0.5 * scale - kerf
     elif cut['shape'] == 'text':
         cut['unit'] = json_data_dic['config']['unit']
+    if cut['shape'] == 'arc':
+        # adjust and typecast vars
+        cut['x'] = float(cut['x']) * scale + kerf
+        cut['y'] = float(cut['y']) * scale + kerf
+        cut['radius'] = float(cut['radius']) * scale
+        cut['start'] = math.radians(float(cut['start']))
+        cut['end'] = math.radians(float(cut['end']))
+        cut['increment'] = math.radians(float(cut['increment']))
 
     if 'speed' in cut:
         tool_speed = float(cut['speed'])
@@ -511,8 +559,13 @@ for cut in sorted_cuts:
                 if cut['shape'] == 'rectangle':
                     cut_params['wide'] = cut['wide'] * scale - kerf - kerf
                     cut_params['tall'] = cut['tall'] * scale - kerf - kerf
-                elif cut['shape'] == 'circle':
+                elif cut['shape'] == 'circle' and 'diameter' in cut:
                     cut_params['radius'] = float(float(cut['diameter']) / 2.0) * scale - kerf
+                elif cut['shape'] == 'circle':
+                    cut_params['radius'] = float(cut['radius']) * scale - kerf
+                elif cut['shape'] == 'arc':
+                    cut_params['radius'] = float(cut['radius']) * scale
+
                 elif cut['shape'] == 'text':
                     cut_params['unit'] = json_data_dic['config']['unit']
 
