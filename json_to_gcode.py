@@ -523,7 +523,7 @@ for cut in sorted_cuts:
         cut['radius'] = float(cut['diameter']) * 0.5 * scale - kerf
     elif cut['shape'] == 'text':
         cut['unit'] = json_data_dic['config']['unit']
-    if cut['shape'] == 'arc':
+    elif cut['shape'] == 'arc':
         # adjust and typecast vars
         cut['x'] = float(cut['x']) * scale + kerf
         cut['y'] = float(cut['y']) * scale + kerf
@@ -531,6 +531,9 @@ for cut in sorted_cuts:
         cut['start'] = math.radians(float(cut['start']))
         cut['end'] = math.radians(float(cut['end']))
         cut['increment'] = math.radians(float(cut['increment']))
+    elif cut['shape'] == 'lines':
+        cut['x'] = float(cut['x']) * scale + kerf
+        cut['y'] = float(cut['y']) * scale + kerf
 
     if 'speed' in cut:
         tool_speed = float(cut['speed'])
@@ -565,7 +568,6 @@ for cut in sorted_cuts:
                     cut_params['radius'] = float(cut['radius']) * scale - kerf
                 elif cut['shape'] == 'arc':
                     cut_params['radius'] = float(cut['radius']) * scale
-
                 elif cut['shape'] == 'text':
                     cut_params['unit'] = json_data_dic['config']['unit']
 
