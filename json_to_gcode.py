@@ -285,7 +285,7 @@ def load_font(font_file_name):
 
 
 def arc(params, feed_rate):
-    arc_lines = "(start arc at " + str(params['x']) + ", " + str(params['y']) + ")\n"
+    arc_lines = "(center arc at " + str(params['x']) + ", " + str(params['y']) + ")\n"
     cords = int((params['end'] - params['start']) / params['increment'])
     #print 'cords = ' + str(cords)
     if params['start'] > params['end']:
@@ -312,7 +312,7 @@ def arc(params, feed_rate):
 
     last_x = math.sin(params['end']) * params['radius'] + params['x']
     last_y = math.cos(params['end']) * params['radius'] + params['y']
-    print "  G01 X" + str3dec(last_x) + " Y" + str3dec(last_y) + " F" + str3dec(feed_rate)
+    arc_lines += "G01 X" + str3dec(last_x) + " Y" + str3dec(last_y) + " F" + str3dec(feed_rate)
 
     arc_lines += "(end arc)\n"
     return arc_lines

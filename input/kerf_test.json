@@ -2,24 +2,24 @@
     "config" : {
         "mode" : "absolute",
         "unit" : "mm",
-        "tool_diameter" : "0.03500",
+        "tool_diameter" : "0.500",
         "default_speed" : "40",
         "scale" : "1.00",
         "spindle" : "125.0"
     },
     "border" : {
         "shape" : "rectangle",
-        "wide" : "4.500",
-        "tall" : "4.300",
+        "wide" : "9.500",
+        "tall" : "9.500",
         "speed" : "60",
-        "radius" : "0.500",
+        "x_radius" : "0.500",
         "lead_in" : "3.0"
     },
     "interior_cuts" : {
       "0" : {
          "shape" : "lines",
-         "x" : "2.250",
-         "y" : "2.000",
+         "x" : "4.50",
+         "y" : "4.50",
          "relative_points" :
          {
              "0" : {
@@ -34,8 +34,8 @@
       },
       "1" : {
          "shape" : "arc",
-         "x" : "2.250",
-         "y" : "2.000",
+         "x" : "4.50",
+         "y" : "4.50",
          "radius" : "0.600",
          "start" : "-157.5",
          "end" : "157.5",
@@ -43,8 +43,8 @@
       },
       "2" : {
          "shape" : "lines",
-         "x" : "2.250",
-         "y" : "2.000",
+         "x" : "4.50",
+         "y" : "4.50",
          "relative_points" :
          {
              "0" : {
@@ -59,8 +59,8 @@
       },
       "3" : {
          "shape" : "lines",
-         "x" : "2.250",
-         "y" : "2.000",
+         "x" : "4.50",
+         "y" : "4.50",
          "speed" : "80",
          "radial_offset" : "-135.0",
          "radial_increment" : "45",
@@ -83,8 +83,8 @@
       "5" : {
          "shape" : "text",
          "height" : "0.69",
-         "x" : "0.00",
-         "y" : "4.500",
+         "x" : "1.00",
+         "y" : "1.500",
          "rotate" : "0.00",
          "speed" : "80",
          "font" : "kajack",
@@ -94,8 +94,8 @@
       "6" : {
          "shape" : "text",
          "height" : "0.69",
-         "x" : "0.01",
-         "y" : "4.490",
+         "x" : "1.01",
+         "y" : "1.490",
          "rotate" : "0.00",
          "speed" : "80",
          "font" : "kajack",
