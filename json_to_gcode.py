@@ -110,16 +110,18 @@ def lines(params, feed_rate):
                 new_azimuth = math.atan(vector_x / vector_y) + azim_adjust
                 new_x = center_x + math.sin(new_azimuth) * hypotenuse
                 new_y = center_y + math.cos(new_azimuth) * hypotenuse
-                if point_ctr == 1 and radial_count == 1 and 'close_chain' in params and params['close_chain'] == 'TRUE':
+                if point_ctr == 1 and radial_count == 1 and 'close_chain' in params:
                     nc_lines += "M5 \n"
                     nc_lines += "G00 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
+                    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
                     first_x = new_x
                     first_y = new_y
                 elif point_ctr == 1 and 'close_chain' in params and params['close_chain'] == 'TRUE':
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
+                    #nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
                     first_x = new_x
                     first_y = new_y
-                elif point_ctr == 1:
+                elif point_ctr == 1 and 1 == 2:
                     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
                     nc_lines += "G00 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     first_x = new_x
@@ -128,7 +130,7 @@ def lines(params, feed_rate):
                 if radial_count == 1 and point_ctr == 1:
                     original_x = new_x
                     original_y = new_y
-                    print '  record expected end of radial X:' + str3dec(new_x) + ', Y:' + str3dec(new_y)
+                    #print '  record expected end of radial X:' + str3dec(new_x) + ', Y:' + str3dec(new_y)
                 else:
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
 
@@ -159,6 +161,7 @@ def lines(params, feed_rate):
         if point_ctr == 1:
             first_x = cut_x
             first_y = cut_y
+            nc_lines += "M5 \n"
             nc_lines += "G00 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
             nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
         else:
@@ -301,19 +304,19 @@ def arc(params, feed_rate):
     first_y = math.cos(params['start']) * params['radius'] + params['y']
     arc_lines += "M5 \n"
     arc_lines += "G00 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " \n"
-    arc_lines += "M3 F" + str3dec(feed_rate) + " \n"
+    arc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
 
     for segment in range(1, cords ):
         angle = params['start'] + (float(segment) * params['increment'])
         x_point = math.sin(angle) * params['radius'] + params['x']
         y_point = math.cos(angle) * params['radius'] + params['y']
         arc_lines += "G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate) + "\n"
-        print "  G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate)
+        # print "  G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate)
 
     last_x = math.sin(params['end']) * params['radius'] + params['x']
     last_y = math.cos(params['end']) * params['radius'] + params['y']
     arc_lines += "G01 X" + str3dec(last_x) + " Y" + str3dec(last_y) + " F" + str3dec(feed_rate)
-
+    arc_lines += 'M5 \n'
     arc_lines += "(end arc)\n"
     return arc_lines
 
@@ -535,10 +538,10 @@ for cut in sorted_cuts:
         cut['x'] = float(cut['x']) * scale + kerf
         cut['y'] = float(cut['y']) * scale + kerf
 
-    if 'speed' in cut:
-        tool_speed = float(cut['speed'])
+    if 'feedrate' in cut:
+        tool_feedrate = float(cut['feedrate'])
     else:
-        tool_speed = float(json_data_dic['config']['default_speed'])
+        tool_feedrate = float(json_data_dic['config']['default_feedrate'])
 
     if 'spindle' in cut:
         cut['spindle'] = float(cut['spindle'])
@@ -547,7 +550,7 @@ for cut in sorted_cuts:
 
     # is there an array of this cut ?
     if 'array' not in cut:
-        nc_file.write(cut_a_shape[cut['shape']](cut, tool_speed))
+        nc_file.write(cut_a_shape[cut['shape']](cut, tool_feedrate))
     else:
         cutArray = cut['array']  # is there an array of this shape to process ? If not do once in exception
         cut['column_spacing'] = float(cut['array']['x_spacing']) * scale
@@ -574,13 +577,13 @@ for cut in sorted_cuts:
                 if 'radius' in cut:
                     cut_params['radius'] = float(cut['radius']) * scale - kerf
 
-                nc_file.write(str(cut_a_shape[cut['shape']](cut_params, tool_speed)))
+                nc_file.write(str(cut_a_shape[cut['shape']](cut_params, tool_feedrate)))
 
 # lastly, prepare to cut the border
-if 'speed' in json_data_dic['border']:
-    tool_speed = str3dec(json_data_dic['border']['speed'])
+if 'feedrate' in json_data_dic['border']:
+    tool_feedrate = str3dec(json_data_dic['border']['feedrate'])
 else:
-    tool_speed = str3dec(json_data_dic['config']['default_speed'])
+    tool_feedrate = str3dec(json_data_dic['config']['default_feedrate'])
 
 if 'border' not in json_data_dic or 'shape' not in json_data_dic['border']:
     nc_file.write('(no border found)')
@@ -601,7 +604,7 @@ if json_data_dic['border']['shape'] == 'rectangle':
     if 'lead_in' in json_data_dic['border']:
         border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
     nc_file.write("(rectangular border) \n")
-    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
+    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_feedrate)))
 
 if json_data_dic['border']['shape'] == 'circle':
     border_params['radius'] = float(border_params['diameter']) * scale / 2.0 + kerf
@@ -610,8 +613,10 @@ if json_data_dic['border']['shape'] == 'circle':
     if 'lead_in' in json_data_dic['border']:
         border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
     nc_file.write("(circular border) \n")
-    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_speed)))
+    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_feedrate)))
 
+nc_file.write('M5 \n')
+nc_file.write('G00 X0 Y0 \n')
 nc_file.write('(end of script)')
 nc_file.close()
 print '  File {0} created!'.format(output_file)

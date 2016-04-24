@@ -2,66 +2,69 @@
     "config" : {
         "mode" : "absolute",
         "unit" : "mm",
-        "tool_diameter" : "0.03500",
-        "default_speed" : "40",
+        "tool_diameter" : "0.200",
+        "default_feedrate" : "25",
         "scale" : "1.00",
-        "spindle" : "125.0"
+        "spindle" : "255.0"
     },
     "border" : {
         "shape" : "rectangle",
-        "wide" : "4.500",
-        "tall" : "4.300",
-        "speed" : "60",
-        "radius" : "0.500",
+        "wide" : "45.000",
+        "tall" : "43.000",
+        "feedrate" : "26",
+        "radius" : "5.000",
         "lead_in" : "3.0"
     },
     "interior_cuts" : {
       "0" : {
          "shape" : "lines",
-         "x" : "2.250",
-         "y" : "2.000",
+         "x" : "22.50",
+         "y" : "20.00",
+         "feedrate" : "27",
          "relative_points" :
          {
              "0" : {
-                "right" : "-0.230",
-                "up" : "-0.554"
+                "right" : "-2.300",
+                "up" : "-5.54"
              },
              "1" : {
-                "right" : "-0.631",
-                "up" : "-1.524"
+                "right" : "-6.31",
+                "up" : "-15.24"
              }
          }
       },
       "1" : {
          "shape" : "arc",
-         "x" : "2.250",
-         "y" : "2.000",
-         "radius" : "0.600",
+         "x" : "22.50",
+         "y" : "20.000",
+         "radius" : "6.00",
+         "feedrate" : "28",
          "start" : "-157.5",
          "end" : "157.5",
          "increment" : "5.625"
       },
       "2" : {
          "shape" : "lines",
-         "x" : "2.250",
-         "y" : "2.000",
+         "x" : "22.50",
+         "y" : "20.00",
+         "feedrate" : "29",
          "relative_points" :
          {
              "0" : {
-                "right" : "0.631",
-                "up" : "-1.524"
+                "right" : "6.31",
+                "up" : "-15.24"
              },
              "1" : {
-                "right" : "0.230",
-                "up" : "-0.554"
+                "right" : "2.30",
+                "up" : "-5.54"
              }
          }
       },
       "3" : {
          "shape" : "lines",
-         "x" : "2.250",
-         "y" : "2.000",
-         "speed" : "80",
+         "x" : "22.50",
+         "y" : "20.00",
+         "feedrate" : "24",
          "radial_offset" : "-135.0",
          "radial_increment" : "45",
          "radial_copies" : "7",
@@ -69,35 +72,35 @@
          "close_chain" : "FALSE",
          "relative_points" :
          {
-             "0" : { "right" : "-0.631", "up" : "1.524" },
-             "1" : { "right" : "-0.505", "up" : "1.570" },
-             "2" : { "right" : "-0.375", "up" : "1.607" },
-             "3" : { "right" : "-0.250", "up" : "2.186" },
-             "4" : { "right" :  "0.000", "up" : "2.200" },
-             "5" : { "right" :  "0.250", "up" : "2.186" },
-             "6" : { "right" :  "0.375", "up" : "1.609" },
-             "7" : { "right" :  "0.505", "up" : "1.571" },
-             "8" : { "right" :  "0.631", "up" : "1.524"}
+             "0" : { "right" : "-6.31", "up" : "15.24" },
+             "1" : { "right" : "-5.05", "up" : "15.70" },
+             "2" : { "right" : "-3.75", "up" : "16.07" },
+             "3" : { "right" : "-2.50", "up" : "21.86" },
+             "4" : { "right" :  "0.00", "up" : "22.00" },
+             "5" : { "right" :  "2.50", "up" : "21.86" },
+             "6" : { "right" :  "3.75", "up" : "16.09" },
+             "7" : { "right" :  "5.05", "up" : "15.71" },
+             "8" : { "right" :  "6.31", "up" : "15.24"}
          }
       },
       "5" : {
          "shape" : "text",
-         "height" : "0.69",
+         "height" : "6.9",
          "x" : "0.00",
-         "y" : "4.500",
+         "y" : "46.00",
          "rotate" : "0.00",
-         "speed" : "80",
+         "feedrate" : "61",
          "font" : "kajack",
          "text_string" : "OPENBUILDS",
          "spindle" : "255"
       },
       "6" : {
          "shape" : "text",
-         "height" : "0.69",
-         "x" : "0.01",
-         "y" : "4.490",
+         "height" : "6.9",
+         "x" : "0.1",
+         "y" : "45.90",
          "rotate" : "0.00",
-         "speed" : "80",
+         "feedrate" : "62",
          "font" : "kajack",
          "text_string" : "OPENBUILDS",
          "spindle" : "255"

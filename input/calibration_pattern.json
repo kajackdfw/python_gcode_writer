@@ -3,7 +3,7 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.002",
-        "default_speed" : "5.1",
+        "default_feedrate" : "5.1",
         "scale" : "0.9917",
         "sort_cuts" : "false",
         "spindle" : "255.0"
@@ -12,7 +12,7 @@
         "shape" : "rectangle",
         "wide" : "30.0",
         "tall" : "30.0",
-        "speed" : "3.333",
+        "feedrate" : "3.333",
         "lead_in" : "5.0",
         "spindle" : "255"
     },
@@ -23,7 +23,7 @@
          "x" : "35.00",
          "y" : "5.00",
          "rotate" : "0.00",
-         "speed" : "10",
+         "feedrate" : "10",
          "font" : "kajack",
          "text_string" : "Test",
          "spindle" : "255"
@@ -33,7 +33,7 @@
          "radius" : "4.5",
          "x" : "15.00",
          "y" : "15.00",
-         "speed" : "2.0",
+         "feedrate" : "2.0",
          "spindle" : "255"
       }
     }

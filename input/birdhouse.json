@@ -3,7 +3,7 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.5",
-        "default_speed" : "50",
+        "default_feedrate" : "50",
         "scale" : "0.9917",
         "spindle" : "255.0"
     },
@@ -11,7 +11,7 @@
         "shape" : "none",
         "wide" : "140.0",
         "tall" : "250.0",
-        "speed" : "120",
+        "feedrate" : "120",
         "lead_in" : "1.0",
         "spindle" : "255"
     },
@@ -20,7 +20,7 @@
             "shape": "lines",
             "x": "0.0",
             "y": "0.0",
-            "speed": "50",
+            "feedrate": "50",
             "spindle" : "255.0",
             "close_links": "TRUE",
             "relative_points": {
@@ -52,7 +52,7 @@
             "y" : "75.0",
             "cross_hair" : "2.0",
             "spindle" : "252.0",
-            "speed" : "80.000"
+            "feedrate" : "80.000"
         },
         "3" : {
             "shape" : "circle",
@@ -60,7 +60,7 @@
             "spindle" : "253.0",
             "x" : "70.0",
             "y" : "75.00",
-            "speed" : "80.000"
+            "feedrate" : "80.000"
         },
         "4" : {
             "shape" : "circle",
@@ -68,7 +68,7 @@
             "spindle" : "254.0",
             "x" : "70.0",
             "y" : "25.00",
-            "speed" : "80.000"
+            "feedrate" : "80.000"
         },
         "5" : {
             "shape" : "text",

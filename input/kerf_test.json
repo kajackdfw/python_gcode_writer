@@ -3,7 +3,7 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.500",
-        "default_speed" : "40",
+        "default_feedrate" : "40",
         "scale" : "1.00",
         "spindle" : "125.0"
     },
@@ -11,7 +11,7 @@
         "shape" : "rectangle",
         "wide" : "9.500",
         "tall" : "9.500",
-        "speed" : "60",
+        "feedrate" : "60",
         "x_radius" : "0.500",
         "lead_in" : "3.0"
     },
@@ -61,7 +61,7 @@
          "shape" : "lines",
          "x" : "4.50",
          "y" : "4.50",
-         "speed" : "80",
+         "feedrate" : "80",
          "radial_offset" : "-135.0",
          "radial_increment" : "45",
          "radial_copies" : "7",
@@ -86,7 +86,7 @@
          "x" : "1.00",
          "y" : "1.500",
          "rotate" : "0.00",
-         "speed" : "80",
+         "feedrate" : "80",
          "font" : "kajack",
          "text_string" : "OPENBUILDS",
          "spindle" : "255"
@@ -97,7 +97,7 @@
          "x" : "1.01",
          "y" : "1.490",
          "rotate" : "0.00",
-         "speed" : "80",
+         "feedrate" : "80",
          "font" : "kajack",
          "text_string" : "OPENBUILDS",
          "spindle" : "255"
