@@ -118,7 +118,6 @@ def lines(params, feed_rate):
                     first_y = new_y
                 elif point_ctr == 1 and 'close_chain' in params and params['close_chain'] == 'TRUE':
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
-                    #nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
                     first_x = new_x
                     first_y = new_y
                 elif point_ctr == 1 and 1 == 2:
@@ -130,7 +129,6 @@ def lines(params, feed_rate):
                 if radial_count == 1 and point_ctr == 1:
                     original_x = new_x
                     original_y = new_y
-                    #print '  record expected end of radial X:' + str3dec(new_x) + ', Y:' + str3dec(new_y)
                 else:
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
 
@@ -210,7 +208,7 @@ def text(params, feed_rate):
                 supported_char = 'undefined'
 
             # get ready to start drawing a letter
-            #print '  print a : ' + supported_char
+            # print '  print a : ' + supported_char
             stroke_list = dictionary_to_list(system_font.chars[supported_char]['strokes'])
             for stroke in stroke_list:
                 # print '  ' + stroke['type']
@@ -451,11 +449,7 @@ def str3dec(float_number_or_string):
     return str(round(float(float_number_or_string), 3))
 
 
-# ---------------------------------------------------------------------------
-# Main program, convert a json array file to a g code nc file
-# ---------------------------------------------------------------------------
-
-# map the inputs to the function blocks
+# map the supported cut methods to the function blocks
 cut_a_shape = {'circle': circle,
                'cross_hair': cross_hair,
                'lines': lines,
@@ -464,6 +458,11 @@ cut_a_shape = {'circle': circle,
                'text': text,
                'arc': arc
                }
+
+
+# ---------------------------------------------------------------------------
+# Main program, convert a json array file to a g code nc file
+# ---------------------------------------------------------------------------
 
 if len(argv) != 3:
     print "Invalid number of params!"
@@ -490,9 +489,14 @@ else:
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G20')
 
 if 'spindle' in json_data_dic['config']:
-    spindle_default = float(json_data_dic['config']['spindle'])
+    default_spindle = float(json_data_dic['config']['spindle'])
 else:
-    spindle_default = 255.0
+    default_spindle = 255.0
+
+if 'speed' in json_data_dic['config']:
+    default_speed = float(json_data_dic['config']['speed'])
+else:
+    default_speed = 255.0
 
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
@@ -546,7 +550,7 @@ for cut in sorted_cuts:
     if 'spindle' in cut:
         cut['spindle'] = float(cut['spindle'])
     else:
-        cut['spindle'] = spindle_default
+        cut['spindle'] = default_spindle
 
     # is there an array of this cut ?
     if 'array' not in cut:
@@ -591,7 +595,7 @@ if 'border' not in json_data_dic or 'shape' not in json_data_dic['border']:
 
 border_params = json_data_dic['border']
 if 'spindle' not in border_params:
-    border_params['spindle'] = spindle_default
+    border_params['spindle'] = default_spindle
 
 # prepare border vars for various shapes
 if json_data_dic['border']['shape'] == 'rectangle':
