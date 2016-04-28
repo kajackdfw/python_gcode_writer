@@ -297,7 +297,6 @@ def arc(params, feed_rate):
     arc_lines += '(  cords = ' + str(cords) + ') \n'
     arc_lines += '(  params_increment = ' + str(params['increment']) + ') \n'
 
-
     first_x = math.sin(params['start']) * params['radius'] + params['x']
     first_y = math.cos(params['start']) * params['radius'] + params['y']
     arc_lines += "M5 \n"
