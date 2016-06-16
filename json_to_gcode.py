@@ -139,7 +139,7 @@ def lines(params, feed_rate):
             elif 'close_chain' not in params:
                 nc_lines += "M5 \n"
             elif 'close_chain' in params and params['close_chain'] == 'TRUE':
-                print '  chain radial entities'
+                print('  chain radial entities')
 
             radial_count += int(1)
 
@@ -464,14 +464,14 @@ cut_a_shape = {'circle': circle,
 # ---------------------------------------------------------------------------
 
 if len(argv) != 3:
-    print "Invalid number of params!"
-    print "Try >python json_to_gcode.py input/square_50mm.json output/my_new_file.nc "
+    print( "Invalid number of params!")
+    print( "Try >python json_to_gcode.py input/square_50mm.json output/my_new_file.nc " )
     exit()
 
 this_script, input_file, output_file = argv
 
-print "  Json file : ", input_file
-print "  Output to : ", output_file
+print("  Json file : ", input_file )
+print( "  Output to : ", output_file )
 pattern_file = open(input_file, 'r')
 nc_file = open(output_file, 'w')
 json_array_string = str(pattern_file.read())
@@ -622,4 +622,4 @@ nc_file.write('M5 \n')
 nc_file.write('G00 X0 Y0 \n')
 nc_file.write('(end of script)')
 nc_file.close()
-print '  File {0} created!'.format(output_file)
+print('  File {0} created!'.format(output_file))
