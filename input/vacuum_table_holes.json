@@ -1,0 +1,38 @@
+{
+    "config" : {
+        "unit" : "inch",
+        "tool_diameter" : "0.125",
+        "default_feedrate" : "60",
+        "scale" : "0.9917",
+        "retract_spindle_to" : "0.0500"
+    },
+    "border" : {
+        "shape" : "none",
+        "wide" : "32.000",
+        "tall" : "15.000"
+    },
+    "interior_cuts" : {
+      "0" : {
+         "shape" : "drill",
+         "diameter" : "0.1875" ,
+         "depth" : "0.280" ,
+         "x" : "1.500",
+         "y" : "1.500",
+         "feedrate" : "30.000",
+         "array" : {
+            "columns" : "23",
+            "x_spacing" : "1.000",
+            "rows" : "14",
+            "y_spacing" : "1.000"
+         }
+      },
+      "1" : {
+         "shape" : "drill",
+         "diameter" : "1.25",
+         "depth" : "0.28",
+         "x" : "1.500",
+         "y" : "14.500",
+         "feedrate" : "30.000"
+      }
+    }
+}
