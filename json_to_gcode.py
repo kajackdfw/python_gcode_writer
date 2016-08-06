@@ -338,6 +338,11 @@ def circle(params, feed_rate):
     return nc_lines
 
 
+def drill(params, feed_rate):
+    nc_lines = "(drill " + str(params['radius']) + " radius) \n"
+    return nc_lines
+
+
 def polygon(params, feed_rate):
     nc_lines = "(polygon " + str(params['sides']) + " sided) \n"
     radius = float(params['diameter']) / 2.0
@@ -451,6 +456,7 @@ def str3dec(float_number_or_string):
 # map the supported cut methods to the function blocks
 cut_a_shape = {'circle': circle,
                'cross_hair': cross_hair,
+               'drill': drill,
                'lines': lines,
                'polygon': polygon,
                'rectangle': rectangle,
@@ -487,6 +493,7 @@ if json_data_dic['config']['unit'] == 'mm':
 else:
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G20')
 
+# set some default values
 if 'spindle' in json_data_dic['config']:
     default_spindle = float(json_data_dic['config']['spindle'])
 else:
@@ -496,6 +503,11 @@ if 'speed' in json_data_dic['config']:
     default_speed = float(json_data_dic['config']['speed'])
 else:
     default_speed = 255.0
+
+if 'retract_spindle_to' in json_data_dic['config']:
+    default_ceiling = float(json_data_dic['config']['retract_spindle_to'])
+else:
+    default_ceiling = 0.5
 
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
@@ -540,6 +552,8 @@ for cut in sorted_cuts:
     elif cut['shape'] == 'lines':
         cut['x'] = float(cut['x']) * scale + kerf
         cut['y'] = float(cut['y']) * scale + kerf
+    elif cut['shape'] == 'drill':
+        cut['ceiling'] = float(default_ceiling)
 
     if 'feedrate' in cut:
         tool_feedrate = float(cut['feedrate'])
