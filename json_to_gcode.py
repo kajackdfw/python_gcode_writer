@@ -340,6 +340,9 @@ def circle(params, feed_rate):
 
 def drill(params, feed_rate):
     nc_lines = "(drill " + str(params['radius']) + " radius) \n"
+    nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + "\n"
+    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 \n"
     return nc_lines
 
 
@@ -513,6 +516,8 @@ kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 scale = float(json_data_dic['config']['scale'])
 
 nc_file.write(nc_first_line + "\n")
+nc_file.write('G00 X0 Y0 Z' + str3dec(default_ceiling) + "\n")
+
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
@@ -554,6 +559,8 @@ for cut in sorted_cuts:
         cut['y'] = float(cut['y']) * scale + kerf
     elif cut['shape'] == 'drill':
         cut['ceiling'] = float(default_ceiling)
+        cut['x'] = float(cut['x']) * scale + kerf
+        cut['y'] = float(cut['y']) * scale + kerf
 
     if 'feedrate' in cut:
         tool_feedrate = float(cut['feedrate'])
