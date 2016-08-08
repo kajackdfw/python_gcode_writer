@@ -343,6 +343,16 @@ def drill(params, feed_rate):
     nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + "\n"
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 \n"
+    if params['diameter'] == params['tool_diameter']:
+        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + \
+                    " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
+        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + \
+                    " Z" + str3dec(float(params['ceiling'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
+        nc_lines += "M5 \n"
+    else:
+        # start of helix routine
+        nc_lines += ''
+
     return nc_lines
 
 
@@ -512,8 +522,13 @@ if 'retract_spindle_to' in json_data_dic['config']:
 else:
     default_ceiling = 0.5
 
+if 'scale' in json_data_dic['config']:
+    scale = float(json_data_dic['config']['scale'])
+else:
+    scale = 1.000
+
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
-scale = float(json_data_dic['config']['scale'])
+
 
 nc_file.write(nc_first_line + "\n")
 nc_file.write('G00 X0 Y0 Z' + str3dec(default_ceiling) + "\n")
@@ -561,6 +576,10 @@ for cut in sorted_cuts:
         cut['ceiling'] = float(default_ceiling)
         cut['x'] = float(cut['x']) * scale + kerf
         cut['y'] = float(cut['y']) * scale + kerf
+        cut['tool_diameter'] = float(json_data_dic['config']['tool_diameter'])
+        cut['diameter'] = float(cut['diameter'])
+        cut['bottom'] = float(cut['bottom'])
+        cut['scale'] = scale
 
     if 'feedrate' in cut:
         tool_feedrate = float(cut['feedrate'])
@@ -586,6 +605,7 @@ for cut in sorted_cuts:
                 cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * scale + kerf
                 cut_params['spindle'] = cut['spindle']
 
+                # pass the necessary attributes for completing the cut
                 if cut['shape'] == 'rectangle':
                     cut_params['wide'] = cut['wide'] * scale - kerf - kerf
                     cut_params['tall'] = cut['tall'] * scale - kerf - kerf
@@ -597,6 +617,11 @@ for cut in sorted_cuts:
                     cut_params['radius'] = float(cut['radius']) * scale
                 elif cut['shape'] == 'text':
                     cut_params['unit'] = json_data_dic['config']['unit']
+                elif cut['shape'] == 'drill':
+                    cut_params['diameter'] = float(cut['diameter'])
+                    cut_params['bottom'] = float(cut['bottom'])
+                    cut_params['tool_diameter'] = float(json_data_dic['config']['tool_diameter'])
+                    cut_params['scale'] = scale
 
                 if 'radius' in cut:
                     cut_params['radius'] = float(cut['radius']) * scale - kerf
