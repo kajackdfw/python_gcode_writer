@@ -351,9 +351,9 @@ def drill(params, feed_rate):
     # if the hole is bigger than the tool then start a helical pattern
     if params['diameter'] > params['tool_diameter']:
         # drill a hole on material removal perimeter near desired hole
-        removal_radius = params['diameter'] - params['finish_cut']
+        removal_radius = (params['diameter'] / 2.0) - params['finish_cut']
         start_z = 0.0 - params['finish_cut'] - params['finish_cut']
-        increment = math.pi * (1.0 / (params['diameter'] / 10.0))
+        increment = math.pi * (1.0 / (params['diameter'] * 10.0))
 
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + removal_radius) + \
                     " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " (start hole)\n"
