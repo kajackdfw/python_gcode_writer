@@ -4,7 +4,8 @@
         "tool_diameter" : "0.25",
         "default_feedrate" : "60",
         "scale" : "1.000",
-        "retract_spindle_to" : "0.050"
+        "retract_spindle_to" : "0.50",
+        "stock_depth" : "0.75"
     },
     "border" : {
         "shape" : "none",
@@ -20,20 +21,20 @@
          "x" : "1.500",
          "y" : "1.500",
          "array" : {
-            "columns" : "23",
+            "columns" : "3",
             "x_spacing" : "1.000",
-            "rows" : "14",
+            "rows" : "3",
             "y_spacing" : "1.000"
          }
       },
       "1" : {
          "shape" : "drill",
-         "diameter" : "1.25",
+         "diameter" : "2.125",
          "depth" : "0.28",
          "top" : "0.000",
          "step_down" : "0.125",
          "x" : "5.000",
-         "y" : "5.000"
+         "y" : "2.500"
       }
     }
 }

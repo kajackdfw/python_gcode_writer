@@ -238,7 +238,7 @@ def text(params, feed_rate):
                     cursor_y = start_y + (float(rotated_y) * scale)
                     radian_start = math.radians(float(stroke['start'])) + rotate_arc
                     radian_end = math.radians(float(stroke['end'])) + rotate_arc
-                    nc_lines += farc(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
+                    nc_lines += arc_2d(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
                 elif stroke['type'] == 'move':
                     nc_lines += 'M5 \n'
                     cursor_x = start_x + float(rotated_x) * scale
@@ -259,10 +259,11 @@ def text(params, feed_rate):
         return "(no text string)"
 
 
-def farc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
-    corner_lines = "" #  (start farc at " + str(x_ctr) + ", " + str(y_ctr) + ")\n"
+# this is not a normal shape operation, it is a sub task / helper for other shapes or text
+def arc_2d(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
+    corner_lines = ""
     cords = int((end_arc - start_arc) / increment )
-    #print 'cords = ' + str(cords)
+
     if start_arc > end_arc:
         # Counter clockwise arc!!
         cords = abs(cords)
@@ -274,7 +275,6 @@ def farc(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
         y_point = math.cos(angle) * radius + float(y_ctr)
         corner_lines += "G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate) + "\n"
 
-    # corner_lines += "(end farc)\n"
     return corner_lines
 
 
@@ -333,27 +333,44 @@ def circle(params, feed_rate):
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
 
     smoothness = 11.25
-    nc_lines += farc(x, y, radius, 0, math.radians(360), math.radians(smoothness), feed_rate)
+    nc_lines += arc_2d(x, y, radius, 0, math.radians(360), math.radians(smoothness), feed_rate)
     nc_lines += "M5 \n"
     return nc_lines
 
 
 def drill(params, feed_rate):
-    nc_lines = "(drill " + str(params['radius']) + " radius) \n"
+    nc_lines = "(drill " + str(params['diameter']) + " hole) \n"
     nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + "\n"
+
+    # drill a center hole
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 \n"
-    if params['diameter'] == params['tool_diameter']:
-        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + \
-                    " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
-        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + \
-                    " Z" + str3dec(float(params['ceiling'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
-        nc_lines += "M5 \n"
-    else:
-        # start of helix routine
-        nc_lines += ''
+    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
+    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
 
+    # if the hole is bigger than the tool then start a helical pattern
+    if params['diameter'] > params['tool_diameter']:
+        # drill a hole on material removal perimeter near desired hole
+        removal_radius = params['diameter'] - params['finish_cut']
+        start_z = 0.0 - params['finish_cut'] - params['finish_cut']
+        increment = math.pi * (1.0 / (params['diameter'] / 10.0))
+
+        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + removal_radius) + \
+                    " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " (start hole)\n"
+        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + removal_radius) + \
+                    " Z" + str3dec(start_z) + " F" + str3dec(feed_rate / 2.0) + " (first cut elevation)\n"
+
+        # cut a shallow guide trough
+        nc_lines += arc_2d(params['x'], params['y'], removal_radius, 0.0, math.pi * 2.1, increment, feed_rate)
+
+
+        # finish cut
+        nc_lines += '(finish cut)\n'
+        nc_lines += arc_2d(params['x'], params['y'], params['diameter'] / 2, 0.0, math.pi * 2.1, increment, feed_rate)
+
+    nc_lines += "M5 \n"
     return nc_lines
+
 
 
 def polygon(params, feed_rate):
@@ -483,14 +500,14 @@ cut_a_shape = {'circle': circle,
 # ---------------------------------------------------------------------------
 
 if len(argv) != 3:
-    print( "Invalid number of params!")
-    print( "Try >python json_to_gcode.py input/square_50mm.json output/my_new_file.nc " )
+    print("Invalid number of params!")
+    print("Try >python json_to_gcode.py input/square_50mm.json output/my_new_file.nc " )
     exit()
 
 this_script, input_file, output_file = argv
 
-print("  Json file : ", input_file )
-print( "  Output to : ", output_file )
+print("  Json file : ", input_file)
+print("  Output to : ", output_file)
 pattern_file = open(input_file, 'r')
 nc_file = open(output_file, 'w')
 json_array_string = str(pattern_file.read())
@@ -527,6 +544,18 @@ if 'scale' in json_data_dic['config']:
 else:
     scale = 1.000
 
+if 'finish_cut' in json_data_dic['config']:
+    finish_cut = float(json_data_dic['config']['finish_cut'])
+elif json_data_dic['config']['unit'] == 'mm':
+    finish_cut = 1.000
+else:
+    finish_cut = 0.031
+
+if 'stock_depth' in json_data_dic['config']:
+    stock_depth = float(json_data_dic['config']['stock_depth'])
+else:
+    stock_depth = 0.125
+
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 
 
@@ -536,7 +565,7 @@ nc_file.write('G00 X0 Y0 Z' + str3dec(default_ceiling) + "\n")
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
-for cut_number, cut_values in json_data_dic['interior_cuts'].iteritems():
+for cut_number, cut_values in json_data_dic['interior_cuts'].items(): # iteritems():
     cut_list.insert(int(cut_number), cut_values)
 
 sorted_cuts = sorted(cut_list, key=by_y_then_x)
@@ -559,8 +588,6 @@ for cut in sorted_cuts:
         cut['tall'] = float(cut['tall']) * scale - kerf - kerf
     elif cut['shape'] == 'circle' and 'diameter' in cut:
         cut['radius'] = float(cut['diameter']) * 0.5 * scale - kerf
-    elif cut['shape'] == 'text':
-        cut['unit'] = json_data_dic['config']['unit']
     elif cut['shape'] == 'arc':
         # adjust and typecast vars
         cut['x'] = float(cut['x']) * scale + kerf
@@ -578,8 +605,14 @@ for cut in sorted_cuts:
         cut['y'] = float(cut['y']) * scale + kerf
         cut['tool_diameter'] = float(json_data_dic['config']['tool_diameter'])
         cut['diameter'] = float(cut['diameter'])
-        cut['bottom'] = float(cut['bottom'])
         cut['scale'] = scale
+        cut['finish_cut'] = finish_cut
+        if 'depth' in cut:
+            cut['bottom'] = 0.0 - float(cut['depth'])
+        elif 'bottom' in cut:
+            cut['bottom'] = float(cut['bottom'])
+        else:
+            cut['bottom'] = 0.0 - stock_depth
 
     if 'feedrate' in cut:
         tool_feedrate = float(cut['feedrate'])
@@ -622,6 +655,8 @@ for cut in sorted_cuts:
                     cut_params['bottom'] = float(cut['bottom'])
                     cut_params['tool_diameter'] = float(json_data_dic['config']['tool_diameter'])
                     cut_params['scale'] = scale
+                    cut_params['finish_cut'] = finish_cut
+                    cut_params['ceiling'] = float(default_ceiling)
 
                 if 'radius' in cut:
                     cut_params['radius'] = float(cut['radius']) * scale - kerf
