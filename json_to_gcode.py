@@ -360,13 +360,26 @@ def drill(params, feed_rate):
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + removal_radius) + \
                     " Z" + str3dec(start_z) + " F" + str3dec(feed_rate / 2.0) + " (first cut elevation)\n"
 
-        # cut a shallow guide trough
-        nc_lines += arc_2d(params['x'], params['y'], removal_radius, 0.0, math.pi * 2.1, increment, feed_rate)
+        # calculate depth steps
+        step_count = math.ceil(params['bottom'] / 0.1)
+        step_down = params['bottom'] / float(step_count)
+        step_radius = params['tool_diameter'] / 3
 
+        # cut a shallow guide trough
+        while start_z >= params['bottom']:
+            current_radius = removal_radius
+            while current_radius > ( params['tool_diameter'] / 2 ):
+                nc_lines += arc_2d(params['x'], params['y'], current_radius, 0.0, math.pi * 2.1, increment, feed_rate)
+                current_radius -= step_radius
+            start_z -= step_down
+            nc_lines += "G01 Z0.000 F" + str3dec(feed_rate) + " \n"
+            nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + current_radius) + \
+                        " F" + str3dec(feed_rate / 2.0) + " \n"
+            nc_lines += "G01 Z" + str3dec(start_z) + " F" + str3dec(feed_rate) + " \n"
 
         # finish cut
         nc_lines += '(finish cut)\n'
-        nc_lines += arc_2d(params['x'], params['y'], params['diameter'] / 2, 0.0, math.pi * 2.1, increment, feed_rate)
+        #nc_lines += arc_2d(params['x'], params['y'], params['diameter'] / 2, 0.0, math.pi * 2.1, increment, feed_rate)
 
     nc_lines += "M5 \n"
     return nc_lines
