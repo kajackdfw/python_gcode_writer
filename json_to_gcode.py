@@ -377,6 +377,15 @@ def drill(params, feed_rate):
                         " F" + str3dec(feed_rate / 2.0) + " \n"
             nc_lines += "G01 Z" + str3dec(start_z) + " F" + str3dec(feed_rate) + " \n"
 
+        if start_z < params['bottom']:
+            current_radius = removal_radius
+            nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + current_radius) + \
+                        " Z0.00 F" + str3dec(feed_rate / 2.0) + " \n"
+            nc_lines += "G01 Z" + str3dec(start_z) + " F" + str3dec(feed_rate / 2) + " \n"
+            while current_radius > (params['tool_diameter'] / 2):
+                nc_lines += arc_2d(params['x'], params['y'], current_radius, 0.0, math.pi * 2.1, increment, feed_rate)
+                current_radius -= step_radius
+
         # finish cut
         nc_lines += '(finish cut)\n'
         #nc_lines += arc_2d(params['x'], params['y'], params['diameter'] / 2, 0.0, math.pi * 2.1, increment, feed_rate)
