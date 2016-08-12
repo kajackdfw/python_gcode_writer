@@ -378,7 +378,7 @@ def drill(params, feed_rate):
                 while current_radius > (params['tool_diameter'] / 2):
                     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + current_radius) + \
                             " Z" + str3dec(start_z) + " F" + str3dec(feed_rate / 2.0) + "(plunge)\n"
-                    nc_lines += arc_2d(params['x'], params['y'], current_radius, 0.0, math.pi * 2.1, increment, feed_rate)
+                    nc_lines += arc_2d(params['x'], params['y'], current_radius, 0.0, math.pi * -2.1, increment, feed_rate)
                     current_radius -= step_radius
                     #nc_lines += "G01 Z0.00 F" + str3dec(feed_rate) + " (retract)\n"
             else:
@@ -393,7 +393,7 @@ def drill(params, feed_rate):
             nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + current_radius) + " \n"
             nc_lines += "G01 Z" + str3dec(start_z) + " F" + str3dec(feed_rate / 2) + " \n"
             while current_radius > (params['tool_diameter'] / 2):
-                nc_lines += arc_2d(params['x'], params['y'], current_radius, 0.0, math.pi * 2.1, increment, feed_rate)
+                nc_lines += arc_2d(params['x'], params['y'], current_radius, 0.0, math.pi * -2.1, increment, feed_rate)
                 current_radius -= step_radius
         else:
             nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + removal_radius) + \
