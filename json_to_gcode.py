@@ -347,7 +347,7 @@ def drill(params, feed_rate):
 
     # drill a center hole
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
-    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 \n"
+    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 F" + str3dec(feed_rate / 2.0) + " \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
 
@@ -404,8 +404,9 @@ def drill(params, feed_rate):
         nc_lines += '(finish cut)\n'
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + (params['diameter'] / 2.0) - (params['tool_diameter'] / 2)) + \
                     " Z" + str3dec(params['bottom']) + " F" + str3dec(feed_rate / 2.0) + " \n"
-        nc_lines += arc_2d(params['x'], params['y'], ((params['diameter'] / 2.0) - (params['tool_diameter'] / 2)), 0.0, math.pi * 2.2, increment, feed_rate / 2.0)
+        nc_lines += arc_2d(params['x'], params['y'], ((params['diameter'] / 2.0) - (params['tool_diameter'] / 2)), 0.0, math.pi * 6.2, increment, feed_rate / 2.0)
 
+    nc_lines += "G01 Z" + str3dec(params['ceiling']) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
     return nc_lines
 
