@@ -14,4 +14,4 @@ Version v0.02.2 : lower case letters in kajack font.
 
 Version v0.02.3 : rotatable text
 
-Version v0.03 : Configuration file, and config parameter support in json_to_gcode.py
+Version v0.03 : 3d Drill and text functionality for CNC Router
