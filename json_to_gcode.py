@@ -36,7 +36,7 @@ class Payload(object):
 
 def dictionary_to_list(some_dictionary):
     line_list = []
-    for line_number, line_values in some_dictionary.iteritems():
+    for line_number, line_values in some_dictionary.items():
         # line_values['order'] = line_number
         line_list.insert(int(line_values['order']), line_values)
     sorted_lines = sorted(line_list, key=by_order)
@@ -83,7 +83,7 @@ def lines(params, feed_rate):
 
     # create a list of dictionaries , we can sort by the dictionary field order
     line_list = []
-    for line_number, line_values in params['relative_points'].iteritems():
+    for line_number, line_values in params['relative_points'].items():
         line_values['order'] = line_number
         line_list.insert(int(line_number), line_values)
     one_set_of_lines = sorted(line_list, key=by_order)
@@ -188,13 +188,13 @@ def text(params, feed_rate):
             surface = 0.00
 
         z_depth = surface - (float(params['height']) * 0.05)
-        pen_up  = surface + (float(params['height']) * 0.05)
+        pen_up = surface + (float(params['height']) * 0.05)
 
         # text settings
         scale = float(params['height'])
-        if params['unit'] == 'mm' and scale <= 10.0:
+        if 'unit' in params and params['unit'] == 'mm' and scale <= 10.0:
             arc_smoothness = math.radians(22.5)
-        elif params['unit'] == 'mm':
+        elif 'unit' in params and params['unit'] == 'mm':
             arc_smoothness = math.radians(11.25 / 2)
         elif scale <= 0.41:
             arc_smoothness = math.radians(22.5)
@@ -237,8 +237,10 @@ def text(params, feed_rate):
                 if stroke['type'] == 'start':
                     cursor_x = start_x + (float(rotated_x) * scale)
                     cursor_y = start_y + (float(rotated_y) * scale)
+                    nc_lines += 'G00 Z' + str3dec(params['ceiling']) + ' \n'
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
                     nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
+                    nc_lines += 'G01 Z' + str3dec(z_depth) + ' F' + str3dec(feed_rate / 2) + ' \n'
                 elif stroke['type'] == 'line':
                     cursor_x = start_x + (float(rotated_x) * scale)
                     cursor_y = start_y + (float(rotated_y) * scale)
@@ -250,13 +252,16 @@ def text(params, feed_rate):
                     radian_end = math.radians(float(stroke['end'])) + rotate_arc
                     nc_lines += arc_2d(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
                 elif stroke['type'] == 'move':
+                    nc_lines += 'G00 Z' + str3dec(pen_up) + ' \n'
                     nc_lines += 'M5 \n'
                     cursor_x = start_x + float(rotated_x) * scale
                     cursor_y = start_y + float(rotated_y) * scale
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
                     nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
+                    nc_lines += 'G01 Z' + str3dec(z_depth) + ' \n'
 
             nc_lines += 'M5 \n'
+            nc_lines += "G00 Z" + str3dec(float(params['ceiling']))
             if params['rotate'] == 0:
                 start_x += float(system_font.chars[supported_char]['width']) * scale
                 # start_y = start_y
@@ -264,7 +269,6 @@ def text(params, feed_rate):
                 start_x += float(system_font.chars[supported_char]['width']) * scale * math.sin(math.radians(90.0+params['rotate']))
                 start_y += float(system_font.chars[supported_char]['width']) * scale * math.cos(math.radians(90.0+params['rotate']))
 
-        nc_lines += "G00 Z" + str3dec(float(params['ceiling']))
         return nc_lines
     else:
         return "(no text string)"
@@ -340,7 +344,7 @@ def circle(params, feed_rate):
     # warm up laser by drawing cross hair
     if cross_hair in params:
         nc_lines += cross_hair(params, feed_rate)
-    nc_lines += "G00 X" + str3dec(x) + " Y" + str3dec(y + radius ) + " \n"
+    nc_lines += "G00 X" + str3dec(x) + " Y" + str3dec(y + radius) + " \n"
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
 
     smoothness = 11.25
@@ -551,7 +555,7 @@ cut_a_shape = {'circle': circle,
 
 if len(argv) != 3:
     print("Invalid number of params!")
-    print("Try >python json_to_gcode.py input/square_50mm.json output/my_new_file.nc " )
+    print("Try >python json_to_gcode.py input/square_50mm.json output/my_new_file.nc ")
     exit()
 
 this_script, input_file, output_file = argv
@@ -568,7 +572,7 @@ system_font = None
 nc_first_line = "G17 [unit] G90 G94 G54"
 
 # populate merge fields [xxx] in first line
-if json_data_dic['config']['unit'] == 'mm':
+if 'unit' in json_data_dic and json_data_dic['config']['unit'] == 'mm':
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G21')
 else:
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G20')
@@ -628,6 +632,7 @@ for cut in sorted_cuts:
     cut['y'] = float(cut['y']) * scale + kerf
     cut['scale'] = scale
     cut['kerf'] = kerf
+    cut['ceiling'] = float(default_ceiling)
     if cut['shape'] == 'text' and system_font is None:
         font_file = open('fonts/' + cut['font'] + '.json', 'r')
         font_data = str(font_file.read())
@@ -650,7 +655,6 @@ for cut in sorted_cuts:
         cut['x'] = float(cut['x']) * scale + kerf
         cut['y'] = float(cut['y']) * scale + kerf
     elif cut['shape'] == 'drill':
-        cut['ceiling'] = float(default_ceiling)
         cut['x'] = float(cut['x']) * scale + kerf
         cut['y'] = float(cut['y']) * scale + kerf
         cut['tool_diameter'] = float(json_data_dic['config']['tool_diameter'])
@@ -688,6 +692,7 @@ for cut in sorted_cuts:
                 cut_params['x'] = (float(aCol) * cut['column_spacing'] + origin_x) * scale + kerf
                 cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * scale + kerf
                 cut_params['spindle'] = cut['spindle']
+                cut_params['ceiling'] = float(default_ceiling)
 
                 # pass the necessary attributes for completing the cut
                 if cut['shape'] == 'rectangle':
