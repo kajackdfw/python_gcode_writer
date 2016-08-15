@@ -27,7 +27,8 @@
          "feedrate" : "80",
          "font" : "kajack",
          "text_string" : "ABCDEFGHIJKLM",
-         "spindle" : "255"
+         "spindle" : "255",
+         "surface" : "5.000"
       },
       "1" : {
          "shape" : "text",
