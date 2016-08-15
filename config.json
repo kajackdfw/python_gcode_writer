@@ -1,0 +1,10 @@
+{
+    "config_name": "grbl_shield_laser",
+    "make": "Shapeoko",
+    "model": "XL",
+    "default_unit": "mm",
+    "default_tool_diameter": "0.05",
+    "default_feedrate": "80",
+    "scale": "0.9917",
+    "spindle": "255.0"
+}

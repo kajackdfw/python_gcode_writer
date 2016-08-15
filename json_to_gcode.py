@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import json
+from collections import OrderedDict
 import math
 from sys import argv
 
@@ -562,10 +563,14 @@ this_script, input_file, output_file = argv
 
 print("  Json file : ", input_file)
 print("  Output to : ", output_file)
-pattern_file = open(input_file, 'r')
+
 nc_file = open(output_file, 'w')
-json_array_string = str(pattern_file.read())
-json_data_dic = json.loads(json_array_string)
+
+#pattern_file = open(input_file, 'r')
+#json_array_string = str(pattern_file.read())
+#json_data_dic = json.loads(json_array_string)
+json_data_dic = json.load(open(input_file), object_pairs_hook=OrderedDict)
+
 system_font = None
 
 # template for first line of file
