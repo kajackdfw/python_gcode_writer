@@ -177,8 +177,18 @@ def text(params, feed_rate):
         nc_lines = "(text \"" + params['text_string'] + "\" )\n"
         start_x = float(params['x'])
         start_y = float(params['y'])
+
+        # set some neede values if not provided
         if 'spindle' not in params:
             params['spindle'] = 255.0
+
+        if 'surface' in params:
+            surface = float(params['surface'])
+        else:
+            surface = 0.00
+
+        z_depth = surface - (float(params['height']) * 0.05)
+        pen_up  = surface + (float(params['height']) * 0.05)
 
         # text settings
         scale = float(params['height'])
@@ -254,6 +264,7 @@ def text(params, feed_rate):
                 start_x += float(system_font.chars[supported_char]['width']) * scale * math.sin(math.radians(90.0+params['rotate']))
                 start_y += float(system_font.chars[supported_char]['width']) * scale * math.cos(math.radians(90.0+params['rotate']))
 
+        nc_lines += "G00 Z" + str3dec(float(params['ceiling']))
         return nc_lines
     else:
         return "(no text string)"
