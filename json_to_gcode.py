@@ -211,16 +211,16 @@ def text(params, feed_rate):
         # Start processing the string
         for letter in params['text_string']:
             # check if our font supports each letter
-            if letter in system_font.chars:
+            if letter in system_font['chars']:
                 supported_char = letter
-            elif letter.upper() in system_font.chars:
+            elif letter.upper() in system_font['chars']:
                 supported_char = letter.upper()
             else:
                 supported_char = 'undefined'
 
             # get ready to start drawing a letter
             # print '  print a : ' + supported_char
-            stroke_list = dictionary_to_list(system_font.chars[supported_char]['strokes'])
+            stroke_list = system_font['chars'][supported_char]['strokes']
             for stroke in stroke_list:
                 # print '  ' + stroke['type']
 
@@ -264,11 +264,11 @@ def text(params, feed_rate):
             nc_lines += 'M5 \n'
             nc_lines += "G00 Z" + str3dec(float(params['ceiling']))
             if params['rotate'] == 0:
-                start_x += float(system_font.chars[supported_char]['width']) * scale
+                start_x += float(system_font['chars'][supported_char]['width']) * scale
                 # start_y = start_y
             else:
-                start_x += float(system_font.chars[supported_char]['width']) * scale * math.sin(math.radians(90.0+params['rotate']))
-                start_y += float(system_font.chars[supported_char]['width']) * scale * math.cos(math.radians(90.0+params['rotate']))
+                start_x += float(system_font['chars'][supported_char]['width']) * scale * math.sin(math.radians(90.0+params['rotate']))
+                start_y += float(system_font['chars'][supported_char]['width']) * scale * math.cos(math.radians(90.0+params['rotate']))
 
         return nc_lines
     else:
@@ -639,9 +639,10 @@ for cut in sorted_cuts:
     cut['kerf'] = kerf
     cut['ceiling'] = float(default_ceiling)
     if cut['shape'] == 'text' and system_font is None:
-        font_file = open('fonts/' + cut['font'] + '.json', 'r')
-        font_data = str(font_file.read())
-        system_font = Payload(font_data)
+        #font_file = open('fonts/' + cut['font'] + '.json', 'r')
+        #font_data = str(font_file.read())
+        #system_font = Payload(font_data)
+        system_font = json.load(open('fonts/' + cut['font'] + '.json'), object_pairs_hook=OrderedDict)
         cut['unit'] = json_data_dic['config']['unit']
     elif cut['shape'] == 'rectangle':
         cut['wide'] = float(cut['wide']) * scale - kerf - kerf
