@@ -90,7 +90,7 @@ def lines(params, feed_rate):
     one_set_of_lines = sorted(line_list, key=by_order)
     radial_count = 0
 
-    if 'radial_copies' in params and params['radial_copies'] > 1:
+    if 'radial_copies' in params and int(params['radial_copies']) > 1:
         nc_lines = '( radial copies centered at X' + str3dec(center_x) + ', Y' + str3dec(center_y) + ' ) \n'
         radial_count += int(1)
         if 'radial_offset' in params:
@@ -566,10 +566,12 @@ print("  Output to : ", output_file)
 
 nc_file = open(output_file, 'w')
 
-#pattern_file = open(input_file, 'r')
-#json_array_string = str(pattern_file.read())
-#json_data_dic = json.loads(json_array_string)
-json_data_dic = json.load(open(input_file), object_pairs_hook=OrderedDict)
+pattern_file = open(input_file, 'r')
+json_array_string = str(pattern_file.read())
+json_data_dic = json.loads(json_array_string)
+
+# new Ordered Dictinary method, breaks in radial copy code
+#json_data_dic = json.load(open(input_file), object_pairs_hook=OrderedDict)
 
 system_font = None
 
