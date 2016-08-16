@@ -1,0 +1,261 @@
+OrderedDict([('config', OrderedDict([
+  ('type', 'font'),
+  ('name', 'kajack'),
+  ('mode', 'relative'),
+  ('unit', 'universal')])),
+  ('chars', OrderedDict([('A', OrderedDict([('char', 'A'), ('
+width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), (
+'x', '0.000'), ('y', '0.700')])), ('2', OrderedDict([('order', 2), ('type', 'arc'), ('x', '0.200'), ('y', '0.700'), ('radius', '0.200'), ('start', '270'), ('end', '360')])), ('3', Or
+deredDict([('order', 3), ('type', 'line'), ('x', '0.400'), ('y', '0.900')])), ('4', OrderedDict([('order', 4), ('type', 'arc'), ('x', '0.400'), ('y', '0.700'), ('radius', '0.200'), (
+'start', '0'), ('end', '90')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.600'), ('y', '0.000')])), ('7', OrderedDict([('order', 7), ('type', 'move'), ('x', '0.600
+'), ('y', '0.500')])), ('9', OrderedDict([('order', 9), ('type', 'line'), ('x', '0.000'), ('y', '0.500')]))]))])), ('B', OrderedDict([('char', 'B'), ('width', '0.700'), ('strokes', O
+rderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.900')])
+), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.400'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.400'), ('y', '0.700'), ('radius',
+'0.200'), ('start', '0'), ('end', '180')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.000'), ('y', '0.500')])), ('5', OrderedDict([('order', 5), ('type', 'line'),
+('x', '0.350'), ('y', '0.500')])), ('6', OrderedDict([('order', 6), ('type', 'arc'), ('x', '0.350'), ('y', '0.250'), ('radius', '0.250'), ('start', '0'), ('end', '180')])), ('7', Ord
+eredDict([('order', 7), ('type', 'line'), ('x', '0.000'), ('y', '0.000')]))]))])), ('C', OrderedDict([('char', 'C'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([(
+'order', 0), ('type', 'start'), ('x', '0.600'), ('y', '0.250')])), ('1', OrderedDict([('order', 1), ('type', 'arc'), ('x', '0.350'), ('y', '0.250'), ('radius', '0.250'), ('start', '9
+0'), ('end', '180')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.250'), ('y', '0.000')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.250'), ('y',
+'0.250'), ('radius', '0.250'), ('start', '180'), ('end', '270')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.000'), ('y', '0.700')])), ('5', OrderedDict([('order',
+ 5), ('type', 'arc'), ('x', '0.200'), ('y', '0.700'), ('radius', '0.200'), ('start', '270'), ('end', '360')])), ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.400'), ('y
+', '0.900')])), ('7', OrderedDict([('order', 7), ('type', 'arc'), ('x', '0.400'), ('y', '0.700'), ('radius', '0.200'), ('start', '0'), ('end', '45')]))]))])), ('D', OrderedDict([('ch
+ar', 'D'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type
+', 'line'), ('x', '0.000'), ('y', '0.900')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.400'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'arc'),
+ ('x', '0.400'), ('y', '0.700'), ('radius', '0.200'), ('start', '0'), ('end', '90')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.600'), ('y', '0.250')])), ('5', Or
+deredDict([('order', 5), ('type', 'arc'), ('x', '0.350'), ('y', '0.250'), ('radius', '0.250'), ('start', '90'), ('end', '180')])), ('6', OrderedDict([('order', 6), ('type', 'line'),
+('x', '0.000'), ('y', '0.000')]))]))])), ('E', OrderedDict([('char', 'E'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.6
+00'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.000')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.000'), ('y'
+, '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.600'), ('y', '0.900')])), ('5', OrderedDict([('order', 5), ('type', 'move'), ('x', '0.000'), ('y', '0.500')
+])), ('7', OrderedDict([('order', 7), ('type', 'line'), ('x', '0.500'), ('y', '0.500')]))]))])), ('F', OrderedDict([('char', 'F'), ('width', '0.700'), ('strokes', OrderedDict([('0',
+OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.900')])), ('2', OrderedDi
+ct([('order', 2), ('type', 'line'), ('x', '0.600'), ('y', '0.900')])), ('4', OrderedDict([('order', 4), ('type', 'move'), ('x', '0.000'), ('y', '0.500')])), ('6', OrderedDict([('orde
+r', 6), ('type', 'line'), ('x', '0.600'), ('y', '0.500')]))]))])), ('G', OrderedDict([('char', 'G'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('t
+ype', 'start'), ('x', '0.300'), ('y', '0.500')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.600'), ('y', '0.500')])), ('2', OrderedDict([('order', 2), ('type', 'li
+ne'), ('x', '0.600'), ('y', '0.250')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.350'), ('y', '0.250'), ('radius', '0.250'), ('start', '90'), ('end', '180')])), ('
+4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.250'), ('y', '0.000')])), ('5', OrderedDict([('order', 5), ('type', 'arc'), ('x', '0.250'), ('y', '0.250'), ('radius', '0.25
+0'), ('start', '180'), ('end', '270')])), ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.000'), ('y', '0.700')])), ('7', OrderedDict([('order', 7), ('type', 'arc'), ('x'
+, '0.200'), ('y', '0.700'), ('radius', '0.200'), ('start', '270'), ('end', '360')])), ('8', OrderedDict([('order', 8), ('type', 'line'), ('x', '0.400'), ('y', '0.900')])), ('9', Orde
+redDict([('order', 9), ('type', 'arc'), ('x', '0.400'), ('y', '0.700'), ('radius', '0.200'), ('start', '0'), ('end', '45')]))]))])), ('H', OrderedDict([('char', 'H'), ('width', '0.70
+0'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000')
+, ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'move'), ('x', '0.000'), ('y', '0.500')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.600'), ('y', '0
+.500')])), ('6', OrderedDict([('order', 6), ('type', 'move'), ('x', '0.600'), ('y', '0.900')])), ('8', OrderedDict([('order', 8), ('type', 'line'), ('x', '0.600'), ('y', '0.000')]))]
+))])), ('I', OrderedDict([('char', 'I'), ('width', '0.300'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', Ord
+eredDict([('order', 1), ('type', 'line'), ('x', '0.200'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'move'), ('x', '0.100'), ('y', '0.900')])), ('5', OrderedDict([
+('order', 5), ('type', 'line'), ('x', '0.100'), ('y', '0.000')])), ('7', OrderedDict([('order', 7), ('type', 'move'), ('x', '0.000'), ('y', '0.000')])), ('9', OrderedDict([('order',
+9), ('type', 'line'), ('x', '0.200'), ('y', '0.000')]))]))])), ('J', OrderedDict([('char', 'J'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type'
+, 'start'), ('x', '0.600'), ('y', '0.800')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.600'), ('y', '0.900')])), ('2', OrderedDict([('order', 2), ('type', 'line')
+, ('x', '0.600'), ('y', '0.300')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.300'), ('start', '90'), ('end', '270')]))]))])),
+('K', OrderedDict([('char', 'K'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDic
+t([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'move'), ('x', '0.000'), ('y', '0.500')])), ('5', OrderedDict([('order
+', 5), ('type', 'line'), ('x', '0.200'), ('y', '0.500')])), ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.500'), ('y', '0.900')])), ('8', OrderedDict([('order', 8), ('t
+ype', 'move'), ('x', '0.200'), ('y', '0.500')])), ('10', OrderedDict([('order', 10), ('type', 'line'), ('x', '0.300'), ('y', '0.500')])), ('11', OrderedDict([('order', 11), ('type',
+'line'), ('x', '0.500'), ('y', '0.000')])), ('12', OrderedDict([('order', 12), ('type', 'line'), ('x', '0.600'), ('y', '0.000')]))]))])), ('L', OrderedDict([('char', 'L'), ('width',
+'0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.
+000'), ('y', '0.000')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.600'), ('y', '0.000')]))]))])), ('M', OrderedDict([('char', 'M'), ('width', '0.700'), ('strokes'
+, OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.900'
+)])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.300'), ('y', '0.700')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.600'), ('y', '0.900')])), ('4'
+, OrderedDict([('order', 4), ('type', 'line'), ('x', '0.600'), ('y', '0.000')]))]))])), ('N', OrderedDict([('char', 'N'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDi
+ct([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.900')])), ('2', OrderedDict([('ord
+er', 2), ('type', 'line'), ('x', '0.600'), ('y', '0.000')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.600'), ('y', '0.900')]))]))])), ('O', OrderedDict([('char',
+'O'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.600'), ('y', '0.250')])), ('1', OrderedDict([('order', 1), ('type', 'a
+rc'), ('x', '0.350'), ('y', '0.250'), ('radius', '0.250'), ('start', '90'), ('end', '180')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.250'), ('y', '0.000')])), (
+'3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.250'), ('y', '0.250'), ('radius', '0.250'), ('start', '180'), ('end', '270')])), ('4', OrderedDict([('order', 4), ('type', '
+line'), ('x', '0.000'), ('y', '0.700')])), ('5', OrderedDict([('order', 5), ('type', 'arc'), ('x', '0.200'), ('y', '0.700'), ('radius', '0.200'), ('start', '270'), ('end', '360')])),
+ ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.400'), ('y', '0.900')])), ('7', OrderedDict([('order', 7), ('type', 'arc'), ('x', '0.400'), ('y', '0.700'), ('radius', '0
+.200'), ('start', '0'), ('end', '90')])), ('8', OrderedDict([('order', 8), ('type', 'line'), ('x', '0.600'), ('y', '0.250')]))]))])), ('P', OrderedDict([('char', 'P'), ('width', '0.7
+00'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'
+), ('y', '0.900')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.400'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.400'), ('y', '0
+.700'), ('radius', '0.200'), ('start', '0'), ('end', '180')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.000'), ('y', '0.500')]))]))])), ('Q', OrderedDict([('char'
+, 'Q'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.600'), ('y', '0.250')])), ('1', OrderedDict([('order', 1), ('type',
+'arc'), ('x', '0.350'), ('y', '0.250'), ('radius', '0.250'), ('start', '90'), ('end', '180')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.250'), ('y', '0.000')])),
+ ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.250'), ('y', '0.250'), ('radius', '0.250'), ('start', '180'), ('end', '270')])), ('4', OrderedDict([('order', 4), ('type',
+ 'line'), ('x', '0.000'), ('y', '0.700')])), ('5', OrderedDict([('order', 5), ('type', 'arc'), ('x', '0.200'), ('y', '0.700'), ('radius', '0.200'), ('start', '270'), ('end', '360')])
+), ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.400'), ('y', '0.900')])), ('7', OrderedDict([('order', 7), ('type', 'arc'), ('x', '0.400'), ('y', '0.700'), ('radius',
+'0.200'), ('start', '0'), ('end', '90')])), ('8', OrderedDict([('order', 8), ('type', 'line'), ('x', '0.600'), ('y', '0.250')])), ('10', OrderedDict([('order', 10), ('type', 'move'),
+ ('x', '0.350'), ('y', '0.250')])), ('12', OrderedDict([('order', 12), ('type', 'line'), ('x', '0.600'), ('y', '0.000')]))]))])), ('R', OrderedDict([('char', 'R'), ('width', '0.700')
+, ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), (
+'y', '0.900')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.400'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.400'), ('y', '0.700
+'), ('radius', '0.200'), ('start', '0'), ('end', '180')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.000'), ('y', '0.500')])), ('6', OrderedDict([('order', 6), ('t
+ype', 'move'), ('x', '0.200'), ('y', '0.500')])), ('8', OrderedDict([('order', 8), ('type', 'line'), ('x', '0.300'), ('y', '0.500')])), ('9', OrderedDict([('order', 9), ('type', 'lin
+e'), ('x', '0.500'), ('y', '0.000')])), ('10', OrderedDict([('order', 10), ('type', 'line'), ('x', '0.600'), ('y', '0.000')]))]))])), ('S', OrderedDict([('char', 'S'), ('width', '0.7
+00'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.300'), ('y', '0.500')])), ('1', OrderedDict([('order', 1), ('type', 'arc'), ('x', '0.350')
+, ('y', '0.250'), ('radius', '0.250'), ('start', '0'), ('end', '180')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.000'), ('y', '0.000')])), ('4', OrderedDict([('o
+rder', 4), ('type', 'move'), ('x', '0.300'), ('y', '0.500')])), ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.200'), ('y', '0.500')])), ('7', OrderedDict([('order', 7),
+ ('type', 'arc'), ('x', '0.200'), ('y', '0.700'), ('radius', '0.200'), ('start', '180'), ('end', '360')])), ('8', OrderedDict([('order', 8), ('type', 'line'), ('x', '0.500'), ('y', '
+0.900')]))]))])), ('T', OrderedDict([('char', 'T'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')]))
+, ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.600'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'move'), ('x', '0.300'), ('y', '0.900')])), ('5', Or
+deredDict([('order', 5), ('type', 'line'), ('x', '0.300'), ('y', '0.000')]))]))])), ('U', OrderedDict([('char', 'U'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([
+('order', 0), ('type', 'start'), ('x', '0.600'), ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.600'), ('y', '0.250')])), ('2', OrderedDict([('order',
+ 2), ('type', 'arc'), ('x', '0.350'), ('y', '0.250'), ('radius', '0.250'), ('start', '90'), ('end', '180')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.250'), ('y'
+, '0.000')])), ('4', OrderedDict([('order', 4), ('type', 'arc'), ('x', '0.250'), ('y', '0.250'), ('radius', '0.250'), ('start', '180'), ('end', '270')])), ('5', OrderedDict([('order'
+, 5), ('type', 'line'), ('x', '0.000'), ('y', '0.900')]))]))])), ('V', OrderedDict([('char', 'V'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('typ
+e', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.800')])), ('2', OrderedDict([('order', 2), ('type', 'line
+'), ('x', '0.300'), ('y', '0.000')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.600'), ('y', '0.800')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x',
+'0.600'), ('y', '0.800')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.600'), ('y', '0.900')]))]))])), ('W', OrderedDict([('char', 'W'), ('width', '0.700'), ('strok
+es', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.0
+00')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.300'), ('y', '0.200')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.600'), ('y', '0.000')])), (
+'4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.600'), ('y', '0.900')]))]))])), ('X', OrderedDict([('char', 'X'), ('width', '0.700'), ('strokes', OrderedDict([('0', Ordere
+dDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.100')])), ('2', OrderedDict([('
+order', 2), ('type', 'line'), ('x', '0.600'), ('y', '0.800')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.600'), ('y', '0.900')])), ('5', OrderedDict([('order', 5)
+, ('type', 'move'), ('x', '0.000'), ('y', '0.900')])), ('7', OrderedDict([('order', 7), ('type', 'line'), ('x', '0.000'), ('y', '0.800')])), ('8', OrderedDict([('order', 8), ('type',
+ 'line'), ('x', '0.600'), ('y', '0.100')])), ('9', OrderedDict([('order', 9), ('type', 'line'), ('x', '0.600'), ('y', '0.000')]))]))])), ('Y', OrderedDict([('char', 'Y'), ('width', '
+0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.0
+00'), ('y', '0.800')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.300'), ('y', '0.500')])), ('4', OrderedDict([('order', 4), ('type', 'move'), ('x', '0.600'), ('y'
+, '0.900')])), ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.600'), ('y', '0.800')])), ('7', OrderedDict([('order', 7), ('type', 'line'), ('x', '0.300'), ('y', '0.500')
+])), ('8', OrderedDict([('order', 8), ('type', 'line'), ('x', '0.300'), ('y', '0.000')]))]))])), ('Z', OrderedDict([('char', 'Z'), ('width', '0.700'), ('strokes', OrderedDict([('0',
+OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.800')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.900')])), ('2', OrderedDi
+ct([('order', 2), ('type', 'line'), ('x', '0.600'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.000'), ('y', '0.000')])), ('4', OrderedDict([('orde
+r', 4), ('type', 'line'), ('x', '0.600'), ('y', '0.000')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.600'), ('y', '0.100')]))]))])), ('undefined', OrderedDict([('
+char', '?'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('ty
+pe', 'line'), ('x', '0.000'), ('y', '0.900')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.600'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'line
+'), ('x', '0.600'), ('y', '0.000')])), ('5', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.000'), ('y', '0.000')]))]))])), (' ', OrderedDict([('char', ' '), ('width', '0.700'
+), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.600'), ('y', '0.6000')])), ('1', OrderedDict([('order', 1), ('type', 'pin_up')]))]))])), ('-'
+, OrderedDict([('char', ' '), ('width', '0.500'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.100'), ('y', '0.500')])), ('1', OrderedDict([(
+'order', 1), ('type', 'line'), ('x', '0.400'), ('y', '0.500')]))]))])), (',', OrderedDict([('char', ','), ('width', '0.250'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0)
+, ('type', 'start'), ('x', '0.150'), ('y', '0.100')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.100'), ('y', '-0.0500')]))]))])), (':', OrderedDict([('char', ':')
+, ('width', '0.300'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.150'), ('y', '0.200')])), ('1', OrderedDict([('order', 1), ('type', 'line'
+), ('x', '0.150'), ('y', '0.250')])), ('3', OrderedDict([('order', 3), ('type', 'move'), ('x', '0.150'), ('y', '0.700')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '
+0.150'), ('y', '0.750')]))]))])), ("''", OrderedDict([('char', "''"), ('width', '0.400'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.100'),
+ ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.100'), ('y', '0.750')])), ('3', OrderedDict([('order', 3), ('type', 'move'), ('x', '0.200'), ('y', '0.
+900')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.200'), ('y', '0.750')]))]))])), ('.', OrderedDict([('char', '.'), ('width', '0.250'), ('strokes', OrderedDict([(
+'0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.100'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.100'), ('y', '0.050')])), ('2', Orde
+redDict([('order', 2), ('type', 'line'), ('x', '0.150'), ('y', '0.050')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.150'), ('y', '0.000')])), ('4', OrderedDict([(
+'order', 4), ('type', 'line'), ('x', '0.100'), ('y', '0.000')]))]))])), ('_', OrderedDict([('char', '_'), ('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0)
+, ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.600'), ('y', '0.000')]))]))])), ('/', OrderedDict([('char', '/'),
+('width', '0.700'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'),
+ ('x', '0.600'), ('y', '0.900')]))]))])), ('0', OrderedDict([('char', '0'), ('width', '0.60'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.5
+00'), ('y', '0.250')])), ('1', OrderedDict([('order', 1), ('type', 'arc'), ('x', '0.250'), ('y', '0.250'), ('radius', '0.250'), ('start', '90'), ('end', '270')])), ('2', OrderedDict(
+[('order', 2), ('type', 'line'), ('x', '0.000'), ('y', '0.650')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.250'), ('y', '0.650'), ('radius', '0.250'), ('start', '
+270'), ('end', '450')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.500'), ('y', '0.250')]))]))])), ('1', OrderedDict([('char', '1'), ('width', '0.600'), ('strokes'
+, OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.200'), ('y', '0.800')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.250'), ('y', '0.900'
+)])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.250'), ('y', '0.000')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('y', '0.000')])), ('5'
+, OrderedDict([('order', 4), ('type', 'line'), ('x', '0.300'), ('y', '0.000')]))]))])), ('2', OrderedDict([('char', '2'), ('width', '0.60'), ('strokes', OrderedDict([('2', OrderedDic
+t([('order', 2), ('type', 'start'), ('x', '0.000'), ('y', '0.650')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.250'), ('y', '0.650'), ('radius', '0.250'), ('start'
+, '270'), ('end', '495')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.000'), ('y', '0.100')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.000'),
+('y', '0.000')])), ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.500'), ('y', '0.000')]))]))])), ('3', OrderedDict([('char', '3'), ('width', '0.60'), ('strokes', Ordere
+dDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.800')])), ('1', OrderedDict([('order', 1), ('type', 'arc'), ('x', '0.200'), ('y', '0.700'), ('radi
+us', '0.200'), ('start', '270'), ('end', '360')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.300'), ('y', '0.900')])), ('3', OrderedDict([('order', 3), ('type', 'a
+rc'), ('x', '0.300'), ('y', '0.700'), ('radius', '0.200'), ('start', '0'), ('end', '180')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.250'), ('y', '0.500')])), ('
+5', OrderedDict([('order', 5), ('type', 'arc'), ('x', '0.250'), ('y', '0.250'), ('radius', '0.250'), ('start', '0'), ('end', '250')]))]))])), ('4', OrderedDict([('char', '4'), ('widt
+h', '0.60'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x',
+'0.000'), ('y', '0.500')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.500'), ('y', '0.500')])), ('4', OrderedDict([('order', 4), ('type', 'move'), ('x', '0.500'),
+('y', '0.900')])), ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.500'), ('y', '0.000')]))]))])), ('5', OrderedDict([('char', '5'), ('width', '0.60'), ('strokes', Ordere
+dDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.500'), ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.900')])), ('
+2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.000'), ('y', '0.500')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.250'), ('y', '0.500')])), ('4', Ordere
+dDict([('order', 4), ('type', 'arc'), ('x', '0.250'), ('y', '0.250'), ('radius', '0.250'), ('start', '0'), ('end', '180')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x',
+ '0.000'), ('y', '0.000')]))]))])), ('6', OrderedDict([('char', '6'), ('width', '0.60'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'),
+('y', '0.250')])), ('1', OrderedDict([('order', 1), ('type', 'arc'), ('x', '0.250'), ('y', '0.250'), ('radius', '0.250'), ('start', '270'), ('end', '630')])), ('2', OrderedDict([('or
+der', 2), ('type', 'line'), ('x', '0.000'), ('y', '0.650')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.250'), ('y', '0.650'), ('radius', '0.250'), ('start', '270')
+, ('end', '360')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.500'), ('y', '0.900')]))]))])), ('7', OrderedDict([('char', '7'), ('width', '0.60'), ('strokes', Orde
+redDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.500'), ('y', '0.900')])),
+('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.500'), ('y', '0.800')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('y', '0.000')]))]))])), ('8'
+, OrderedDict([('char', '8'), ('width', '0.60'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.250'), ('y', '0.500')])), ('1', OrderedDict([('
+order', 1), ('type', 'arc'), ('x', '0.250'), ('y', '0.250'), ('radius', '0.250'), ('start', '0'), ('end', '360')])), ('3', OrderedDict([('order', 3), ('type', 'move'), ('x', '0.200')
+, ('y', '0.500')])), ('5', OrderedDict([('order', 5), ('type', 'arc'), ('x', '0.200'), ('y', '0.700'), ('radius', '0.200'), ('start', '180'), ('end', '360')])), ('6', OrderedDict([('
+order', 6), ('type', 'line'), ('x', '0.300'), ('y', '0.900')])), ('7', OrderedDict([('order', 7), ('type', 'arc'), ('x', '0.300'), ('y', '0.700'), ('radius', '0.200'), ('start', '0')
+, ('end', '180')]))]))])), ('9', OrderedDict([('char', '9'), ('width', '0.60'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.500'), ('y', '0.
+700')])), ('1', OrderedDict([('order', 1), ('type', 'arc'), ('x', '0.300'), ('y', '0.700'), ('radius', '0.200'), ('start', '90'), ('end', '180')])), ('2', OrderedDict([('order', 2),
+('type', 'line'), ('x', '0.200'), ('y', '0.50')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.200'), ('y', '0.700'), ('radius', '0.200'), ('start', '180'), ('end', '
+360')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.300'), ('y', '0.900')])), ('5', OrderedDict([('order', 5), ('type', 'arc'), ('x', '0.300'), ('y', '0.70'), ('rad
+ius', '0.200'), ('start', '0'), ('end', '90')])), ('6', OrderedDict([('order', 6), ('type', 'line'), ('x', '0.300'), ('y', '0.000')]))]))])), ('a', OrderedDict([('char', 'a'), ('widt
+h', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.500'), ('y', '0.500')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x',
+ '0.500'), ('y', '0.000')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('y', '0.000')])), ('4', OrderedDict([('order', 4), ('type', 'arc'), ('x', '0.200'),
+('y', '0.200'), ('radius', '0.200'), ('start', '180'), ('end', '270')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.000'), ('y', '0.300')])), ('6', OrderedDict([('o
+rder', 6), ('type', 'arc'), ('x', '0.200'), ('y', '0.300'), ('radius', '0.200'), ('start', '270'), ('end', '360')])), ('7', OrderedDict([('order', 7), ('type', 'line'), ('x', '0.300'
+), ('y', '0.500')])), ('8', OrderedDict([('order', 8), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.200'), ('start', '0'), ('end', '90')]))]))])), ('b', OrderedDict
+([('char', 'b'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDict([('order', 1),
+('type', 'line'), ('x', '0.000'), ('y', '0.000')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.300'), ('y', '0.000')])), ('4', OrderedDict([('order', 4), ('type', '
+arc'), ('x', '0.300'), ('y', '0.200'), ('radius', '0.200'), ('start', '180'), ('end', '90')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.500'), ('y', '0.300')])),
+('6', OrderedDict([('order', 6), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.200'), ('start', '90'), ('end', '0')])), ('7', OrderedDict([('order', 7), ('type', 'li
+ne'), ('x', '0.000'), ('y', '0.500')]))]))])), ('c', OrderedDict([('char', 'c'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x'
+, '0.500'), ('y', '0.200')])), ('2', OrderedDict([('order', 2), ('type', 'arc'), ('x', '0.300'), ('y', '0.200'), ('radius', '0.200'), ('start', '90'), ('end', '180')])), ('3', Ordere
+dDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('y', '0.000')])), ('4', OrderedDict([('order', 4), ('type', 'arc'), ('x', '0.200'), ('y', '0.200'), ('radius', '0.200'), ('sta
+rt', '180'), ('end', '270')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.000'), ('y', '0.300')])), ('6', OrderedDict([('order', 6), ('type', 'arc'), ('x', '0.200')
+, ('y', '0.300'), ('radius', '0.200'), ('start', '270'), ('end', '360')])), ('7', OrderedDict([('order', 7), ('type', 'line'), ('x', '0.400'), ('y', '0.500')]))]))])), ('d', OrderedD
+ict([('char', 'd'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.500'), ('y', '0.900')])), ('1', OrderedDict([('order', 1
+), ('type', 'line'), ('x', '0.500'), ('y', '0.000')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('y', '0.000')])), ('4', OrderedDict([('order', 4), ('type'
+, 'arc'), ('x', '0.200'), ('y', '0.200'), ('radius', '0.200'), ('start', '180'), ('end', '270')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.000'), ('y', '0.300')]
+)), ('6', OrderedDict([('order', 6), ('type', 'arc'), ('x', '0.200'), ('y', '0.300'), ('radius', '0.200'), ('start', '270'), ('end', '360')])), ('7', OrderedDict([('order', 7), ('typ
+e', 'line'), ('x', '0.300'), ('y', '0.500')])), ('8', OrderedDict([('order', 8), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.200'), ('start', '0'), ('end', '90')])
+)]))])), ('e', OrderedDict([('char', 'e'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.300')])), ('1', O
+rderedDict([('order', 1), ('type', 'line'), ('x', '0.500'), ('y', '0.300')])), ('2', OrderedDict([('order', 2), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.200'),
+('start', '90'), ('end', '0')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('y', '0.500')])), ('4', OrderedDict([('order', 4), ('type', 'arc'), ('x', '0.200
+'), ('y', '0.300'), ('radius', '0.200'), ('start', '360'), ('end', '270')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.000'), ('y', '0.200')])), ('6', OrderedDict(
+[('order', 6), ('type', 'arc'), ('x', '0.200'), ('y', '0.200'), ('radius', '0.200'), ('start', '270'), ('end', '180')])), ('7', OrderedDict([('order', 7), ('type', 'line'), ('x', '0.
+500'), ('y', '0.000')]))]))])), ('f', OrderedDict([('char', 'f'), ('width', '0.500'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.400'), ('y
+', '0.880')])), ('1', OrderedDict([('order', 1), ('type', 'arc'), ('x', '0.300'), ('y', '0.700'), ('radius', '0.200'), ('start', '45'), ('end', '-90')])), ('2', OrderedDict([('order'
+, 2), ('type', 'line'), ('x', '0.100'), ('y', '0.000')])), ('4', OrderedDict([('order', 4), ('type', 'move'), ('x', '0.000'), ('y', '0.500')])), ('5', OrderedDict([('order', 5), ('ty
+pe', 'line'), ('x', '0.200'), ('y', '0.500')]))]))])), ('g', OrderedDict([('char', 'g'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start
+'), ('x', '0.500'), ('y', '0.300')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.500'), ('y', '0.200')])), ('2', OrderedDict([('order', 2), ('type', 'arc'), ('x', '
+0.300'), ('y', '0.200'), ('radius', '0.200'), ('start', '90'), ('end', '180')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('y', '0.000')])), ('4', OrderedD
+ict([('order', 4), ('type', 'arc'), ('x', '0.200'), ('y', '0.200'), ('radius', '0.200'), ('start', '180'), ('end', '270')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x',
+ '0.000'), ('y', '0.300')])), ('6', OrderedDict([('order', 6), ('type', 'arc'), ('x', '0.200'), ('y', '0.300'), ('radius', '0.200'), ('start', '270'), ('end', '360')])), ('7', Ordere
+dDict([('order', 7), ('type', 'line'), ('x', '0.300'), ('y', '0.500')])), ('8', OrderedDict([('order', 8), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.200'), ('sta
+rt', '0'), ('end', '90')])), ('9', OrderedDict([('order', 9), ('type', 'line'), ('x', '0.500'), ('y', '0.200')])), ('10', OrderedDict([('order', 10), ('type', 'arc'), ('x', '0.300'),
+ ('y', '0.000'), ('radius', '0.200'), ('start', '90'), ('end', '180')])), ('11', OrderedDict([('order', 11), ('type', 'line'), ('x', '0.000'), ('y', '-0.200')]))]))])), ('h', Ordered
+Dict([('char', 'h'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDict([('order',
+1), ('type', 'line'), ('x', '0.000'), ('y', '0.000')])), ('2', OrderedDict([('order', 2), ('type', 'move'), ('x', '0.000'), ('y', '0.500')])), ('3', OrderedDict([('order', 3), ('type
+', 'line'), ('x', '0.300'), ('y', '0.500')])), ('4', OrderedDict([('order', 4), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.200'), ('start', '0'), ('end', '90')]))
+, ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.500'), ('y', '0.000')]))]))])), ('i', OrderedDict([('char', 'i'), ('width', '0.100'), ('strokes', OrderedDict([('0', Ord
+eredDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.500')])), ('2', OrderedDict(
+[('order', 2), ('type', 'move'), ('x', '0.000'), ('y', '0.600')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.000'), ('y', '0.700')]))]))])), ('j', OrderedDict([('c
+har', 'j'), ('width', '0.500'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.200')])), ('1', OrderedDict([('order', 1), ('typ
+e', 'arc'), ('x', '0.200'), ('y', '0.200'), ('radius', '0.200'), ('start', '270'), ('end', '90')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.400'), ('y', '0.500')
+])), ('4', OrderedDict([('order', 4), ('type', 'move'), ('x', '0.400'), ('y', '0.600')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.400'), ('y', '0.700')]))]))])),
+ ('k', OrderedDict([('char', 'k'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDi
+ct([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.000')])), ('2', OrderedDict([('order', 2), ('type', 'move'), ('x', '0.000'), ('y', '0.200')])), ('3', OrderedDict([('orde
+r', 3), ('type', 'line'), ('x', '0.500'), ('y', '0.500')])), ('4', OrderedDict([('order', 4), ('type', 'move'), ('x', '0.200'), ('y', '0.300')])), ('5', OrderedDict([('order', 5), ('
+type', 'line'), ('x', '0.500'), ('y', '0.000')]))]))])), ('l', OrderedDict([('char', 'l'), ('width', '0.200'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'sta
+rt'), ('x', '0.000'), ('y', '0.900')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.000')]))]))])), ('m', OrderedDict([('char', 'm'), ('width', '0.90
+0'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000')
+, ('y', '0.500')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.200'), ('y', '0.500')])), ('3', OrderedDict([('order', 3), ('type', 'arc'), ('x', '0.200'), ('y', '0.
+300'), ('radius', '0.200'), ('start', '0'), ('end', '90')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.400'), ('y', '0.000')])), ('5', OrderedDict([('order', 5), (
+'type', 'move'), ('x', '0.400'), ('y', '0.300')])), ('6', OrderedDict([('order', 6), ('type', 'arc'), ('x', '0.600'), ('y', '0.300'), ('radius', '0.200'), ('start', '270'), ('end', '
+450')])), ('7', OrderedDict([('order', 7), ('type', 'line'), ('x', '0.800'), ('y', '0.000')]))]))])), ('n', OrderedDict([('char', 'n'), ('width', '0.600'), ('strokes', OrderedDict([(
+'0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.500')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.000')])), ('2', Orde
+redDict([('order', 2), ('type', 'move'), ('x', '0.000'), ('y', '0.500')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.300'), ('y', '0.500')])), ('4', OrderedDict([(
+'order', 4), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.200'), ('start', '0'), ('end', '90')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.500')
+, ('y', '0.000')]))]))])), ('o', OrderedDict([('char', 'o'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.500'), ('y', '0
+.300')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.500'), ('y', '0.200')])), ('2', OrderedDict([('order', 2), ('type', 'arc'), ('x', '0.300'), ('y', '0.200'), ('r
+adius', '0.200'), ('start', '90'), ('end', '180')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('y', '0.000')])), ('4', OrderedDict([('order', 4), ('type',
+'arc'), ('x', '0.200'), ('y', '0.200'), ('radius', '0.200'), ('start', '180'), ('end', '270')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.000'), ('y', '0.300')]))
+, ('6', OrderedDict([('order', 6), ('type', 'arc'), ('x', '0.200'), ('y', '0.300'), ('radius', '0.200'), ('start', '270'), ('end', '360')])), ('7', OrderedDict([('order', 7), ('type'
+, 'line'), ('x', '0.300'), ('y', '0.500')])), ('8', OrderedDict([('order', 8), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.200'), ('start', '0'), ('end', '90')]))]
+))])), ('p', OrderedDict([('char', 'p'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '-0.200')])), ('1', Or
+deredDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.500')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.300'), ('y', '0.500')])), ('3', OrderedDict(
+[('order', 3), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius', '0.200'), ('start', '0'), ('end', '90')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.500
+'), ('y', '0.200')])), ('5', OrderedDict([('order', 5), ('type', 'arc'), ('x', '0.300'), ('y', '0.200'), ('radius', '0.200'), ('start', '90'), ('end', '180')])), ('6', OrderedDict([(
+'order', 6), ('type', 'line'), ('x', '0.000'), ('y', '0.000')]))]))])), ('q', OrderedDict([('char', 'q'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0)
+, ('type', 'start'), ('x', '0.500'), ('y', '0.300')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.500'), ('y', '0.200')])), ('2', OrderedDict([('order', 2), ('type'
+, 'arc'), ('x', '0.300'), ('y', '0.200'), ('radius', '0.200'), ('start', '90'), ('end', '180')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('y', '0.000')])
+), ('4', OrderedDict([('order', 4), ('type', 'arc'), ('x', '0.200'), ('y', '0.200'), ('radius', '0.200'), ('start', '180'), ('end', '270')])), ('5', OrderedDict([('order', 5), ('type
+', 'line'), ('x', '0.000'), ('y', '0.300')])), ('6', OrderedDict([('order', 6), ('type', 'arc'), ('x', '0.200'), ('y', '0.300'), ('radius', '0.200'), ('start', '270'), ('end', '360')
+])), ('7', OrderedDict([('order', 7), ('type', 'line'), ('x', '0.300'), ('y', '0.500')])), ('8', OrderedDict([('order', 8), ('type', 'arc'), ('x', '0.300'), ('y', '0.300'), ('radius'
+, '0.200'), ('start', '0'), ('end', '90')])), ('9', OrderedDict([('order', 9), ('type', 'line'), ('x', '0.500'), ('y', '-0.200')]))]))])), ('r', OrderedDict([('char', 'r'), ('width',
+ '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.000')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0
+.000'), ('y', '0.500')])), ('2', OrderedDict([('order', 2), ('type', 'move'), ('x', '0.000'), ('y', '0.450')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.200'), ('
+y', '0.500')])), ('4', OrderedDict([('order', 4), ('type', 'line'), ('x', '0.400'), ('y', '0.500')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.500'), ('y', '0.450
+')]))]))])), ('s', OrderedDict([('char', 's'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.500'), ('y', '0.500')])), ('1
+', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.125'), ('y', '0.500')])), ('2', OrderedDict([('order', 2), ('type', 'arc'), ('x', '0.125'), ('y', '0.375'), ('radius', '0.125
+'), ('start', '360'), ('end', '180')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.370'), ('y', '0.250')])), ('4', OrderedDict([('order', 4), ('type', 'arc'), ('x',
+ '0.375'), ('y', '0.125'), ('radius', '0.125'), ('start', '0'), ('end', '180')])), ('5', OrderedDict([('order', 5), ('type', 'line'), ('x', '0.000'), ('y', '0.000')]))]))])), ('t', O
+rderedDict([('char', 't'), ('width', '0.300'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.100'), ('y', '0.700')])), ('1', OrderedDict([('or
+der', 1), ('type', 'line'), ('x', '0.100'), ('y', '0.000')])), ('2', OrderedDict([('order', 2), ('type', 'move'), ('x', '0.000'), ('y', '0.500')])), ('3', OrderedDict([('order', 3),
+('type', 'line'), ('x', '0.200'), ('y', '0.500')]))]))])), ('u', OrderedDict([('char', 'u'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 's
+tart'), ('x', '0.000'), ('y', '0.500')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.000'), ('y', '0.200')])), ('2', OrderedDict([('order', 2), ('type', 'arc'), ('x
+', '0.200'), ('y', '0.200'), ('radius', '0.200'), ('start', '270'), ('end', '180')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.300'), ('y', '0.000')])), ('4', Ord
+eredDict([('order', 4), ('type', 'arc'), ('x', '0.300'), ('y', '0.200'), ('radius', '0.200'), ('start', '180'), ('end', '90')])), ('5', OrderedDict([('order', 5), ('type', 'line'), (
+'x', '0.500'), ('y', '0.500')]))]))])), ('v', OrderedDict([('char', 'v'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.00
+0'), ('y', '0.500')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.250'), ('y', '0.000')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.500'), ('y',
+ '0.500')]))]))])), ('w', OrderedDict([('char', 'w'), ('width', '0.900'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.500')]
+)), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.00'), ('y', '0.200')])), ('2', OrderedDict([('order', 2), ('type', 'arc'), ('x', '0.200'), ('y', '0.200'), ('radius',
+'0.200'), ('start', '270'), ('end', '90')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.400'), ('y', '0.500')])), ('4', OrderedDict([('order', 4), ('type', 'line'),
+ ('x', '0.400'), ('y', '0.200')])), ('5', OrderedDict([('order', 5), ('type', 'arc'), ('x', '0.600'), ('y', '0.200'), ('radius', '0.200'), ('start', '270'), ('end', '90')])), ('6', O
+rderedDict([('order', 6), ('type', 'line'), ('x', '0.800'), ('y', '0.500')]))]))])), ('x', OrderedDict([('char', 'x'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict(
+[('order', 0), ('type', 'start'), ('x', '0.000'), ('y', '0.500')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.500'), ('y', '0.000')])), ('2', OrderedDict([('order'
+, 2), ('type', 'move'), ('x', '0.000'), ('y', '0.000')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.500'), ('y', '0.500')]))]))])), ('y', OrderedDict([('char', 'y'
+), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.500'), ('y', '0.500')])), ('1', OrderedDict([('order', 1), ('type', 'line
+'), ('x', '0.000'), ('y', '-0.200')])), ('2', OrderedDict([('order', 2), ('type', 'move'), ('x', '0.000'), ('y', '0.500')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x',
+ '0.250'), ('y', '0.150')]))]))])), ('z', OrderedDict([('char', 'z'), ('width', '0.600'), ('strokes', OrderedDict([('0', OrderedDict([('order', 0), ('type', 'start'), ('x', '0.000'),
+ ('y', '0.500')])), ('1', OrderedDict([('order', 1), ('type', 'line'), ('x', '0.500'), ('y', '0.500')])), ('2', OrderedDict([('order', 2), ('type', 'line'), ('x', '0.000'), ('y', '0.
+000')])), ('3', OrderedDict([('order', 3), ('type', 'line'), ('x', '0.500'), ('y', '0.000')]))]))]))]))])
