@@ -15,3 +15,5 @@ Version v0.02.2 : lower case letters in kajack font.
 Version v0.02.3 : rotatable text
 
 Version v0.03 : 3d Drill and text functionality for CNC Router
+
+Version v0.03.01 : fixed radial copies of lines
