@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import json
-from collections import OrderedDict
 import math
 from sys import argv
 
@@ -21,14 +20,19 @@ from sys import argv
 # G95 feed rate relative spindle revolutions
 
 # Operations
-# G0 Move
+# G0 Move at travel speed
+# G1 Move and cut at feed rate
 # G2 Clockwise Arcs
 # G3 Counter-Clockwise Arcs
-# M3 Laser ON
-# M4 Spindle ON but reverse
-# M5 Laser OFF
+# G4 pause for X seconds
 
-# ValueError: Expecting property name: line 338 column 7 (char 16779)
+# M2 end program
+# M3 Spindle/Laser On
+# M4 Spindle ON but reverse
+# M5 Spindle/Laser OFF
+# M6 T201 ( tool change Grbl, but not TinyG )
+# M30 ( end program an rewind/return home )
+
 
 class Payload(object):
     def __init__(self, j):
@@ -38,36 +42,35 @@ class Payload(object):
 def dictionary_to_list(some_dictionary):
     line_list = []
     for line_number, line_values in some_dictionary.items():
-        # line_values['order'] = line_number
         line_list.insert(int(line_values['order']), line_values)
+
     sorted_lines = sorted(line_list, key=by_order)
     return sorted_lines
 
 
-def rotateCoordinate( xCoord, yCoord, rotation ):
-    pair = {}
-    pair['x'] = xCoord
-    pair['y'] = yCoord
-    if xCoord == 0 and yCoord == 0:
+def rotate_coordinate(x_axis, y_axis, rotation):
+    pair = {'x': x_axis, 'y': y_axis}
+
+    if x_axis == 0 and y_axis == 0:
         return pair
-    elif xCoord == 0 and yCoord > 0:
+    elif x_axis == 0 and y_axis > 0:
         azim = math.radians(rotation)
-        hypot = yCoord
-    elif xCoord == 0 and yCoord < 0:
+        hypot = y_axis
+    elif x_axis == 0 and y_axis < 0:
         azim = math.pi + math.radians(rotation)
-        hypot = abs(yCoord)
-    elif xCoord > 0 and yCoord == 0:
+        hypot = abs(y_axis)
+    elif x_axis > 0 and y_axis == 0:
         azim = math.pi / 2.0 + math.radians(rotation)
-        hypot = abs(xCoord)
-    elif xCoord < 0 and yCoord == 0:
+        hypot = abs(x_axis)
+    elif x_axis < 0 and y_axis == 0:
         azim = math.pi * 1.5 + math.radians(rotation)
-        hypot = abs(xCoord)
-    elif yCoord < 0:
-        azim = math.pi - math.atan(xCoord / abs(yCoord)) + math.radians(rotation)
-        hypot = math.sqrt(abs(xCoord) * abs(xCoord) + abs(yCoord) * abs(yCoord))
+        hypot = abs(x_axis)
+    elif y_axis < 0:
+        azim = math.pi - math.atan(x_axis / abs(y_axis)) + math.radians(rotation)
+        hypot = math.sqrt(abs(x_axis) * abs(x_axis) + abs(y_axis) * abs(y_axis))
     else:
-        azim = math.atan(xCoord / yCoord) + math.radians(rotation)
-        hypot = math.sqrt(abs(xCoord) * abs(xCoord) + abs(yCoord) * abs(yCoord))
+        azim = math.atan(x_axis / y_axis) + math.radians(rotation)
+        hypot = math.sqrt(abs(x_axis) * abs(x_axis) + abs(y_axis) * abs(y_axis))
 
     pair['x'] = math.sin(azim) * hypot
     pair['y'] = math.cos(azim) * hypot
@@ -100,7 +103,7 @@ def lines(params, feed_rate):
 
         if 'radial_increment' in params:
             radial_increment = math.radians(float(params['radial_increment']))
-        elif 'radial_increment' not in params:
+        else:
             radial_increment = (math.pi * 2.0) / float(params['radial_copies'])
 
         for radial in range(0, int(params['radial_copies'])):
@@ -126,8 +129,6 @@ def lines(params, feed_rate):
                     nc_lines += "M5 \n"
                     nc_lines += "G00 X{0} Y{1} F{2} (first link and chain start)\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
-                    first_x = new_x
-                    first_y = new_y
                     original_x = new_x
                     original_y = new_y
                 else:
@@ -193,12 +194,12 @@ def text(params, feed_rate):
         pen_up = surface + (float(params['height']) * 0.05)
 
         # text settings
-        scale = float(params['height'])
-        if 'unit' in params and params['unit'] == 'mm' and scale <= 10.0:
+        text_scale = float(params['height'])
+        if 'unit' in params and params['unit'] == 'mm' and text_scale <= 10.0:
             arc_smoothness = math.radians(22.5)
         elif 'unit' in params and params['unit'] == 'mm':
             arc_smoothness = math.radians(11.25 / 2)
-        elif scale <= 0.41:
+        elif text_scale <= 0.41:
             arc_smoothness = math.radians(22.5)
         else:
             arc_smoothness = math.radians(11.25 / 2)
@@ -220,16 +221,15 @@ def text(params, feed_rate):
                 supported_char = 'undefined'
 
             # get ready to start drawing a letter
-            # print '  print a : ' + supported_char
             stroke_list = dictionary_to_list(system_font.chars[supported_char]['strokes'])
             for stroke in stroke_list:
                 # print '  ' + stroke['type']
 
                 # rotate x and y
                 if 'rotate' in params and params['rotate'] != 0:
-                    newPair = rotateCoordinate(float(stroke['x']), float(stroke['y']), params['rotate'])
-                    rotated_x = newPair['x']
-                    rotated_y = newPair['y']
+                    new_coordinate = rotate_coordinate(float(stroke['x']), float(stroke['y']), params['rotate'])
+                    rotated_x = new_coordinate['x']
+                    rotated_y = new_coordinate['y']
                     rotate_arc = math.radians(params['rotate'])
                 else:
                     rotate_arc = 0.0
@@ -237,27 +237,27 @@ def text(params, feed_rate):
                     rotated_y = stroke['y']
 
                 if stroke['type'] == 'start':
-                    cursor_x = start_x + (float(rotated_x) * scale)
-                    cursor_y = start_y + (float(rotated_y) * scale)
+                    cursor_x = start_x + (float(rotated_x) * text_scale)
+                    cursor_y = start_y + (float(rotated_y) * text_scale)
                     nc_lines += 'G00 Z' + str3dec(params['ceiling']) + ' \n'
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
                     nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
                     nc_lines += 'G01 Z' + str3dec(z_depth) + ' F' + str3dec(feed_rate / 2) + ' \n'
                 elif stroke['type'] == 'line':
-                    cursor_x = start_x + (float(rotated_x) * scale)
-                    cursor_y = start_y + (float(rotated_y) * scale)
+                    cursor_x = start_x + (float(rotated_x) * text_scale)
+                    cursor_y = start_y + (float(rotated_y) * text_scale)
                     nc_lines += 'G01 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + " F" + str3dec(feed_rate) + "\n"
                 elif stroke['type'] == 'arc':
-                    cursor_x = start_x + (float(rotated_x) * scale)
-                    cursor_y = start_y + (float(rotated_y) * scale)
+                    cursor_x = start_x + (float(rotated_x) * text_scale)
+                    cursor_y = start_y + (float(rotated_y) * text_scale)
                     radian_start = math.radians(float(stroke['start'])) + rotate_arc
                     radian_end = math.radians(float(stroke['end'])) + rotate_arc
-                    nc_lines += arc_2d(cursor_x, cursor_y, float(stroke['radius']) * scale, radian_start, radian_end, arc_smoothness, feed_rate)
+                    nc_lines += arc_2d(cursor_x, cursor_y, float(stroke['radius']) * text_scale, radian_start, radian_end, arc_smoothness, feed_rate)
                 elif stroke['type'] == 'move':
                     nc_lines += 'G00 Z' + str3dec(pen_up) + ' \n'
                     nc_lines += 'M5 \n'
-                    cursor_x = start_x + float(rotated_x) * scale
-                    cursor_y = start_y + float(rotated_y) * scale
+                    cursor_x = start_x + float(rotated_x) * text_scale
+                    cursor_y = start_y + float(rotated_y) * text_scale
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
                     nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
                     nc_lines += 'G01 Z' + str3dec(z_depth) + ' \n'
@@ -265,11 +265,11 @@ def text(params, feed_rate):
             nc_lines += 'M5 \n'
             nc_lines += "G00 Z" + str3dec(float(params['ceiling']))
             if params['rotate'] == 0:
-                start_x += float(system_font.chars[supported_char]['width']) * scale
+                start_x += float(system_font.chars[supported_char]['width']) * text_scale
                 # start_y = start_y
             else:
-                start_x += float(system_font.chars[supported_char]['width']) * scale * math.sin(math.radians(90.0+params['rotate']))
-                start_y += float(system_font.chars[supported_char]['width']) * scale * math.cos(math.radians(90.0+params['rotate']))
+                start_x += float(system_font.chars[supported_char]['width']) * text_scale * math.sin(math.radians(90.0+params['rotate']))
+                start_y += float(system_font.chars[supported_char]['width']) * text_scale * math.cos(math.radians(90.0+params['rotate']))
 
         return nc_lines
     else:
@@ -279,7 +279,7 @@ def text(params, feed_rate):
 # this is not a normal shape operation, it is a sub task / helper for other shapes or text
 def arc_2d(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
     corner_lines = ""
-    cords = int((end_arc - start_arc) / increment )
+    cords = int((end_arc - start_arc) / increment)
 
     if start_arc > end_arc:
         # Counter clockwise arc!!
@@ -295,17 +295,9 @@ def arc_2d(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
     return corner_lines
 
 
-def load_font(font_file_name):
-    font_file = open(font_file_name, 'r')
-    font_data = str(font_file.read())
-    p = Payload(font_data)
-    return p
-
-
 def arc(params, feed_rate):
     arc_lines = "(center arc at " + str(params['x']) + ", " + str(params['y']) + ")\n"
     cords = int((params['end'] - params['start']) / params['increment'])
-    #print 'cords = ' + str(cords)
     if params['start'] > params['end']:
         # Counter clockwise arc!!
         cords = abs(cords)
@@ -320,12 +312,11 @@ def arc(params, feed_rate):
     arc_lines += "G00 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " \n"
     arc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
 
-    for segment in range(1, cords ):
+    for segment in range(1, cords):
         angle = params['start'] + (float(segment) * params['increment'])
         x_point = math.sin(angle) * params['radius'] + params['x']
         y_point = math.cos(angle) * params['radius'] + params['y']
         arc_lines += "G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate) + "\n"
-        # print "  G01 X" + str3dec(x_point) + " Y" + str3dec(y_point) + " F" + str3dec(feed_rate)
 
     last_x = math.sin(params['end']) * params['radius'] + params['x']
     last_y = math.cos(params['end']) * params['radius'] + params['y']
@@ -397,7 +388,7 @@ def drill(params, feed_rate):
                             " Z" + str3dec(start_z) + " F" + str3dec(feed_rate / 2.0) + "(plunge)\n"
                     nc_lines += arc_2d(params['x'], params['y'], current_radius, 0.0, math.pi * -2.1, increment, feed_rate)
                     current_radius -= step_radius
-                    #nc_lines += "G01 Z0.00 F" + str3dec(feed_rate) + " (retract)\n"
+
             else:
                 nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + current_radius) + \
                             " Z" + str3dec(start_z) + " F" + str3dec(feed_rate / 2.0) + "(plunge)\n"
@@ -426,7 +417,6 @@ def drill(params, feed_rate):
     nc_lines += "G01 Z" + str3dec(params['ceiling']) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
     return nc_lines
-
 
 
 def polygon(params, feed_rate):
@@ -517,11 +507,11 @@ def cross_hair(params, feed_rate):
     nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + half_a_cross) + "\n"
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
-    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) - half_a_cross) + "\n"
+    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) - half_a_cross) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(float(params['x']) + half_a_cross) + " Y" + str3dec(params['y']) + "\n"
     nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
-    nc_lines += "G01 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + "\n"
+    nc_lines += "G01 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + " F" + str3dec(feed_rate) + "\n"
     nc_lines += "M5 \n"
     return nc_lines
 
@@ -570,9 +560,6 @@ nc_file = open(output_file, 'w')
 pattern_file = open(input_file, 'r')
 json_array_string = str(pattern_file.read())
 json_data_dic = json.loads(json_array_string)
-
-# new Ordered Dictinary method, breaks in radial copy code
-#json_data_dic = json.load(open(input_file), object_pairs_hook=OrderedDict)
 
 system_font = None
 
@@ -627,7 +614,7 @@ nc_file.write('G00 X0 Y0 Z' + str3dec(default_ceiling) + "\n")
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
-for cut_number, cut_values in json_data_dic['interior_cuts'].items(): # iteritems():
+for cut_number, cut_values in json_data_dic['interior_cuts'].items():
     cut_list.insert(int(cut_number), cut_values)
 
 sorted_cuts = sorted(cut_list, key=by_y_then_x)
