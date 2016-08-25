@@ -3,19 +3,19 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.01",
-        "default_feedrate" : "80",
+        "default_feed_rate" : "80",
         "scale" : "0.9917",
         "sort_cuts" : "false",
-        "spindle" : "255.0"
+        "spindle_speed" : "255.0"
     },
     "border" : {
         "shape" : "rectangle",
         "wide" : "107.0",
         "tall" : "70.0",
-        "feedrate" : "80",
+        "feed_rate" : "80",
         "radius" : "5.0",
         "lead_in" : "5.0",
-        "spindle" : "255.0"
+        "spindle_speed" : "255.0"
     },
     "interior_cuts" : {
       "0" : {
@@ -24,10 +24,10 @@
          "x" : "5.00",
          "y" : "35.00",
          "rotate" : "-5.00",
-         "feedrate" : "80",
+         "feed_rate" : "80",
          "font" : "kajack",
          "text_string" : "ABCDEFGHIJKLM",
-         "spindle" : "255",
+         "spindle_speed" : "255",
          "surface" : "-5.000"
       },
       "1" : {
@@ -36,10 +36,10 @@
          "x" : "5.00",
          "y" : "25.00",
          "rotate" : "-5.00",
-         "feedrate" : "80",
+         "feed_rate" : "80",
          "font" : "kajack",
          "text_string" : "NOPQRSTUVWXYZ",
-         "spindle" : "255"
+         "spindle_speed" : "255"
       },
       "2" : {
          "shape" : "text",
@@ -47,10 +47,10 @@
          "x" : "5.00",
          "y" : "15.00",
          "rotate" : "-5.00",
-         "feedrate" : "80",
+         "feed_rate" : "80",
          "font" : "kajack",
          "text_string" : "0123456789_/",
-         "spindle" : "255"
+         "spindle_speed" : "255"
       },
       "3" : {
          "shape" : "text",
@@ -58,10 +58,10 @@
          "x" : "5.00",
          "y" : "5.00",
          "rotate" : "-5.00",
-         "feedrate" : "80",
+         "feed_rate" : "80",
          "font" : "kajack",
          "text_string" : "AAA:,.?!@#$%&*()+-=",
-         "spindle" : "255"
+         "spindle_speed" : "255"
       },
       "4" : {
          "shape" : "text",
@@ -69,10 +69,10 @@
          "x" : "5.00",
          "y" : "55.00",
          "rotate" : "-5.00",
-         "feedrate" : "80",
+         "feed_rate" : "80",
          "font" : "kajack",
          "text_string" : "abcdefghijklmn",
-         "spindle" : "255"
+         "spindle_speed" : "255"
       },
       "5" : {
          "shape" : "text",
@@ -80,10 +80,10 @@
          "x" : "5.00",
          "y" : "45.00",
          "rotate" : "-5.00",
-         "feedrate" : "80",
+         "feed_rate" : "80",
          "font" : "kajack",
          "text_string" : "nopqrstuvwxyz",
-         "spindle" : "255"
+         "spindle_speed" : "255"
       }
     }
 }

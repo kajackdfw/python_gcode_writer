@@ -3,15 +3,15 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.200",
-        "default_feedrate" : "25",
+        "default_feed_rate" : "25",
         "scale" : "1.00",
-        "spindle" : "255.0"
+        "spindle_speed" : "255.0"
     },
     "border" : {
         "shape" : "rectangle",
         "wide" : "45.000",
         "tall" : "43.000",
-        "feedrate" : "26",
+        "feed_rate" : "26",
         "radius" : "5.000",
         "lead_in" : "3.0"
     },
@@ -20,7 +20,7 @@
          "shape" : "lines",
          "x" : "22.50",
          "y" : "20.00",
-         "feedrate" : "27",
+         "feed_rate" : "27",
          "relative_points" :
          {
              "0" : {
@@ -38,7 +38,7 @@
          "x" : "22.50",
          "y" : "20.000",
          "radius" : "6.00",
-         "feedrate" : "28",
+         "feed_rate" : "28",
          "start" : "-157.5",
          "end" : "157.5",
          "increment" : "5.625"
@@ -47,7 +47,7 @@
          "shape" : "lines",
          "x" : "22.50",
          "y" : "20.00",
-         "feedrate" : "29",
+         "feed_rate" : "29",
          "relative_points" :
          {
              "0" : {
@@ -64,7 +64,7 @@
          "shape" : "lines",
          "x" : "22.50",
          "y" : "20.00",
-         "feedrate" : "24",
+         "feed_rate" : "24",
          "radial_offset" : "-135.0",
          "radial_increment" : "45",
          "radial_copies" : "7",
@@ -89,10 +89,10 @@
          "x" : "0.00",
          "y" : "46.00",
          "rotate" : "0.00",
-         "feedrate" : "61",
+         "feed_rate" : "61",
          "font" : "kajack",
          "text_string" : "OPENBUILDS",
-         "spindle" : "255"
+         "spindle_speed" : "255"
       },
       "6" : {
          "shape" : "text",
@@ -100,10 +100,10 @@
          "x" : "0.1",
          "y" : "45.90",
          "rotate" : "0.00",
-         "feedrate" : "62",
+         "feed_rate" : "62",
          "font" : "kajack",
          "text_string" : "OPENBUILDS",
-         "spindle" : "255"
+         "spindle_speed" : "255"
       }
 
     }

@@ -2,7 +2,7 @@
     "config" : {
         "unit" : "mm",
         "tool_diameter" : "0.080",
-        "default_feedrate" : "200",
+        "default_feed_rate" : "200",
         "scale" : "0.9917"
     },
     "border" : {
@@ -16,7 +16,7 @@
          "diameter" : "9.280" ,
          "x" : "10.700",
          "y" : "11.750",
-         "feedrate" : "250.000",
+         "feed_rate" : "250.000",
          "array" : {
             "columns" : "4",
             "x_spacing" : "13.220",
@@ -29,7 +29,7 @@
          "diameter" : "2.100" ,
          "x" : "5.240",
          "y" : "4.700",
-         "feedrate" : "100.000",
+         "feed_rate" : "100.000",
          "array" : {
            "columns" : "2",
            "x_spacing" : "50.070",

@@ -3,19 +3,19 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.01",
-        "default_feedrate" : "80",
+        "default_feed_rate" : "80",
         "scale" : "0.9917",
         "sort_cuts" : "false",
-        "spindle" : "255.0"
+        "spindle_speed" : "255.0"
     },
     "border" : {
         "shape" : "rectangle",
         "wide" : "30.0",
         "tall" : "20.0",
-        "feedrate" : "50.0",
+        "feed_rate" : "50.0",
         "radius" : "5.0",
         "lead_in" : "5.0",
-        "spindle" : "255.0"
+        "spindle_speed" : "255.0"
     },
     "interior_cuts" : {
       "0" : {
@@ -24,10 +24,10 @@
          "x" : "5.00",
          "y" : "5.00",
          "rotate" : "15.00",
-         "feedrate" : "80",
+         "feed_rate" : "80",
          "font" : "kajack",
          "text_string" : ">A",
-         "spindle" : "255"
+         "spindle_speed" : "255"
       }
     }
 }

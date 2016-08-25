@@ -4,7 +4,7 @@
     "model": "XL",
     "default_unit": "mm",
     "default_tool_diameter": "0.05",
-    "default_feedrate": "80",
+    "default_feed_rate": "80",
     "scale": "0.9917",
-    "spindle": "255.0"
+    "spindle_speed": "255.0"
 }

@@ -1,19 +1,25 @@
-{
-    "config" : {
+{ "config" : {
         "mode" : "absolute",
-        "unit" : "mm",
-        "tool_diameter" : "0.5",
-        "default_feed_rate" : "50",
-        "scale" : "0.9917",
-        "spindle_speed" : "255.0"
+        "unit" : "inches",
+        "tool_diameter" : "0.25",
+        "default_feed_rate" : "80",
+        "scale" : "1.000",
+        "spindle_speed" : "255.0",
+        "stock_x" : "14.250",
+        "stock_y" : "11.25",
+        "stock_z" : "0.700",
+        "stock_material" : "mdf"
     },
     "border" : {
-        "shape" : "none",
-        "wide" : "140.0",
-        "tall" : "250.0",
-        "feed_rate" : "120",
-        "lead_in" : "1.0",
-        "spindle_speed" : "255"
+        "shape" : "rectangular",
+        "wide" : "14.000",
+        "tall" : "0.750",
+        "feed_rate" : "80",
+        "step_down" : "0.125",
+        "feed_bite" : "0.125",
+        "lead_in" : "0.125",
+        "spindle_speed" : "255",
+        "sprues" : "0.25"
     },
     "interior_cuts" : {
         "0": {

@@ -119,7 +119,7 @@ def lines(params, feed_rate):
                 if point_ctr == 1 and 'close_links' in params and params['close_links'] == 'TRUE':
                     nc_lines += "M5 \n"
                     nc_lines += "G00 X{0} Y{1} F{2} (first link and chain start)\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
-                    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+                    nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
                     link_start_x = new_x
                     link_start_y = new_y
@@ -128,7 +128,7 @@ def lines(params, feed_rate):
                 elif point_ctr == 1 and radial_count == 1 and 'close_chain' in params and params['close_chain'] == 'TRUE':
                     nc_lines += "M5 \n"
                     nc_lines += "G00 X{0} Y{1} F{2} (first link and chain start)\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
-                    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+                    nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
                     original_x = new_x
                     original_y = new_y
                 else:
@@ -164,7 +164,7 @@ def lines(params, feed_rate):
             first_y = cut_y
             nc_lines += "M5 \n"
             nc_lines += "G00 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
-            nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+            nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
         else:
             nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
 
@@ -182,8 +182,8 @@ def text(params, feed_rate):
         start_y = float(params['y'])
 
         # set some neede values if not provided
-        if 'spindle' not in params:
-            params['spindle'] = 255.0
+        if 'spindle_speed' not in params:
+            params['spindle_speed'] = 255.0
 
         if 'surface' in params:
             surface = float(params['surface'])
@@ -241,7 +241,7 @@ def text(params, feed_rate):
                     cursor_y = start_y + (float(rotated_y) * text_scale)
                     nc_lines += 'G00 Z' + str3dec(params['ceiling']) + ' \n'
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
-                    nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
+                    nc_lines += 'M3 S' + str3dec(params['spindle_speed']) + ' \n'
                     nc_lines += 'G01 Z' + str3dec(z_depth) + ' F' + str3dec(feed_rate / 2) + ' \n'
                 elif stroke['type'] == 'line':
                     cursor_x = start_x + (float(rotated_x) * text_scale)
@@ -259,7 +259,7 @@ def text(params, feed_rate):
                     cursor_x = start_x + float(rotated_x) * text_scale
                     cursor_y = start_y + float(rotated_y) * text_scale
                     nc_lines += 'G00 X' + str3dec(cursor_x) + ' Y' + str3dec(cursor_y) + '\n'
-                    nc_lines += 'M3 S' + str3dec(params['spindle']) + ' \n'
+                    nc_lines += 'M3 S' + str3dec(params['spindle_speed']) + ' \n'
                     nc_lines += 'G01 Z' + str3dec(z_depth) + ' \n'
 
             nc_lines += 'M5 \n'
@@ -310,7 +310,7 @@ def arc(params, feed_rate):
     first_y = math.cos(params['start']) * params['radius'] + params['y']
     arc_lines += "M5 \n"
     arc_lines += "G00 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " \n"
-    arc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+    arc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
 
     for segment in range(1, cords):
         angle = params['start'] + (float(segment) * params['increment'])
@@ -338,7 +338,7 @@ def circle(params, feed_rate):
     if cross_hair in params:
         nc_lines += cross_hair(params, feed_rate)
     nc_lines += "G00 X" + str3dec(x) + " Y" + str3dec(y + radius) + " \n"
-    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+    nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
 
     smoothness = 11.25
     nc_lines += arc_2d(x, y, radius, 0, math.radians(360), math.radians(smoothness), feed_rate)
@@ -354,7 +354,7 @@ def drill(params, feed_rate):
         params['bottom'] = (params['stock_depth'] + 0.0625) * -1
 
     # drill a center hole
-    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+    nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 F" + str3dec(feed_rate / 2.0) + " \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
@@ -430,7 +430,7 @@ def polygon(params, feed_rate):
 
     nc_lines += "G00 X" + str3dec(start_x) + " Y" + str3dec(start_y) + " Z0.1\n"  # start point
     nc_lines += "G00 Z-1. \n"
-    nc_lines += "M3 S" + params['spindle'] + " \n"
+    nc_lines += "M3 S" + params['spindle_speed'] + " \n"
     for index in range(1, int(params['sides'])):
         x = center_x + (radius * math.sin(float(index) * segment_angle))
         y = center_y + (radius * math.cos(float(index) * segment_angle))
@@ -449,13 +449,13 @@ def rectangle(params, feed_rate):
     left = float(params['x'])
     bottom = float(params['y'])
 
-    if 'spindle' not in params:
-        params['spindle'] = 255.0
+    if 'spindle_speed' not in params:
+        params['spindle_speed'] = 255.0
 
     if 'radius' in params and params['radius'] > 0:
         rad = float(params['radius'])
         nc_lines += "G00 X" + str3dec(left) + " Y" + str3dec(bottom + rad) + " \n"
-        nc_lines += "M3 S" + str(params['spindle']) + " \n"
+        nc_lines += "M3 S" + str(params['spindle_speed']) + " \n"
         # left side
         nc_lines += "G01 X" + str3dec(left) + " Y" + str3dec(top - rad) + " F" + str3dec(feed_rate) + "\n"
         nc_lines += corner(left + rad, top - rad, rad, math.pi * 1.5, 4)  # upper left corner
@@ -471,7 +471,7 @@ def rectangle(params, feed_rate):
         nc_lines += "M5\n"
     else:
         nc_lines = "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " F" + str3dec(feed_rate) + "\n"
-        nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+        nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(
             float(params['y']) + float(params['tall'])) + " F" + str3dec(feed_rate) + "\n"
         nc_lines += "G01 X" + str3dec(float(params['x']) + float(params['wide'])) + " Y" + str3dec(
@@ -506,11 +506,11 @@ def cross_hair(params, feed_rate):
     half_a_cross = float(params['cross_hair']) / 2.0
     nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) + half_a_cross) + "\n"
-    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+    nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
     nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(float(params['y']) - half_a_cross) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
     nc_lines += "G00 X" + str3dec(float(params['x']) + half_a_cross) + " Y" + str3dec(params['y']) + "\n"
-    nc_lines += "M3 S" + str3dec(params['spindle']) + " \n"
+    nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
     nc_lines += "G01 X" + str3dec(float(params['x']) - half_a_cross) + " Y" + str3dec(params['y']) + " F" + str3dec(feed_rate) + "\n"
     nc_lines += "M5 \n"
     return nc_lines
@@ -573,10 +573,10 @@ else:
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G20')
 
 # set some default values
-if 'spindle' in json_data_dic['config']:
-    default_spindle = float(json_data_dic['config']['spindle'])
+if 'spindle_speed' in json_data_dic['config']:
+    default_spindle_speed = float(json_data_dic['config']['spindle_speed'])
 else:
-    default_spindle = 255.0
+    default_spindle_speed = 255.0
 
 if 'speed' in json_data_dic['config']:
     default_speed = float(json_data_dic['config']['speed'])
@@ -664,19 +664,19 @@ for cut in sorted_cuts:
         else:
             cut['bottom'] = 0.0 - stock_depth
 
-    if 'feedrate' in cut:
-        tool_feedrate = float(cut['feedrate'])
+    if 'feed_rate' in cut:
+        tool_feed_rate = float(cut['feed_rate'])
     else:
-        tool_feedrate = float(json_data_dic['config']['default_feedrate'])
+        tool_feed_rate = float(json_data_dic['config']['default_feed_rate'])
 
-    if 'spindle' in cut:
-        cut['spindle'] = float(cut['spindle'])
+    if 'spindle_speed' in cut:
+        cut['spindle_speed'] = float(cut['spindle_speed'])
     else:
-        cut['spindle'] = default_spindle
+        cut['spindle_speed'] = default_spindle_speed
 
     # is there an array of this cut ?
     if 'array' not in cut:
-        nc_file.write(cut_a_shape[cut['shape']](cut, tool_feedrate))
+        nc_file.write(cut_a_shape[cut['shape']](cut, tool_feed_rate))
     else:
         cutArray = cut['array']  # is there an array of this shape to process ? If not do once in exception
         cut['column_spacing'] = float(cut['array']['x_spacing']) * scale
@@ -686,7 +686,7 @@ for cut in sorted_cuts:
                 cut_params = {}
                 cut_params['x'] = (float(aCol) * cut['column_spacing'] + origin_x) * scale + kerf
                 cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * scale + kerf
-                cut_params['spindle'] = cut['spindle']
+                cut_params['spindle_speed'] = cut['spindle_speed']
                 cut_params['ceiling'] = float(default_ceiling)
 
                 # pass the necessary attributes for completing the cut
@@ -713,21 +713,21 @@ for cut in sorted_cuts:
                 if 'radius' in cut:
                     cut_params['radius'] = float(cut['radius']) * scale - kerf
 
-                nc_file.write(str(cut_a_shape[cut['shape']](cut_params, tool_feedrate)))
+                nc_file.write(str(cut_a_shape[cut['shape']](cut_params, tool_feed_rate)))
 
 # lastly, prepare to cut the border
-if 'feedrate' in json_data_dic['border']:
-    tool_feedrate = str3dec(json_data_dic['border']['feedrate'])
+if 'feed_rate' in json_data_dic['border']:
+    tool_feed_rate = str3dec(json_data_dic['border']['feed_rate'])
 else:
-    tool_feedrate = str3dec(json_data_dic['config']['default_feedrate'])
+    tool_feed_rate = str3dec(json_data_dic['config']['default_feed_rate'])
 
 if 'border' not in json_data_dic or 'shape' not in json_data_dic['border']:
     nc_file.write('(no border found)')
     nc_file.close()
 
 border_params = json_data_dic['border']
-if 'spindle' not in border_params:
-    border_params['spindle'] = default_spindle
+if 'spindle_speed' not in border_params:
+    border_params['spindle_speed'] = default_spindle_speed
 
 # prepare border vars for various shapes
 if json_data_dic['border']['shape'] == 'rectangle':
@@ -740,7 +740,7 @@ if json_data_dic['border']['shape'] == 'rectangle':
     if 'lead_in' in json_data_dic['border']:
         border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
     nc_file.write("(rectangular border) \n")
-    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_feedrate)))
+    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_feed_rate)))
 
 if json_data_dic['border']['shape'] == 'circle':
     border_params['radius'] = float(border_params['diameter']) * scale / 2.0 + kerf
@@ -749,7 +749,7 @@ if json_data_dic['border']['shape'] == 'circle':
     if 'lead_in' in json_data_dic['border']:
         border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
     nc_file.write("(circular border) \n")
-    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_feedrate)))
+    nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_feed_rate)))
 
 nc_file.write('M5 \n')
 nc_file.write('G00 X0 Y0 \n')

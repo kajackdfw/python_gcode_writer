@@ -3,16 +3,16 @@
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "0.1",
-        "default_feedrate" : "40",
+        "default_feed_rate" : "40",
         "scale" : "0.9917",
         "sort_cuts" : "false",
-        "spindle" : "on"
+        "spindle_speed" : "on"
     },
     "border" : {
         "shape" : "rectangle",
         "wide" : "50.8",
         "tall" : "50.8",
-        "feedrate" : "20"
+        "feed_rate" : "20"
     },
     "interior_cuts" : {
       "0" : {
@@ -20,21 +20,21 @@
          "diameter" : "9.0" ,
          "x" : "36.0",
          "y" : "12.0",
-         "feedrate" : "130"
+         "feed_rate" : "130"
       },
       "1" : {
          "shape" : "circle",
          "diameter" : "9.0" ,
          "x" : "24.0",
          "y" : "12.0",
-         "feedrate" : "130"
+         "feed_rate" : "130"
       },
       "2" : {
          "shape" : "circle",
          "diameter" : "9.0" ,
          "x" : "12.0",
          "y" : "12.0",
-         "feedrate" : "130"
+         "feed_rate" : "130"
       },
       "3" : {
          "shape" : "rectangle",
@@ -42,7 +42,7 @@
          "y" : "45.0",
          "wide" : "46.8",
          "tall" : "3.00",
-         "feedrate" : "10"
+         "feed_rate" : "10"
       },
       "4" : {
          "shape" : "rectangle",
@@ -50,7 +50,7 @@
          "y" : "40.0",
          "wide" : "46.8",
          "tall" : "3.00",
-         "feedrate" : "20"
+         "feed_rate" : "20"
       },
       "5" : {
          "shape" : "rectangle",
@@ -58,7 +58,7 @@
          "y" : "35.0",
          "wide" : "46.8",
          "tall" : "3.00",
-         "feedrate" : "30"
+         "feed_rate" : "30"
       },
       "6" : {
          "shape" : "polygon",
@@ -66,7 +66,7 @@
          "x" : "12.0",
          "y" : "24.0",
          "sides" : "3",
-         "feedrate" : "60"
+         "feed_rate" : "60"
       },
       "7" : {
          "shape" : "polygon",
@@ -74,7 +74,7 @@
          "x" : "24.0",
          "y" : "24.0",
          "sides" : "6",
-         "feedrate" : "70"
+         "feed_rate" : "70"
       },
       "8" : {
          "shape" : "polygon",
@@ -82,7 +82,7 @@
          "x" : "36.0",
          "y" : "24.0",
          "sides" : "32",
-         "feedrate" : "70"
+         "feed_rate" : "70"
       }
     }
 }

@@ -2,7 +2,7 @@
     "config" : {
         "unit" : "inch",
         "tool_diameter" : "0.25",
-        "default_feedrate" : "60",
+        "default_feed_rate" : "60",
         "scale" : "1.000",
         "retract_spindle_to" : "0.50",
         "stock_depth" : "0.25"

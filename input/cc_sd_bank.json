@@ -2,7 +2,7 @@
     "config" : {
         "unit" : "mm",
         "tool_diameter" : "0.01",
-        "default_feedrate" : "10",
+        "default_feed_rate" : "10",
         "scale" : "0.9917"
     },
     "border" : {
@@ -10,7 +10,7 @@
         "wide" : "86",
         "tall" : "55",
         "radius" : "4.0",
-        "feedrate" : "1.0"
+        "feed_rate" : "1.0"
     },
     "interior_cuts" : {
       "0" : {
@@ -19,7 +19,7 @@
          "y" : "25.0",
          "wide" : "11.500",
          "tall" : "15.5",
-         "feedrate" : "2.0"
+         "feed_rate" : "2.0"
       }
     }
 }
