@@ -19,7 +19,8 @@
         "feed_bite" : "0.125",
         "lead_in" : "0.125",
         "spindle_speed" : "255",
-        "sprues" : "0.25"
+        "sprues" : "0.25",
+        "chamfer": "0.063"
     },
     "interior_cuts" : {
         "0": {
