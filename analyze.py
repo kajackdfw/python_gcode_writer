@@ -41,7 +41,7 @@ this_script, input_file, output_file = argv
 print("  Json file : ", input_file)
 print("  Output to : ", output_file)
 
-nc_file = open(output_file, 'w')
+report_file = open(output_file, 'w')
 
 pattern_file = open(input_file, 'r')
 json_array_string = str(pattern_file.read())
@@ -49,7 +49,7 @@ json_data_dic = json.loads(json_array_string)
 kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
 
 
-nc_file.write("G00 X0 Y0 Z \n")
+report_file.write("G00 X0 Y0 Z \n")
 
 
 # create a Python List of Dictionaries we can can sort by values
@@ -58,6 +58,6 @@ for cut_number, cut_values in json_data_dic['interior_cuts'].items():
     cut_list.insert(int(cut_number), cut_values)
 
 
-nc_file.write('(end of script)')
-nc_file.close()
+report_file.write('(end of script)')
+report_file.close()
 print('  File {0} created!'.format(output_file))
