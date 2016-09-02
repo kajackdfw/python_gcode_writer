@@ -11,5 +11,9 @@
     "spindle_model": "Dewalt DWP611",
     "spindle_speed": "manual",
     "spindle_max": "9500",
-    "spindle_min": "5000"
+    "spindle_min": "5000",
+    "materials": {
+        "mdf": { "step_down": "0.125", "feed_bite": "0.125", "spindle_speed": "" }
+    }
+
 }

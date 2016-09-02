@@ -1,128 +1,146 @@
-{ "default" : {
-        "mode" : "absolute",
-        "unit" : "inches",
-        "scale" : "1.000",
-        "tool_diameter" : "0.25",
-        "spindle_speed" : "255.0",
-        "feed_rate" : "80"
+{
+    "default": {
+        "mode": "absolute",
+        "unit": "inches",
+        "scale": "1.000",
+        "tool_diameter": "0.25",
+        "spindle_speed": "255.0",
+        "feed_rate": "80"
     },
-    "tools" : {
+    "tools": {
         "1": {
-            "name" : "end mill",
-            "diameter" : "0.250"
-             },
+            "name": "end mill",
+            "diameter": "0.250"
+        },
         "2": {
-            "name" : "round nose",
-            "diameter" : "0.250"
+            "name": "round nose",
+            "diameter": "0.250"
         }
     },
-    "stock" : {
-        "x_extent" : "14.250",
-        "y_extent" : "11.25",
-        "z_extent" : "0.700",
-        "material" : "mdf"
+    "stock": {
+        "x_extent": "14.250",
+        "y_extent": "11.25",
+        "z_extent": "0.700",
+        "material": "mdf"
     },
-    "border" : {
-        "shape" : "rectangular",
-        "wide" : "14.000",
-        "tall" : "0.750",
-        "feed_rate" : "80",
-        "step_down" : "0.125",
-        "feed_bite" : "0.125",
-        "lead_in" : "0.125",
-        "spindle_speed" : "255",
-        "sprue" : "0.25",
-        "chamfer": "0.063"
-    },
-    "interior_cuts" : {
-        "0": {
-            "shape": "lines",
-            "x": "1.0",
-            "y": "1.0",
-            "feed_rate": "80",
-            "spindle_speed" : "255.0",
-            "close_links": "TRUE",
-            "relative_points": {
-                "0": {
-                    "right": "5.000",
-                    "up": "0.000"
-                },
-                "1": {
-                    "right": "0.000",
-                    "up": "-0.500"
-                },
-                "2": {
-                    "right": "5.000",
-                    "up": "0.000"
-                },
-                "3": {
-                    "right": "0.000",
-                    "up": "3.500"
-                },
-                "4": {
-                    "right": "-1.500",
-                    "up": "0.0"
-                },
-                "5": {
-                    "right": "-1.500",
-                    "up": "1.500",
-                    "radius": "1.500",
-                    "start": "180",
-                    "end": "270"
-                },
-                "6": {
-                    "right": "0",
-                    "up": "4.500"
-                },
-                "7": {
-                    "right": "-2.000",
-                    "up": "0.000"
-                },
-                "8": {
-                    "right": "0.000",
-                    "up": "-2.000"
-                },
-                "9": {
-                    "right": "-4.000",
-                    "up": "0.000"
-                },
-                "10": {
-                    "right": "-1.000",
-                    "up": "-1.000",
-                    "radius": "1.000",
-                    "start": "0",
-                    "end": "-90.000"
-                },
-                "11": {
-                    "right": "0.000",
-                    "up": "-6.000"
-                }
+    "groups": {
+        "1": {
+            "perimeter": {
+                "shape": "rectangular",
+                "wide": "14.000",
+                "tall": "0.750",
+                "feed_rate": "80",
+                "step_down": "0.125",
+                "feed_bite": "0.125",
+                "lead_in": "0.125",
+                "spindle_speed": "255",
+                "sprue": "0.25",
+                "chamfer": "0.063"
             },
-            "islands": {
-                "1": {
-                    "1": {
-                        "x": "6.000",
-                        "y": "2.500"
+            "cavities": {
+                "0": {
+                    "shape": "lines",
+                    "x": "1.000",
+                    "y": "3.000",
+                    "feed_rate": "80",
+                    "spindle_speed": "255.0",
+                    "close_links": "TRUE",
+                    "relative_points": {
+                        "0": {
+                            "right": "0.000",
+                            "up": "3.500"
+                        },
+                        "1": {
+                            "right": "2.000",
+                            "up": "0.000"
+                        },
+                        "2": {
+                            "right": "0.000",
+                            "up": "2.000"
+                        },
+                        "3": {
+                            "right": "7.000",
+                            "up": "0.000"
+                        },
+                        "4": {
+                            "right": "0.000",
+                            "up": "-1.500"
+                        },
+                        "5": {
+                            "right": "-1.500",
+                            "up": "1.500"
+                        },
+                        "6": {
+                            "right": "-3.500",
+                            "up": "0.000"
+                        },
+                        "7": {
+                            "right": "0.000",
+                            "up": "-1.500"
+                        },
+                        "8": {
+                            "right": "2.000",
+                            "up": "0.000"
+                        },
+                        "9": {
+                            "right": "0.000",
+                            "up": "-4.000"
+                        },
+                        "10": {
+                            "right": "-4.500",
+                            "up": "0.000"
+                        },
+                        "11": {
+                            "right": "0.000",
+                            "up": "1.500"
+                        }
                     },
-                    "2": {
-                        "right": "0.000",
-                        "up": "2.500"
-                    },
-                    "3": {
-                        "right": "-1.000",
-                        "up": "0.000"
-                    },
-                    "4": {
-                        "right": "0.000",
-                        "up": "-1.000",
-                        "radius": "1.000",
-                        "start": "0",
-                        "end": "-90"
-                    },
-                    "5": {
-                        "right": "0.000",
-                        "up": "-1.500"
+                    "islands": {
+                        "A": {
+                            "1": {
+                                "x": "6.000",
+                                "y": "3.000",
+                                "z": "0.000"
+                            },
+                            "2": {
+                                "right": "0.000",
+                                "up": "1.500"
+                            },
+                            "3": {
+                                "right": "1.500",
+                                "up": "0.000"
+                            },
+                            "4": {
+                                "right": "0.000",
+                                "up": "-1.500"
+                            }
+                        },
+                        "B": {
+                            "1": {
+                                "x": "2.000",
+                                "y": "4.500",
+                                "z": "-0.500"
+                            },
+                            "2": {
+                                "right": "0.000",
+                                "up": "1.000"
+                            },
+                            "3": {
+                                "right": "1.000",
+                                "up": "0.000"
+                            },
+                            "4": {
+                                "right": "0.000",
+                                "up": "-1.000"
+                            }
+                        }
                     }
+                },
+                "1" : {
+                    "action": "mirror",
+                    "subject" : "group:0",
+                    "axis": "y",
+                    "y": "13.5"
                 }
             }
         }
