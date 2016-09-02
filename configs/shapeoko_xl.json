@@ -1,10 +1,13 @@
 {
-    "config_name": "shapeoko_xl",
-    "make": "Shapeoko",
-    "model": "XL",
+    "config_name": "shapeoko_3_xl_c3d",
+    "description": "Shapeoko 3 XL",
+    "make": "Carbide3D",
+    "model": "Shapeoko XL",
     "default_unit": "mm",
-    "default_tool_diameter": "0.05",
-    "default_feed_rate": "80",
-    "scale": "0.9917",
-    "spindle_speed": "255.0"
+    "default_tool_diameter": "6.350",
+    "default_feed_rate": "60",
+    "scale": "1.000",
+    "spindle_speed": "manual",
+    "spindle_max": "9500",
+    "spindle_min": "5000"
 }
