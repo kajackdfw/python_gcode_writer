@@ -1,12 +1,14 @@
 {
-    "config_name": "shapeoko_3_xl_c3d",
+    "config_name": "shapeoko_3_xl",
     "description": "Shapeoko 3 XL",
     "make": "Carbide3D",
     "model": "Shapeoko XL",
     "default_unit": "mm",
     "default_tool_diameter": "6.350",
     "default_feed_rate": "60",
+    "default_plunge_rate": "20",
     "scale": "1.000",
+    "spindle_model": "Dewalt DWP611",
     "spindle_speed": "manual",
     "spindle_max": "9500",
     "spindle_min": "5000"
