@@ -6,6 +6,7 @@
     "default_tool_diameter": "0.05",
     "default_feed_rate": "80",
     "scale": "0.9917",
-    "spindle_speed": "255.0",
-    "dimensions": "2"
+    "spindle_max": "255.0",
+    "spindle_min": "0.0",
+    "dimensions": "xy"
 }
