@@ -1,40 +1,65 @@
 {
     "config" : {
-        "mode" : "absolute",
-        "unit" : "mm",
-        "tool_diameter" : "0.002",
-        "default_feed_rate" : "5.1",
-        "scale" : "0.9917",
-        "sort_cuts" : "false",
-        "spindle_speed" : "255.0"
+        "unit" : "inch",
+        "tool_diameter" : "0.125",
+        "default_feed_rate" : "60",
+        "scale" : "1.000",
+        "retract_spindle_to" : "0.125",
+        "stock_depth" : "0.25"
     },
     "border" : {
-        "shape" : "rectangle",
-        "wide" : "30.0",
-        "tall" : "30.0",
-        "feed_rate" : "3.333",
-        "lead_in" : "5.0",
-        "spindle_speed" : "255"
+        "shape" : "none",
+        "wide" : "32.000",
+        "tall" : "15.000"
     },
     "interior_cuts" : {
+      "0" : {
+         "shape" : "drill",
+         "diameter" : "0.125" ,
+         "bottom" : "-0.063" ,
+         "top" : "0.000",
+         "x" : "0.500",
+         "y" : "1.500",
+         "array" : {
+            "columns" : "2",
+            "x_spacing" : "0.375",
+            "rows" : "3",
+            "y_spacing" : "0.375"
+         }
+      },
+      "1" : {
+         "shape" : "drill",
+         "diameter" : "0.125" ,
+         "bottom" : "-0.063" ,
+         "top" : "0.000",
+         "x" : "1.250",
+         "y" : "1.250",
+         "array" : {
+            "columns" : "1",
+            "x_spacing" : "0.375",
+            "rows" : "3",
+            "y_spacing" : "-0.375"
+         }
+      },
       "2" : {
-         "shape" : "text",
-         "height" : "20.0",
-         "x" : "35.00",
-         "y" : "5.00",
-         "rotate" : "0.00",
-         "feed_rate" : "10",
-         "font" : "kajack",
-         "text_string" : "Test",
-         "spindle_speed" : "255"
+         "shape" : "rectangle",
+         "x" : "0.0" ,
+         "y" : "0.0",
+         "z" : "0.063",
+         "wide" : "12.0",
+         "tall" : "12.00",
+         "feed_rate" : "60"
       },
       "3" : {
-         "shape" : "circle",
-         "radius" : "4.5",
-         "x" : "15.00",
-         "y" : "15.00",
-         "feed_rate" : "2.0",
-         "spindle_speed" : "255"
+         "shape" : "lines",
+         "x" : "3.00",
+         "y" : "1.500",
+         "z" : "-0.25",
+         "feed_rate" : "60",
+         "relative_points" :
+         {
+             "0" : { "right" : "0.500", "up" : "0.000", "z" : "0.25" }
+         }
       }
     }
 }

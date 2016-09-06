@@ -1,0 +1,26 @@
+{
+    "0": {
+        "tool": "em_250",
+        "description": "1/4\" End Mill",
+        "diameter": "0.250",
+        "shape": "flat",
+        "rates": {
+            "wood_soft": {
+                "feed_rate": "80.0",
+                "plunge": "30.0",
+                "step_down": "0.125",
+                "feed_bite": "0.125",
+                "spindle_speed": "21000",
+                "tool_change_message": "1/4\" End Mill DWP611 SPEED 3.5"
+            },
+            "wood_medium": {
+                "feed_rate": "65.0",
+                "plunge": "32.0",
+                "step_down": "0.10",
+                "feed_bite": "0.125",
+                "spindle_speed": "20000",
+                "tool_change_message": "1/4\" End Mill DWP611 SPEED 3"
+            }
+        }
+    }
+}
