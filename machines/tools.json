@@ -20,6 +20,14 @@
                 "feed_bite": "0.125",
                 "spindle_speed": "20000",
                 "tool_change_message": "1/4\" End Mill DWP611 SPEED 3"
+            },
+            "wood_hard": {
+                "feed_rate": "50.0",
+                "plunge": "25.0",
+                "step_down": "0.10",
+                "feed_bite": "0.125",
+                "spindle_speed": "20000",
+                "tool_change_message": "1/4\" End Mill DWP611 SPEED 3"
             }
         }
     }
