@@ -1,12 +1,18 @@
 {
-    "config_name": "GRBL Shield Laser",
+    "config": "grbl_shield_laser",
+    "description": "GRBL Shield with laser",
     "make": "PLC Center",
-    "model": "XL",
+    "model": "PLC",
+    "dimensions": "xy",
     "default_unit": "mm",
     "default_tool_diameter": "0.05",
     "default_feed_rate": "80",
+    "default_plunge_rate": "30",
     "scale": "0.9917",
+    "maximum_x_extent": "200.0",
+    "maximum_y_extent": "250.0",
+    "spindle_model": "0.545mm 500mw Laser",
+    "spindle_control": "pmw",
     "spindle_max": "255.0",
-    "spindle_min": "0.0",
-    "dimensions": "xy"
+    "spindle_min": "0.0"
 }
