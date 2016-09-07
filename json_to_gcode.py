@@ -159,14 +159,19 @@ def lines(params, feed_rate):
         point_ctr += int(1)
         cut_x = float(center_x) + (float(line['right']) * rel_scale)
         cut_y = float(center_y) + (float(line['up']) * rel_scale)
+        if 'z' in line:
+            z_move = ' Z' + str3dec(line['z'])
+        else:
+            z_move = ''
+
         if point_ctr == 1:
             first_x = cut_x
             first_y = cut_y
             nc_lines += "M5 \n"
-            nc_lines += "G00 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
+            nc_lines += "G00 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + z_move + " F" + str3dec(feed_rate) + " \n"
             nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
         else:
-            nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + " F" + str3dec(feed_rate) + " \n"
+            nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + z_move + " F" + str3dec(feed_rate) + " \n"
 
     if 'close_links' in params and params['close_links'] == 'TRUE':
         nc_lines += "G01 X" + str3dec(first_x) + " Y" + str3dec(first_y) + " F" + str3dec(feed_rate) + " \n"
@@ -617,7 +622,10 @@ cut_list = []
 for cut_number, cut_values in json_data_dic['interior_cuts'].items():
     cut_list.insert(int(cut_number), cut_values)
 
-sorted_cuts = sorted(cut_list, key=by_y_then_x)
+if 'sorted' in json_data_dic['config'] and json_data_dic['config']['sorted'] == 'yx':
+    sorted_cuts = sorted(cut_list, key=by_y_then_x)
+else:
+    sorted_cuts = cut_list
 
 # Loop through the operations
 for cut in sorted_cuts:
