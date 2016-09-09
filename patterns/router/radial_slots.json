@@ -21,10 +21,9 @@
             "x" : "25.4",
             "y" : "25.4",
             "feed_rate" : "100",
-            "note" : "get the round corners working before doing radial code",
-            "xradial_offset" : "15.0",
-            "xradial_increment" : "30",
-            "xradial_copies" : "12",
+            "radial_offset" : "0.0",
+            "radial_increment" : "5",
+            "radial_copies" : "1",
             "close_chain" : "FALSE",
             "close_links" : "TRUE",
             "relative_points" :

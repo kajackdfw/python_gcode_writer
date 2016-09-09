@@ -93,7 +93,7 @@ def lines(params, feed_rate):
     one_set_of_lines = sorted(line_list, key=by_order)
     radial_count = 1
 
-    if 'radial_copies' in params and int(params['radial_copies']) > 1:
+    if 'radial_copies' in params and int(params['radial_copies']) > 0:
         nc_lines = '( radial copies centered at X' + str3dec(center_x) + ', Y' + str3dec(center_y) + ' ) \n'
 
         if 'radial_offset' in params:
@@ -131,6 +131,17 @@ def lines(params, feed_rate):
                     nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
                     original_x = new_x
                     original_y = new_y
+                elif 'radius' in line:
+                    arc_smoothness = math.radians(11.25 / 2)  # this should not be hard coded
+                    radian_start = math.radians(float(line['start'])) + azim_adjust
+                    radian_end = math.radians(float(line['end'])) + azim_adjust
+                    nc_lines += arc_2d(new_x, new_y, float(line['radius']), radian_start, radian_end, arc_smoothness, str3dec(feed_rate))
+                    print(' Arc new_x = ' + str(new_x))
+                    print('     new_y = ' + str(new_y))
+                    print('     radian_start = ' + str(radian_start))
+                    print('     radian_end = ' + str(radian_end))
+                    print('     new_x = ' + str(new_x))
+                    print('     new_y = ' + str(new_y))
                 else:
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
 
@@ -171,7 +182,7 @@ def lines(params, feed_rate):
             nc_lines += "G00 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + z_move + " F" + str3dec(feed_rate) + " \n"
             nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
         elif 'radius' in line:
-            arc_smoothness = math.radians(11.25 / 2)
+            arc_smoothness = math.radians(11.25 / 2)  # this should not be hard coded
             radian_start = math.radians(float(line['start']))
             radian_end = math.radians(float(line['end']))
             nc_lines += arc_2d(cut_x, cut_y, float(line['radius']), radian_start, radian_end, arc_smoothness, feed_rate)
