@@ -29,16 +29,16 @@
          "relative_points" :
          {
              "0" : {
-                "right" : "-3.5",
-                "up" : "15.5"
+                "x_offset" : "-3.5",
+                "y_offset" : "15.5"
              },
              "1" : {
-                "right" : "3.5",
-                "up" : "15.5"
+                "x_offset" : "3.5",
+                "y_offset" : "15.5"
              },
              "2" : {
-                "right" : "0.0",
-                "up" : "22.5"
+                "x_offset" : "0.0",
+                "y_offset" : "22.5"
              }
          }
 
@@ -63,16 +63,16 @@
          "relative_points" :
          {
              "0" : {
-                "right" : "-1.5",
-                "up" : "12.5"
+                "x_offset" : "-1.5",
+                "y_offset" : "12.5"
              },
              "1" : {
-                "right" : "0.0",
-                "up" : "20.5"
+                "x_offset" : "0.0",
+                "y_offset" : "20.5"
              },
              "2" : {
-                "right" : "1.5",
-                "up" : "12.5"
+                "x_offset" : "1.5",
+                "y_offset" : "12.5"
              }
          }
 
@@ -87,20 +87,20 @@
          "relative_points" :
          {
              "0" : {
-                "right" : "2.5",
-                "up" : "2.5"
+                "x_offset" : "2.5",
+                "y_offset" : "2.5"
              },
              "1" : {
-                "right" : "-2.5",
-                "up" : "2.5"
+                "x_offset" : "-2.5",
+                "y_offset" : "2.5"
              },
              "2" : {
-                "right" : "-2.5",
-                "up" : "-2.5"
+                "x_offset" : "-2.5",
+                "y_offset" : "-2.5"
              },
              "3" : {
-                "right" : "2.5",
-                "up" : "-2.5"
+                "x_offset" : "2.5",
+                "y_offset" : "-2.5"
              }
          }
 

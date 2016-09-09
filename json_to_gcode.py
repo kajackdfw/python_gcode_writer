@@ -110,8 +110,8 @@ def lines(params, feed_rate):
             azim_adjust = radial * radial_increment + radial_offset
             point_ctr = 1.0
             for line in one_set_of_lines:
-                vector_x = (float(line['right']) * rel_scale)
-                vector_y = (float(line['up']) * rel_scale)
+                vector_x = (float(line['x_offset']) * rel_scale)
+                vector_y = (float(line['y_offset']) * rel_scale)
                 hypotenuse = math.sqrt((vector_x * vector_x) + (vector_y * vector_y))
                 new_azimuth = math.atan(vector_x / vector_y) + azim_adjust
                 new_x = center_x + math.sin(new_azimuth) * hypotenuse
@@ -157,8 +157,8 @@ def lines(params, feed_rate):
     nc_lines = '( lines relative to X' + str3dec(center_x) + ', Y' + str3dec(center_y) + ' ) \n'
     for line in one_set_of_lines:
         point_ctr += int(1)
-        cut_x = float(center_x) + (float(line['right']) * rel_scale)
-        cut_y = float(center_y) + (float(line['up']) * rel_scale)
+        cut_x = float(center_x) + (float(line['x_offset']) * rel_scale)
+        cut_y = float(center_y) + (float(line['y_offset']) * rel_scale)
         if 'z' in line:
             z_move = ' Z' + str3dec(line['z'])
         else:
@@ -170,6 +170,11 @@ def lines(params, feed_rate):
             nc_lines += "M5 \n"
             nc_lines += "G00 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + z_move + " F" + str3dec(feed_rate) + " \n"
             nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
+        elif 'radius' in line:
+            arc_smoothness = math.radians(11.25 / 2)
+            radian_start = math.radians(float(line['start']))
+            radian_end = math.radians(float(line['end']))
+            nc_lines += arc_2d(cut_x, cut_y, float(line['radius']), radian_start, radian_end, arc_smoothness, feed_rate)
         else:
             nc_lines += "G01 X" + str3dec(cut_x) + " Y" + str3dec(cut_y) + z_move + " F" + str3dec(feed_rate) + " \n"
 
