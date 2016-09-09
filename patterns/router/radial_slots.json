@@ -1,0 +1,72 @@
+{
+    "config" : {
+        "mode" : "absolute",
+        "unit" : "mm",
+        "tool_diameter" : "4.5",
+        "default_feed_rate" : "40",
+        "scale" : "1.000",
+        "spindle_speed" : "125.0"
+    },
+    "border" : {
+        "shape" : "rectangle",
+        "wide" : "50.8",
+        "tall" : "50.8",
+        "feed_rate" : "100",
+        "radius" : "3.0",
+        "lead_in" : "3.0"
+    },
+    "interior_cuts" : {
+        "0" : {
+            "shape" : "lines",
+            "x" : "25.4",
+            "y" : "25.4",
+            "feed_rate" : "100",
+            "note" : "get the round corners working before doing radial code",
+            "xradial_offset" : "15.0",
+            "xradial_increment" : "30",
+            "xradial_copies" : "12",
+            "close_chain" : "FALSE",
+            "close_links" : "TRUE",
+            "relative_points" :
+            {
+                "0" : {
+                    "right" : "-20.0",
+                    "up" : "20.0"
+                },
+                "1" : {
+                    "right" : "20.0",
+                    "up" : "20.0"
+                },
+                "2" : {
+                    "right" : "20.0",
+                    "up" : "-10.0"
+                },
+                "3" : {
+                    "radius" : "10.0",
+                    "right" : "10.0",
+                    "up" : "-10.0",
+                    "start" : "90",
+                    "end" : "180"
+                },
+                "4" : {
+                    "right" : "-15.0",
+                    "up" : "-15.0"
+                },
+                "5" : {
+                    "radius" : "5.0",
+                    "right" : "-15.0",
+                    "up" : "-15.0",
+                    "start" : "180",
+                    "end" : "270"
+                }
+            }
+        },
+        "1" : {
+            "shape" : "cross_hair",
+            "x" : "25.4",
+            "y" : "25.4",
+            "z" : "-1.000",
+            "cross_hair" : "1.0"
+        }
+    }
+}
