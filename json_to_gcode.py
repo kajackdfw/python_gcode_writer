@@ -48,9 +48,11 @@ def dictionary_to_list(some_dictionary):
     return sorted_lines
 
 
-def get_azimuth( x_value, y_value ):
+def get_azimuth(x_value, y_value):
     if y_value > 0 and x_value > 0:
         new_azimuth = math.atan(x_value / y_value)
+    elif y_value < 0 and x_value < 0:
+        new_azimuth = math.atan(x_value / y_value) + math.pi
     elif y_value < 0 and x_value > 0:
         new_azimuth = math.atan(x_value / y_value) + math.pi
     elif y_value == 0 and x_value > 0:

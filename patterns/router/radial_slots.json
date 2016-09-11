@@ -22,8 +22,8 @@
             "y" : "25.4",
             "feed_rate" : "100",
             "radial_offset" : "0.0",
-            "radial_increment" : "5",
-            "radial_copies" : "1",
+            "radial_increment" : "2",
+            "radial_copies" : "12",
             "close_chain" : "FALSE",
             "close_links" : "TRUE",
             "relative_points" :
