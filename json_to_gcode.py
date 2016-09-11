@@ -156,18 +156,6 @@ def lines(params, feed_rate):
                     radian_start = math.radians(float(line['start'])) + azim_adjust
                     radian_end = math.radians(float(line['end'])) + azim_adjust
                     nc_lines += arc_2d(new_x, new_y, float(line['radius']), radian_start, radian_end, arc_smoothness, str3dec(feed_rate))
-                    print('Arc  x_offset = ' + line['x_offset'])
-                    print('     y_offset = ' + line['y_offset'])
-                    print('     azim = ' + str(new_azimuth))
-                    print('     hypot = ' + str(hypotenuse))
-                    print('     vector_x = ' + str(vector_x))
-                    print('     vector_y = ' + str(vector_y))
-                    print('     new_x = ' + str(new_x))
-                    print('     new_y = ' + str(new_y))
-                    print('     radian_start = ' + str(radian_start))
-                    print('     radian_end = ' + str(radian_end))
-                    print('     new_x = ' + str(new_x))
-                    print('     new_y = ' + str(new_y))
                 else:
                     nc_lines += "G01 X{0} Y{1} F{2}\n".format(str3dec(new_x), str3dec(new_y), str3dec(feed_rate))
 
@@ -696,7 +684,7 @@ for cut in sorted_cuts:
         cut['start'] = math.radians(float(cut['start']))
         cut['end'] = math.radians(float(cut['end']))
         cut['increment'] = math.radians(float(cut['increment']))
-    elif cut['shape'] == 'lines':
+    elif cut['shape'] == 'lines' or cut['shape'] == 'cross_hair':
         cut['x'] = float(cut['x']) * scale + kerf
         cut['y'] = float(cut['y']) * scale + kerf
     elif cut['shape'] == 'drill':
