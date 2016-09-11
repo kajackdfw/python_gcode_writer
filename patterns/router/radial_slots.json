@@ -29,18 +29,22 @@
             "relative_points" :
             {
                 "0" : {
+                    "order" : "0",
                     "x_offset" : "-20.0",
                     "y_offset" : "20.0"
                 },
                 "1" : {
+                    "order" : "1",
                     "x_offset" : "20.0",
                     "y_offset" : "20.0"
                 },
                 "2" : {
+                    "order" : "2",
                     "x_offset" : "20.0",
                     "y_offset" : "-10.0"
                 },
                 "3" : {
+                    "order" : "3",
                     "radius" : "10.0",
                     "x_offset" : "10.0",
                     "y_offset" : "-10.0",
@@ -48,10 +52,12 @@
                     "end" : "180"
                 },
                 "4" : {
+                    "order" : "4",
                     "x_offset" : "-15.0",
                     "y_offset" : "-20.0"
                 },
                 "5" : {
+                    "order" : "5",
                     "radius" : "5.0",
                     "x_offset" : "-15.0",
                     "y_offset" : "-15.0",

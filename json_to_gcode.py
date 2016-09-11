@@ -48,6 +48,24 @@ def dictionary_to_list(some_dictionary):
     return sorted_lines
 
 
+def get_azimuth( x_value, y_value ):
+    if y_value > 0 and x_value > 0:
+        new_azimuth = math.atan(x_value / y_value)
+    elif y_value < 0 and x_value > 0:
+        new_azimuth = math.atan(x_value / y_value) + math.pi
+    elif y_value == 0 and x_value > 0:
+        new_azimuth = math.pi / 2
+    elif y_value == 0 and x_value < 0:
+        new_azimuth = math.pi * 1.5
+    elif y_value < 0 and x_value == 0:
+        new_azimuth = math.pi
+    elif y_value > 0 and x_value < 0:
+        new_azimuth = math.atan(x_value / y_value)
+    else:
+        new_azimuth = 0
+    return new_azimuth
+
+
 def rotate_coordinate(x_axis, y_axis, rotation):
     pair = {'x': x_axis, 'y': y_axis}
 
@@ -113,7 +131,7 @@ def lines(params, feed_rate):
                 vector_x = (float(line['x_offset']) * rel_scale)
                 vector_y = (float(line['y_offset']) * rel_scale)
                 hypotenuse = math.sqrt((vector_x * vector_x) + (vector_y * vector_y))
-                new_azimuth = math.atan(vector_x / vector_y) + azim_adjust
+                new_azimuth = get_azimuth(vector_x, vector_y) + azim_adjust
                 new_x = center_x + math.sin(new_azimuth) * hypotenuse
                 new_y = center_y + math.cos(new_azimuth) * hypotenuse
                 if point_ctr == 1 and 'close_links' in params and params['close_links'] == 'TRUE':
@@ -136,7 +154,13 @@ def lines(params, feed_rate):
                     radian_start = math.radians(float(line['start'])) + azim_adjust
                     radian_end = math.radians(float(line['end'])) + azim_adjust
                     nc_lines += arc_2d(new_x, new_y, float(line['radius']), radian_start, radian_end, arc_smoothness, str3dec(feed_rate))
-                    print(' Arc new_x = ' + str(new_x))
+                    print('Arc  x_offset = ' + line['x_offset'])
+                    print('     y_offset = ' + line['y_offset'])
+                    print('     azim = ' + str(new_azimuth))
+                    print('     hypot = ' + str(hypotenuse))
+                    print('     vector_x = ' + str(vector_x))
+                    print('     vector_y = ' + str(vector_y))
+                    print('     new_x = ' + str(new_x))
                     print('     new_y = ' + str(new_y))
                     print('     radian_start = ' + str(radian_start))
                     print('     radian_end = ' + str(radian_end))
