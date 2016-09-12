@@ -8,7 +8,7 @@
         "spindle_speed" : "125.0"
     },
     "border" : {
-        "shape" : "rectangle",
+        "shape" : "none",
         "wide" : "50.8",
         "tall" : "50.8",
         "feed_rate" : "100",
@@ -22,8 +22,8 @@
             "y" : "25.4",
             "feed_rate" : "100",
             "radial_offset" : "0.0",
-            "radial_increment" : "2",
-            "radial_copies" : "12",
+            "radial_increment" : "90",
+            "radial_copies" : "4",
             "close_chain" : "FALSE",
             "close_links" : "TRUE",
             "relative_points" :
@@ -31,17 +31,20 @@
                 "0" : {
                     "order" : "0",
                     "x_offset" : "-20.0",
-                    "y_offset" : "20.0"
+                    "y_offset" : "20.0",
+                    "z" : "0.500"
                 },
                 "1" : {
                     "order" : "1",
                     "x_offset" : "20.0",
-                    "y_offset" : "20.0"
+                    "y_offset" : "20.0",
+                    "z" : "0.500"
                 },
                 "2" : {
                     "order" : "2",
                     "x_offset" : "20.0",
-                    "y_offset" : "-10.0"
+                    "y_offset" : "-10.0",
+                    "z" : "0.500"
                 },
                 "3" : {
                     "order" : "3",
