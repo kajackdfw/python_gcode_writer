@@ -24,7 +24,7 @@
     },
     "interior_cuts" : {
         "0": {
-            "shape": "lines",
+            "shape": "lines_and_arcs",
             "x": "1.0",
             "y": "1.0",
             "feed_rate": "80",

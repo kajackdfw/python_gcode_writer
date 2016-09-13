@@ -98,7 +98,7 @@ def rotate_coordinate(x_axis, y_axis, rotation):
 
 
 # draw some lines, one line, one set of lines, or radial copies of lines
-def lines(params, feed_rate):
+def lines_and_arcs(params, feed_rate):
     rel_scale = float(1.0)
     center_x = float(params['x']) * rel_scale
     center_y = float(params['y']) * rel_scale
@@ -568,7 +568,7 @@ def str3dec(float_number_or_string):
 cut_a_shape = {'circle': circle,
                'cross_hair': cross_hair,
                'drill': drill,
-               'lines': lines,
+               'lines_and_arcs': lines_and_arcs,
                'polygon': polygon,
                'rectangle': rectangle,
                'text': text,
@@ -684,7 +684,7 @@ for cut in sorted_cuts:
         cut['start'] = math.radians(float(cut['start']))
         cut['end'] = math.radians(float(cut['end']))
         cut['increment'] = math.radians(float(cut['increment']))
-    elif cut['shape'] == 'lines' or cut['shape'] == 'cross_hair':
+    elif cut['shape'] == 'lines_and_arcs' or cut['shape'] == 'cross_hair':
         cut['x'] = float(cut['x']) * scale + kerf
         cut['y'] = float(cut['y']) * scale + kerf
     elif cut['shape'] == 'drill':
