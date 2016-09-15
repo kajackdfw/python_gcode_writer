@@ -39,7 +39,7 @@
             },
             "cavities": {
                 "0": {
-                    "shape": "lines",
+                    "shape": "lines_and_arcs",
                     "x": "1.000",
                     "y": "3.000",
                     "feed_rate": "80",

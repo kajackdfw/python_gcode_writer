@@ -17,7 +17,7 @@
     },
     "interior_cuts" : {
       "0" : {
-         "shape" : "lines",
+         "shape" : "lines_and_arcs",
          "x" : "25.4",
          "y" : "25.4",
          "feed_rate" : "100",
@@ -50,7 +50,7 @@
           "cross_hair" : "1.0"
       },
       "2" : {
-         "shape" : "lines",
+         "shape" : "lines_and_arcs",
          "x" : "25.4",
          "y" : "25.4",
          "feed_rate" : "100",
@@ -78,7 +78,7 @@
 
       },
       "3" : {
-         "shape" : "lines",
+         "shape" : "lines_and_arcs",
          "x" : "25.4",
          "y" : "25.4",
          "feed_rate" : "100",
