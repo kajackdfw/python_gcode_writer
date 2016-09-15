@@ -12,7 +12,7 @@
         "radius" : "4.0",
         "feed_rate" : "1.0"
     },
-    "interior_cuts" : {
+    "cuts" : {
       "0" : {
          "shape" : "rectangle",
          "x" : "25.0",

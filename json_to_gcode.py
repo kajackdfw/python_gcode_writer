@@ -649,7 +649,7 @@ nc_file.write('G00 X0 Y0 Z' + str3dec(default_ceiling) + "\n")
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
-for cut_number, cut_values in json_data_dic['interior_cuts'].items():
+for cut_number, cut_values in json_data_dic['cuts'].items():
     cut_list.insert(int(cut_number), cut_values)
 
 if 'sorted' in json_data_dic['config'] and json_data_dic['config']['sorted'] == 'yx':

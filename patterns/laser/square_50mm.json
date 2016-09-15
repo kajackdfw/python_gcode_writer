@@ -6,7 +6,7 @@
         "default_feed_rate" : "40",
         "scale" : "0.9917",
         "sort_cuts" : "false",
-        "spindle_speed" : "on"
+        "spindle_speed" : "255"
     },
     "border" : {
         "shape" : "rectangle",
@@ -16,7 +16,7 @@
         "radius" : "5.0",
         "lead_in" : "5.0"
     },
-    "interior_cuts" : {
+    "cuts" : {
       "0" : {
          "shape" : "circle",
          "diameter" : "9.0" ,

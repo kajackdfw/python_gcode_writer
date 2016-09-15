@@ -15,7 +15,7 @@
         "radius" : "3.0",
         "lead_in" : "3.0"
     },
-    "interior_cuts" : {
+    "cuts" : {
       "0" : {
          "shape" : "lines_and_arcs",
          "x" : "25.4",

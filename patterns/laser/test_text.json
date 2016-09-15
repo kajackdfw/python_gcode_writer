@@ -17,7 +17,7 @@
         "lead_in" : "5.0",
         "spindle_speed" : "255.0"
     },
-    "interior_cuts" : {
+    "cuts" : {
       "0" : {
          "shape" : "text",
          "height" : "10.0",

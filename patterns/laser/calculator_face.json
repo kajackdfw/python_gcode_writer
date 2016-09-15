@@ -10,7 +10,7 @@
         "wide" : "60.600",
         "tall" : "120.000"
     },
-    "interior_cuts" : {
+    "cuts" : {
       "0" : {
          "shape" : "circle",
          "diameter" : "9.280" ,

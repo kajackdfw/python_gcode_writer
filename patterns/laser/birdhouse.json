@@ -15,7 +15,7 @@
         "lead_in" : "1.0",
         "spindle_speed" : "255"
     },
-    "interior_cuts" : {
+    "cuts" : {
         "0": {
             "shape": "lines_and_arcs",
             "x": "0.0",

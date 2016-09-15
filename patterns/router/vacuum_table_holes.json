@@ -12,7 +12,7 @@
         "wide" : "32.000",
         "tall" : "15.000"
     },
-    "interior_cuts" : {
+    "cuts" : {
       "0" : {
          "shape" : "drill",
          "diameter" : "0.25" ,
