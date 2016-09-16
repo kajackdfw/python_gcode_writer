@@ -602,45 +602,49 @@ system_font = None
 nc_first_line = "G17 [unit] G90 G94 G54"
 
 # populate merge fields [xxx] in first line
-if 'unit' in json_data_dic and json_data_dic['config']['unit'] == 'mm':
+if 'unit' in json_data_dic and json_data_dic['defaults']['unit'] == 'mm':
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G21')
 else:
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G20')
 
 # set some default values
-if 'spindle_speed' in json_data_dic['config']:
-    default_spindle_speed = float(json_data_dic['config']['spindle_speed'])
+defaults = json_data_dic['defaults']
+
+if 'spindle_speed' in json_data_dic['defaults']:
+    default_spindle_speed = float(json_data_dic['defaults']['spindle_speed'])
+    defaults['spindle_speed'] = float(json_data_dic['defaults']['spindle_speed'])
 else:
     default_spindle_speed = 255.0
+    defaults['spindle_speed'] = 255.0
 
-if 'speed' in json_data_dic['config']:
-    default_speed = float(json_data_dic['config']['speed'])
+if 'speed' in json_data_dic['defaults']:
+    default_speed = float(json_data_dic['defaults']['speed'])
 else:
     default_speed = 255.0
 
-if 'retract_spindle_to' in json_data_dic['config']:
-    default_ceiling = float(json_data_dic['config']['retract_spindle_to'])
+if 'retract_spindle_to' in json_data_dic['defaults']:
+    default_ceiling = float(json_data_dic['defaults']['retract_spindle_to'])
 else:
     default_ceiling = 0.5
 
-if 'scale' in json_data_dic['config']:
-    scale = float(json_data_dic['config']['scale'])
+if 'scale' in json_data_dic['defaults']:
+    scale = float(json_data_dic['defaults']['scale'])
 else:
     scale = 1.000
 
-if 'finish_cut' in json_data_dic['config']:
-    finish_cut = float(json_data_dic['config']['finish_cut'])
-elif json_data_dic['config']['unit'] == 'mm':
+if 'finish_cut' in json_data_dic['defaults']:
+    finish_cut = float(json_data_dic['defaults']['finish_cut'])
+elif json_data_dic['defaults']['unit'] == 'mm':
     finish_cut = 1.000
 else:
     finish_cut = 0.031
 
-if 'stock_depth' in json_data_dic['config']:
-    stock_depth = float(json_data_dic['config']['stock_depth'])
+if 'stock_depth' in json_data_dic['defaults']:
+    stock_depth = float(json_data_dic['defaults']['stock_depth'])
 else:
     stock_depth = 0.1
 
-kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
+kerf = float(json_data_dic['defaults']['tool_diameter']) * 0.5
 
 
 nc_file.write(nc_first_line + "\n")
@@ -652,7 +656,7 @@ cut_list = []
 for cut_number, cut_values in json_data_dic['cuts'].items():
     cut_list.insert(int(cut_number), cut_values)
 
-if 'sorted' in json_data_dic['config'] and json_data_dic['config']['sorted'] == 'yx':
+if 'sorted' in json_data_dic['defaults'] and json_data_dic['defaults']['sorted'] == 'yx':
     sorted_cuts = sorted(cut_list, key=by_y_then_x)
 else:
     sorted_cuts = cut_list
@@ -670,7 +674,7 @@ for cut in sorted_cuts:
         font_file = open('fonts/' + cut['font'] + '.json', 'r')
         font_data = str(font_file.read())
         system_font = Payload(font_data)
-        cut['unit'] = json_data_dic['config']['unit']
+        cut['unit'] = json_data_dic['defaults']['unit']
     elif cut['shape'] == 'rectangle':
         cut['wide'] = float(cut['wide']) * scale - kerf - kerf
         cut['tall'] = float(cut['tall']) * scale - kerf - kerf
@@ -690,7 +694,7 @@ for cut in sorted_cuts:
     elif cut['shape'] == 'drill':
         cut['x'] = float(cut['x']) * scale + kerf
         cut['y'] = float(cut['y']) * scale + kerf
-        cut['tool_diameter'] = float(json_data_dic['config']['tool_diameter'])
+        cut['tool_diameter'] = float(json_data_dic['defaults']['tool_diameter'])
         cut['diameter'] = float(cut['diameter'])
         cut['scale'] = scale
         cut['finish_cut'] = finish_cut
@@ -705,7 +709,7 @@ for cut in sorted_cuts:
     if 'feed_rate' in cut:
         tool_feed_rate = float(cut['feed_rate'])
     else:
-        tool_feed_rate = float(json_data_dic['config']['default_feed_rate'])
+        tool_feed_rate = float(json_data_dic['defaults']['feed_rate'])
 
     if 'spindle_speed' in cut:
         cut['spindle_speed'] = float(cut['spindle_speed'])
@@ -738,11 +742,11 @@ for cut in sorted_cuts:
                 elif cut['shape'] == 'arc':
                     cut_params['radius'] = float(cut['radius']) * scale
                 elif cut['shape'] == 'text':
-                    cut_params['unit'] = json_data_dic['config']['unit']
+                    cut_params['unit'] = json_data_dic['defaults']['unit']
                 elif cut['shape'] == 'drill':
                     cut_params['diameter'] = float(cut['diameter'])
                     cut_params['bottom'] = float(cut['bottom'])
-                    cut_params['tool_diameter'] = float(json_data_dic['config']['tool_diameter'])
+                    cut_params['tool_diameter'] = float(json_data_dic['defaults']['tool_diameter'])
                     cut_params['scale'] = scale
                     cut_params['finish_cut'] = finish_cut
                     cut_params['ceiling'] = float(default_ceiling)
@@ -757,7 +761,7 @@ for cut in sorted_cuts:
 if 'feed_rate' in json_data_dic['border']:
     tool_feed_rate = str3dec(json_data_dic['border']['feed_rate'])
 else:
-    tool_feed_rate = str3dec(json_data_dic['config']['default_feed_rate'])
+    tool_feed_rate = str3dec(json_data_dic['defaults']['feed_rate'])
 
 if 'border' not in json_data_dic or 'shape' not in json_data_dic['border']:
     nc_file.write('(no border found)')

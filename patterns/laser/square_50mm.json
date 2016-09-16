@@ -1,9 +1,9 @@
 {
-    "config" : {
+    "defaults" : {
         "mode" : "absolute",
         "unit" : "mm",
         "tool_diameter" : "1.0",
-        "default_feed_rate" : "40",
+        "feed_rate" : "40",
         "scale" : "0.9917",
         "sort_cuts" : "false",
         "spindle_speed" : "255"

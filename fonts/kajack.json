@@ -1,5 +1,5 @@
 {
-    "config" : {
+    "defaults" : {
         "type" : "font",
         "name" : "kajack",
         "mode" : "relative",

@@ -1,8 +1,8 @@
 {
-    "config" : {
+    "defaults" : {
         "unit" : "mm",
         "tool_diameter" : "0.01",
-        "default_feed_rate" : "10",
+        "feed_rate" : "10",
         "scale" : "0.9917"
     },
     "border" : {

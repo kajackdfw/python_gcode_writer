@@ -46,7 +46,7 @@ report_file = open(output_file, 'w')
 pattern_file = open(input_file, 'r')
 json_array_string = str(pattern_file.read())
 json_data_dic = json.loads(json_array_string)
-kerf = float(json_data_dic['config']['tool_diameter']) * 0.5
+kerf = float(json_data_dic['defaults']['tool_diameter']) * 0.5
 
 
 report_file.write("G00 X0 Y0 Z \n")
