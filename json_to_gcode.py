@@ -623,14 +623,14 @@ else:
     default_speed = 255.0
 
 if 'retract_spindle_to' in json_data_dic['defaults']:
-    default_ceiling = float(json_data_dic['defaults']['retract_spindle_to'])
+    json_data_dic['defaults']['ceiling'] = float(json_data_dic['defaults']['retract_spindle_to'])
 else:
-    default_ceiling = 0.5
+    json_data_dic['defaults']['ceiling'] = 0.5
 
 if 'scale' in json_data_dic['defaults']:
-    scale = float(json_data_dic['defaults']['scale'])
+    json_data_dic['defaults']['scale'] = float(json_data_dic['defaults']['scale'])
 else:
-    scale = 1.000
+    json_data_dic['defaults']['scale'] = 1.000
 
 if 'finish_cut' in json_data_dic['defaults']:
     finish_cut = float(json_data_dic['defaults']['finish_cut'])
@@ -648,7 +648,7 @@ kerf = float(json_data_dic['defaults']['tool_diameter']) * 0.5
 
 
 nc_file.write(nc_first_line + "\n")
-nc_file.write('G00 X0 Y0 Z' + str3dec(default_ceiling) + "\n")
+nc_file.write('G00 X0 Y0 Z' + str3dec(json_data_dic['defaults']['ceiling']) + "\n")
 
 
 # create a Python List of Dictionaries we can can sort by values
@@ -665,38 +665,38 @@ else:
 for cut in sorted_cuts:
     origin_x = float(cut['x'])
     origin_y = float(cut['y'])
-    cut['x'] = float(cut['x']) * scale + kerf
-    cut['y'] = float(cut['y']) * scale + kerf
-    cut['scale'] = scale
+    cut['x'] = float(cut['x']) * json_data_dic['defaults']['scale'] + kerf
+    cut['y'] = float(cut['y']) * json_data_dic['defaults']['scale'] + kerf
+    cut['scale'] = json_data_dic['defaults']['scale']
     cut['kerf'] = kerf
-    cut['ceiling'] = float(default_ceiling)
+    cut['ceiling'] = float(json_data_dic['defaults']['ceiling'])
     if cut['shape'] == 'text' and system_font is None:
         font_file = open('fonts/' + cut['font'] + '.json', 'r')
         font_data = str(font_file.read())
         system_font = Payload(font_data)
         cut['unit'] = json_data_dic['defaults']['unit']
     elif cut['shape'] == 'rectangle':
-        cut['wide'] = float(cut['wide']) * scale - kerf - kerf
-        cut['tall'] = float(cut['tall']) * scale - kerf - kerf
+        cut['wide'] = float(cut['wide']) * json_data_dic['defaults']['scale'] - kerf - kerf
+        cut['tall'] = float(cut['tall']) * json_data_dic['defaults']['scale'] - kerf - kerf
     elif cut['shape'] == 'circle' and 'diameter' in cut:
-        cut['radius'] = float(cut['diameter']) * 0.5 * scale - kerf
+        cut['radius'] = float(cut['diameter']) * 0.5 * json_data_dic['defaults']['scale'] - kerf
     elif cut['shape'] == 'arc':
         # adjust and typecast vars
-        cut['x'] = float(cut['x']) * scale + kerf
-        cut['y'] = float(cut['y']) * scale + kerf
-        cut['radius'] = float(cut['radius']) * scale
+        cut['x'] = float(cut['x']) * json_data_dic['defaults']['scale'] + kerf
+        cut['y'] = float(cut['y']) * json_data_dic['defaults']['scale'] + kerf
+        cut['radius'] = float(cut['radius']) * json_data_dic['defaults']['scale']
         cut['start'] = math.radians(float(cut['start']))
         cut['end'] = math.radians(float(cut['end']))
         cut['increment'] = math.radians(float(cut['increment']))
     elif cut['shape'] == 'lines_and_arcs' or cut['shape'] == 'cross_hair':
-        cut['x'] = float(cut['x']) * scale + kerf
-        cut['y'] = float(cut['y']) * scale + kerf
+        cut['x'] = float(cut['x']) * json_data_dic['defaults']['scale'] + kerf
+        cut['y'] = float(cut['y']) * json_data_dic['defaults']['scale'] + kerf
     elif cut['shape'] == 'drill':
-        cut['x'] = float(cut['x']) * scale + kerf
-        cut['y'] = float(cut['y']) * scale + kerf
+        cut['x'] = float(cut['x']) * json_data_dic['defaults']['scale'] + kerf
+        cut['y'] = float(cut['y']) * json_data_dic['defaults']['scale'] + kerf
         cut['tool_diameter'] = float(json_data_dic['defaults']['tool_diameter'])
         cut['diameter'] = float(cut['diameter'])
-        cut['scale'] = scale
+        cut['scale'] = json_data_dic['defaults']['scale']
         cut['finish_cut'] = finish_cut
         cut['stock_depth'] = stock_depth
         if 'depth' in cut:
@@ -721,39 +721,39 @@ for cut in sorted_cuts:
         nc_file.write(cut_a_shape[cut['shape']](cut, tool_feed_rate))
     else:
         cutArray = cut['array']  # is there an array of this shape to process ? If not do once in exception
-        cut['column_spacing'] = float(cut['array']['x_spacing']) * scale
-        cut['row_spacing'] = float(cut['array']['y_spacing']) * scale
+        cut['column_spacing'] = float(cut['array']['x_spacing']) * json_data_dic['defaults']['scale']
+        cut['row_spacing'] = float(cut['array']['y_spacing']) * json_data_dic['defaults']['scale']
         for aCol in range(0, int(cut['array']['columns'])):
             for aRow in range(0, int(cut['array']['rows'])):
                 cut_params = {}
-                cut_params['x'] = (float(aCol) * cut['column_spacing'] + origin_x) * scale + kerf
-                cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * scale + kerf
+                cut_params['x'] = (float(aCol) * cut['column_spacing'] + origin_x) * json_data_dic['defaults']['scale'] + kerf
+                cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * json_data_dic['defaults']['scale'] + kerf
                 cut_params['spindle_speed'] = cut['spindle_speed']
-                cut_params['ceiling'] = float(default_ceiling)
+                cut_params['ceiling'] = float(json_data_dic['defaults']['ceiling'])
 
                 # pass the necessary attributes for completing the cut
                 if cut['shape'] == 'rectangle':
-                    cut_params['wide'] = cut['wide'] * scale - kerf - kerf
-                    cut_params['tall'] = cut['tall'] * scale - kerf - kerf
+                    cut_params['wide'] = cut['wide'] * json_data_dic['defaults']['scale'] - kerf - kerf
+                    cut_params['tall'] = cut['tall'] * json_data_dic['defaults']['scale'] - kerf - kerf
                 elif cut['shape'] == 'circle' and 'diameter' in cut:
-                    cut_params['radius'] = float(float(cut['diameter']) / 2.0) * scale - kerf
+                    cut_params['radius'] = float(float(cut['diameter']) / 2.0) * json_data_dic['defaults']['scale'] - kerf
                 elif cut['shape'] == 'circle':
-                    cut_params['radius'] = float(cut['radius']) * scale - kerf
+                    cut_params['radius'] = float(cut['radius']) * json_data_dic['defaults']['scale'] - kerf
                 elif cut['shape'] == 'arc':
-                    cut_params['radius'] = float(cut['radius']) * scale
+                    cut_params['radius'] = float(cut['radius']) * json_data_dic['defaults']['scale']
                 elif cut['shape'] == 'text':
                     cut_params['unit'] = json_data_dic['defaults']['unit']
                 elif cut['shape'] == 'drill':
                     cut_params['diameter'] = float(cut['diameter'])
                     cut_params['bottom'] = float(cut['bottom'])
                     cut_params['tool_diameter'] = float(json_data_dic['defaults']['tool_diameter'])
-                    cut_params['scale'] = scale
+                    cut_params['scale'] = json_data_dic['defaults']['scale']
                     cut_params['finish_cut'] = finish_cut
-                    cut_params['ceiling'] = float(default_ceiling)
+                    cut_params['ceiling'] = float(json_data_dic['defaults']['ceiling'])
                     cut_params['stock_depth'] = stock_depth
 
                 if 'radius' in cut:
-                    cut_params['radius'] = float(cut['radius']) * scale - kerf
+                    cut_params['radius'] = float(cut['radius']) * json_data_dic['defaults']['scale'] - kerf
 
                 nc_file.write(str(cut_a_shape[cut['shape']](cut_params, tool_feed_rate)))
 
@@ -773,8 +773,8 @@ if 'spindle_speed' not in border_params:
 
 # prepare border vars for various shapes
 if json_data_dic['border']['shape'] == 'rectangle':
-    border_params['wide'] = float(border_params['wide']) * scale + kerf + kerf
-    border_params['tall'] = float(border_params['tall']) * scale + kerf + kerf
+    border_params['wide'] = float(border_params['wide']) * json_data_dic['defaults']['scale'] + kerf + kerf
+    border_params['tall'] = float(border_params['tall']) * json_data_dic['defaults']['scale'] + kerf + kerf
     border_params['x'] = kerf
     border_params['y'] = kerf
     if 'radius' in json_data_dic['border']:
@@ -785,9 +785,9 @@ if json_data_dic['border']['shape'] == 'rectangle':
     nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_feed_rate)))
 
 if json_data_dic['border']['shape'] == 'circle':
-    border_params['radius'] = float(border_params['diameter']) * scale / 2.0 + kerf
-    border_params['x'] = border_params['radius'] * scale + kerf
-    border_params['y'] = border_params['radius'] * scale + kerf
+    border_params['radius'] = float(border_params['diameter']) * json_data_dic['defaults']['scale'] / 2.0 + kerf
+    border_params['x'] = border_params['radius'] * json_data_dic['defaults']['scale'] + kerf
+    border_params['y'] = border_params['radius'] * json_data_dic['defaults']['scale'] + kerf
     if 'lead_in' in json_data_dic['border']:
         border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
     nc_file.write("(circular border) \n")
