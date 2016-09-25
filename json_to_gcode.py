@@ -333,6 +333,7 @@ def arc_2d(x_ctr, y_ctr, radius, start_arc, end_arc, increment, feed_rate):
 def arc(params, feed_rate):
     arc_lines = "(center arc at " + str(params['x']) + ", " + str(params['y']) + ")\n"
     cords = int((params['end'] - params['start']) / params['increment'])
+
     if params['start'] > params['end']:
         # Counter clockwise arc!!
         cords = abs(cords)
@@ -596,7 +597,7 @@ nc_file = open(output_file, 'w')
 
 pattern_file = open(input_file, 'r')
 json_array_string = str(pattern_file.read())
-json_data_dic = json.loads(json_array_string)
+pattern_dic = json.loads(json_array_string)
 
 system_font = None
 
@@ -604,35 +605,35 @@ system_font = None
 nc_first_line = "G17 [unit] G90 G94 G54"
 
 # populate merge fields [xxx] in first line
-if 'unit' in json_data_dic and json_data_dic['defaults']['unit'] == 'mm':
+if 'unit' in pattern_dic and pattern_dic['defaults']['unit'] == 'mm':
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G21')
 else:
     nc_first_line = str.replace(nc_first_line, '[unit]', 'G20')
 
 # set some default values
-defaults = json_data_dic['defaults']
+defaults = pattern_dic['defaults']
 
-if 'spindle_speed' in json_data_dic['defaults']:
-    default_spindle_speed = float(json_data_dic['defaults']['spindle_speed'])
-    defaults['spindle_speed'] = float(json_data_dic['defaults']['spindle_speed'])
+if 'spindle_speed' in pattern_dic['defaults']:
+    default_spindle_speed = float(pattern_dic['defaults']['spindle_speed'])
+    defaults['spindle_speed'] = float(pattern_dic['defaults']['spindle_speed'])
 else:
     default_spindle_speed = 255.0
     defaults['spindle_speed'] = 255.0
 
-if 'speed' in json_data_dic['defaults']:
-    default_speed = float(json_data_dic['defaults']['speed'])
+if 'speed' in pattern_dic['defaults']:
+    default_speed = float(pattern_dic['defaults']['speed'])
 else:
     default_speed = 255.0
 
-if 'retract_spindle_to' in json_data_dic['defaults']:
-    json_data_dic['defaults']['ceiling'] = float(json_data_dic['defaults']['retract_spindle_to'])
+if 'retract_spindle_to' in pattern_dic['defaults']:
+    pattern_dic['defaults']['ceiling'] = float(pattern_dic['defaults']['retract_spindle_to'])
 else:
-    json_data_dic['defaults']['ceiling'] = 0.5
+    pattern_dic['defaults']['ceiling'] = 0.5
 
-if 'scale' in json_data_dic['defaults']:
-    json_data_dic['defaults']['scale'] = float(json_data_dic['defaults']['scale'])
+if 'scale' in pattern_dic['defaults']:
+    pattern_dic['defaults']['scale'] = float(pattern_dic['defaults']['scale'])
 else:
-    json_data_dic['defaults']['scale'] = 1.000
+    pattern_dic['defaults']['scale'] = 1.000
 
 if 'finish_cut' in json_data_dic['defaults']:
     finish_cut = float(json_data_dic['defaults']['finish_cut'])
@@ -646,24 +647,24 @@ elif json_data_dic['defaults']['unit'] == 'mm':
 else:
     step_down = 0.1875
 
-if 'stock_depth' in json_data_dic['defaults']:
-    stock_depth = float(json_data_dic['defaults']['stock_depth'])
+if 'stock_depth' in pattern_dic['defaults']:
+    stock_depth = float(pattern_dic['defaults']['stock_depth'])
 else:
     stock_depth = 0.1
 
-kerf = float(json_data_dic['defaults']['tool_diameter']) * 0.5
+kerf = float(pattern_dic['defaults']['tool_diameter']) * 0.5
 
 
 nc_file.write(nc_first_line + "\n")
-nc_file.write('G00 X0 Y0 Z' + str3dec(json_data_dic['defaults']['ceiling']) + "\n")
+nc_file.write('G00 X0 Y0 Z' + str3dec(pattern_dic['defaults']['ceiling']) + "\n")
 
 
 # create a Python List of Dictionaries we can can sort by values
 cut_list = []
-for cut_number, cut_values in json_data_dic['cuts'].items():
+for cut_number, cut_values in pattern_dic['cuts'].items():
     cut_list.insert(int(cut_number), cut_values)
 
-if 'sorted' in json_data_dic['defaults'] and json_data_dic['defaults']['sorted'] == 'yx':
+if 'sorted' in pattern_dic['defaults'] and pattern_dic['defaults']['sorted'] == 'yx':
     sorted_cuts = sorted(cut_list, key=by_y_then_x)
 else:
     sorted_cuts = cut_list
@@ -672,38 +673,38 @@ else:
 for cut in sorted_cuts:
     origin_x = float(cut['x'])
     origin_y = float(cut['y'])
-    cut['x'] = float(cut['x']) * json_data_dic['defaults']['scale'] + kerf
-    cut['y'] = float(cut['y']) * json_data_dic['defaults']['scale'] + kerf
-    cut['scale'] = json_data_dic['defaults']['scale']
+    cut['x'] = float(cut['x']) * pattern_dic['defaults']['scale'] + kerf
+    cut['y'] = float(cut['y']) * pattern_dic['defaults']['scale'] + kerf
+    cut['scale'] = pattern_dic['defaults']['scale']
     cut['kerf'] = kerf
-    cut['ceiling'] = float(json_data_dic['defaults']['ceiling'])
+    cut['ceiling'] = float(pattern_dic['defaults']['ceiling'])
     if cut['shape'] == 'text' and system_font is None:
         font_file = open('fonts/' + cut['font'] + '.json', 'r')
         font_data = str(font_file.read())
         system_font = Payload(font_data)
-        cut['unit'] = json_data_dic['defaults']['unit']
+        cut['unit'] = pattern_dic['defaults']['unit']
     elif cut['shape'] == 'rectangle':
-        cut['wide'] = float(cut['wide']) * json_data_dic['defaults']['scale'] - kerf - kerf
-        cut['tall'] = float(cut['tall']) * json_data_dic['defaults']['scale'] - kerf - kerf
+        cut['wide'] = float(cut['wide']) * pattern_dic['defaults']['scale'] - kerf - kerf
+        cut['tall'] = float(cut['tall']) * pattern_dic['defaults']['scale'] - kerf - kerf
     elif cut['shape'] == 'circle' and 'diameter' in cut:
-        cut['radius'] = float(cut['diameter']) * 0.5 * json_data_dic['defaults']['scale'] - kerf
+        cut['radius'] = float(cut['diameter']) * 0.5 * pattern_dic['defaults']['scale'] - kerf
     elif cut['shape'] == 'arc':
         # adjust and typecast vars
-        cut['x'] = float(cut['x']) * json_data_dic['defaults']['scale'] + kerf
-        cut['y'] = float(cut['y']) * json_data_dic['defaults']['scale'] + kerf
-        cut['radius'] = float(cut['radius']) * json_data_dic['defaults']['scale']
+        cut['x'] = float(cut['x']) * pattern_dic['defaults']['scale'] + kerf
+        cut['y'] = float(cut['y']) * pattern_dic['defaults']['scale'] + kerf
+        cut['radius'] = float(cut['radius']) * pattern_dic['defaults']['scale']
         cut['start'] = math.radians(float(cut['start']))
         cut['end'] = math.radians(float(cut['end']))
         cut['increment'] = math.radians(float(cut['increment']))
     elif cut['shape'] == 'lines_and_arcs' or cut['shape'] == 'cross_hair':
-        cut['x'] = float(cut['x']) * json_data_dic['defaults']['scale'] + kerf
-        cut['y'] = float(cut['y']) * json_data_dic['defaults']['scale'] + kerf
+        cut['x'] = float(cut['x']) * pattern_dic['defaults']['scale'] + kerf
+        cut['y'] = float(cut['y']) * pattern_dic['defaults']['scale'] + kerf
     elif cut['shape'] == 'drill':
-        cut['x'] = float(cut['x']) * json_data_dic['defaults']['scale'] + kerf
-        cut['y'] = float(cut['y']) * json_data_dic['defaults']['scale'] + kerf
-        cut['tool_diameter'] = float(json_data_dic['defaults']['tool_diameter'])
+        cut['x'] = float(cut['x']) * pattern_dic['defaults']['scale'] + kerf
+        cut['y'] = float(cut['y']) * pattern_dic['defaults']['scale'] + kerf
+        cut['tool_diameter'] = float(pattern_dic['defaults']['tool_diameter'])
         cut['diameter'] = float(cut['diameter'])
-        cut['scale'] = json_data_dic['defaults']['scale']
+        cut['scale'] = pattern_dic['defaults']['scale']
         cut['finish_cut'] = finish_cut
         cut['stock_depth'] = stock_depth
         cut['step_down'] = step_down
@@ -717,7 +718,7 @@ for cut in sorted_cuts:
     if 'feed_rate' in cut:
         tool_feed_rate = float(cut['feed_rate'])
     else:
-        tool_feed_rate = float(json_data_dic['defaults']['feed_rate'])
+        tool_feed_rate = float(pattern_dic['defaults']['feed_rate'])
 
     if 'spindle_speed' in cut:
         cut['spindle_speed'] = float(cut['spindle_speed'])
@@ -729,76 +730,76 @@ for cut in sorted_cuts:
         nc_file.write(cut_a_shape[cut['shape']](cut, tool_feed_rate))
     else:
         cutArray = cut['array']  # is there an array of this shape to process ? If not do once in exception
-        cut['column_spacing'] = float(cut['array']['x_spacing']) * json_data_dic['defaults']['scale']
-        cut['row_spacing'] = float(cut['array']['y_spacing']) * json_data_dic['defaults']['scale']
+        cut['column_spacing'] = float(cut['array']['x_spacing']) * pattern_dic['defaults']['scale']
+        cut['row_spacing'] = float(cut['array']['y_spacing']) * pattern_dic['defaults']['scale']
         for aCol in range(0, int(cut['array']['columns'])):
             for aRow in range(0, int(cut['array']['rows'])):
                 cut_params = {}
-                cut_params['x'] = (float(aCol) * cut['column_spacing'] + origin_x) * json_data_dic['defaults']['scale'] + kerf
-                cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * json_data_dic['defaults']['scale'] + kerf
+                cut_params['x'] = (float(aCol) * cut['column_spacing'] + origin_x) * pattern_dic['defaults']['scale'] + kerf
+                cut_params['y'] = (float(aRow) * cut['row_spacing'] + origin_y) * pattern_dic['defaults']['scale'] + kerf
                 cut_params['spindle_speed'] = cut['spindle_speed']
-                cut_params['ceiling'] = float(json_data_dic['defaults']['ceiling'])
+                cut_params['ceiling'] = float(pattern_dic['defaults']['ceiling'])
 
                 # pass the necessary attributes for completing the cut
                 if cut['shape'] == 'rectangle':
-                    cut_params['wide'] = cut['wide'] * json_data_dic['defaults']['scale'] - kerf - kerf
-                    cut_params['tall'] = cut['tall'] * json_data_dic['defaults']['scale'] - kerf - kerf
+                    cut_params['wide'] = cut['wide'] * pattern_dic['defaults']['scale'] - kerf - kerf
+                    cut_params['tall'] = cut['tall'] * pattern_dic['defaults']['scale'] - kerf - kerf
                 elif cut['shape'] == 'circle' and 'diameter' in cut:
-                    cut_params['radius'] = float(float(cut['diameter']) / 2.0) * json_data_dic['defaults']['scale'] - kerf
+                    cut_params['radius'] = float(float(cut['diameter']) / 2.0) * pattern_dic['defaults']['scale'] - kerf
                 elif cut['shape'] == 'circle':
-                    cut_params['radius'] = float(cut['radius']) * json_data_dic['defaults']['scale'] - kerf
+                    cut_params['radius'] = float(cut['radius']) * pattern_dic['defaults']['scale'] - kerf
                 elif cut['shape'] == 'arc':
-                    cut_params['radius'] = float(cut['radius']) * json_data_dic['defaults']['scale']
+                    cut_params['radius'] = float(cut['radius']) * pattern_dic['defaults']['scale']
                 elif cut['shape'] == 'text':
-                    cut_params['unit'] = json_data_dic['defaults']['unit']
+                    cut_params['unit'] = pattern_dic['defaults']['unit']
                 elif cut['shape'] == 'drill':
                     cut_params['diameter'] = float(cut['diameter'])
                     cut_params['bottom'] = float(cut['bottom'])
-                    cut_params['tool_diameter'] = float(json_data_dic['defaults']['tool_diameter'])
-                    cut_params['scale'] = json_data_dic['defaults']['scale']
+                    cut_params['tool_diameter'] = float(pattern_dic['defaults']['tool_diameter'])
+                    cut_params['scale'] = pattern_dic['defaults']['scale']
                     cut_params['finish_cut'] = finish_cut
-                    cut_params['ceiling'] = float(json_data_dic['defaults']['ceiling'])
+                    cut_params['ceiling'] = float(pattern_dic['defaults']['ceiling'])
                     cut_params['stock_depth'] = stock_depth
                     cut_params['step_down'] = step_down
 
                 if 'radius' in cut:
-                    cut_params['radius'] = float(cut['radius']) * json_data_dic['defaults']['scale'] - kerf
+                    cut_params['radius'] = float(cut['radius']) * pattern_dic['defaults']['scale'] - kerf
 
                 nc_file.write(str(cut_a_shape[cut['shape']](cut_params, tool_feed_rate)))
 
 # lastly, prepare to cut the border
-if 'feed_rate' in json_data_dic['border']:
-    tool_feed_rate = str3dec(json_data_dic['border']['feed_rate'])
+if 'feed_rate' in pattern_dic['border']:
+    tool_feed_rate = str3dec(pattern_dic['border']['feed_rate'])
 else:
-    tool_feed_rate = str3dec(json_data_dic['defaults']['feed_rate'])
+    tool_feed_rate = str3dec(pattern_dic['defaults']['feed_rate'])
 
-if 'border' not in json_data_dic or 'shape' not in json_data_dic['border']:
+if 'border' not in pattern_dic or 'shape' not in pattern_dic['border']:
     nc_file.write('(no border found)')
     nc_file.close()
 
-border_params = json_data_dic['border']
+border_params = pattern_dic['border']
 if 'spindle_speed' not in border_params:
     border_params['spindle_speed'] = default_spindle_speed
 
 # prepare border vars for various shapes
-if json_data_dic['border']['shape'] == 'rectangle':
-    border_params['wide'] = float(border_params['wide']) * json_data_dic['defaults']['scale'] + kerf + kerf
-    border_params['tall'] = float(border_params['tall']) * json_data_dic['defaults']['scale'] + kerf + kerf
+if pattern_dic['border']['shape'] == 'rectangle':
+    border_params['wide'] = float(border_params['wide']) * pattern_dic['defaults']['scale'] + kerf + kerf
+    border_params['tall'] = float(border_params['tall']) * pattern_dic['defaults']['scale'] + kerf + kerf
     border_params['x'] = kerf
     border_params['y'] = kerf
-    if 'radius' in json_data_dic['border']:
+    if 'radius' in pattern_dic['border']:
         border_params['radius'] = float(border_params['radius']) + kerf
-    if 'lead_in' in json_data_dic['border']:
-        border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
+    if 'lead_in' in pattern_dic['border']:
+        border_params['lead_in'] = float(pattern_dic['border']['lead_in'])
     nc_file.write("(rectangular border) \n")
     nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_feed_rate)))
 
-if json_data_dic['border']['shape'] == 'circle':
-    border_params['radius'] = float(border_params['diameter']) * json_data_dic['defaults']['scale'] / 2.0 + kerf
-    border_params['x'] = border_params['radius'] * json_data_dic['defaults']['scale'] + kerf
-    border_params['y'] = border_params['radius'] * json_data_dic['defaults']['scale'] + kerf
-    if 'lead_in' in json_data_dic['border']:
-        border_params['lead_in'] = float(json_data_dic['border']['lead_in'])
+if pattern_dic['border']['shape'] == 'circle':
+    border_params['radius'] = float(border_params['diameter']) * pattern_dic['defaults']['scale'] / 2.0 + kerf
+    border_params['x'] = border_params['radius'] * pattern_dic['defaults']['scale'] + kerf
+    border_params['y'] = border_params['radius'] * pattern_dic['defaults']['scale'] + kerf
+    if 'lead_in' in pattern_dic['border']:
+        border_params['lead_in'] = float(pattern_dic['border']['lead_in'])
     nc_file.write("(circular border) \n")
     nc_file.write(str(cut_a_shape[border_params['shape']](border_params, tool_feed_rate)))
 
