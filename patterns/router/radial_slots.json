@@ -9,8 +9,8 @@
     },
     "border" : {
         "shape" : "none",
-        "wide" : "50.8",
-        "tall" : "50.8",
+        "wide" : "250.8",
+        "tall" : "250.8",
         "feed_rate" : "100",
         "radius" : "3.0",
         "lead_in" : "3.0"
@@ -18,8 +18,8 @@
     "cuts" : {
         "0" : {
             "shape" : "lines_and_arcs",
-            "x" : "25.4",
-            "y" : "25.4",
+            "x" : "125.4",
+            "y" : "125.4",
             "z" : "0.500",
             "feed_rate" : "100",
             "radial_offset" : "0.0",
@@ -32,39 +32,39 @@
                 "0" : {
                     "order" : "0",
                     "x_offset" : "-20.0",
-                    "y_offset" : "20.0",
+                    "y_offset" : "80.0",
                     "z" : "0.500"
                 },
                 "1" : {
                     "order" : "1",
                     "x_offset" : "20.0",
-                    "y_offset" : "20.0",
+                    "y_offset" : "80.0",
                     "z" : "0.500"
                 },
                 "2" : {
                     "order" : "2",
                     "x_offset" : "20.0",
-                    "y_offset" : "-10.0",
+                    "y_offset" : "60.0",
                     "z" : "0.500"
                 },
                 "3" : {
                     "order" : "3",
                     "radius" : "10.0",
                     "x_offset" : "10.0",
-                    "y_offset" : "-10.0",
+                    "y_offset" : "55.0",
                     "start" : "90",
                     "end" : "180"
                 },
                 "4" : {
                     "order" : "4",
                     "x_offset" : "-15.0",
-                    "y_offset" : "-20.0"
+                    "y_offset" : "45.0"
                 },
                 "5" : {
                     "order" : "5",
                     "radius" : "5.0",
                     "x_offset" : "-15.0",
-                    "y_offset" : "-15.0",
+                    "y_offset" : "50.0",
                     "start" : "180",
                     "end" : "270"
                 }
@@ -72,8 +72,8 @@
         },
         "1" : {
             "shape" : "cross_hair",
-            "x" : "25.4",
-            "y" : "25.4",
+            "x" : "125.4",
+            "y" : "125.4",
             "z" : "-1.000",
             "cross_hair" : "1.0"
         }

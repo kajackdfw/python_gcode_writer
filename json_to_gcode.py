@@ -389,10 +389,11 @@ def drill(params, feed_rate):
         params['bottom'] = (params['stock_depth'] + 0.0625) * -1
 
     # drill a center hole
-    nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
-    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 F" + str3dec(feed_rate / 2.0) + " \n"
-    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
-    nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
+    if params['finish_cut'] > 0:
+        nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
+        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 F" + str3dec(feed_rate / 2.0) + " \n"
+        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
+        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
 
     # if the hole is bigger than the tool then start a helical pattern
     if params['diameter'] > params['tool_diameter']:
@@ -410,8 +411,8 @@ def drill(params, feed_rate):
         start_z = 0.0
         increment = math.pi * (1.0 / (params['diameter'] * 10.0))
         step_count = math.ceil(abs(params['bottom']) / 0.1) * -1
-        step_down = params['bottom'] / float(step_count)
-        nc_lines += "(step down = " + str3dec(step_down) + ")"
+        #step_down = params['bottom'] / float(step_count)
+        nc_lines += "(step down = " + str3dec(params['step_down']) + ")"
         step_radius = params['tool_diameter'] / 3
 
         # cut a shallow guide trough
@@ -428,7 +429,7 @@ def drill(params, feed_rate):
                 nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + current_radius) + \
                             " Z" + str3dec(start_z) + " F" + str3dec(feed_rate / 2.0) + "(plunge)\n"
                 nc_lines += arc_2d(params['x'], params['y'], current_radius, 0.0, math.pi * 2.1, increment, feed_rate)
-            start_z -= step_down
+            start_z -= params['step_down']
 
         # do the bottom of the circle, it might have been omitted previously because of rounding
         if params['stock_depth'] > abs(params['bottom']) + 0.0625:
@@ -444,10 +445,11 @@ def drill(params, feed_rate):
             nc_lines += arc_2d(params['x'], params['y'], removal_radius, 0.0, math.pi * 2.1, increment, feed_rate)
 
         # finish cut
-        nc_lines += '(finish cut)\n'
-        nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + (params['diameter'] / 2.0) - (params['tool_diameter'] / 2)) + \
-                    " Z" + str3dec(params['bottom']) + " F" + str3dec(feed_rate / 2.0) + " \n"
-        nc_lines += arc_2d(params['x'], params['y'], ((params['diameter'] / 2.0) - (params['tool_diameter'] / 2)), 0.0, math.pi * 6.2, increment, feed_rate / 2.0)
+        if params['finish_cut'] > 0:
+            nc_lines += '(finish cut)\n'
+            nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + (params['diameter'] / 2.0) - (params['tool_diameter'] / 2)) + \
+                        " Z" + str3dec(params['bottom']) + " F" + str3dec(feed_rate / 2.0) + " \n"
+            nc_lines += arc_2d(params['x'], params['y'], ((params['diameter'] / 2.0) - (params['tool_diameter'] / 2)), 0.0, math.pi * 6.2, increment, feed_rate / 2.0)
 
     nc_lines += "G01 Z" + str3dec(params['ceiling']) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
@@ -634,10 +636,15 @@ else:
 
 if 'finish_cut' in json_data_dic['defaults']:
     finish_cut = float(json_data_dic['defaults']['finish_cut'])
-elif json_data_dic['defaults']['unit'] == 'mm':
-    finish_cut = 1.000
 else:
-    finish_cut = 0.031
+    finish_cut = 0.0
+
+if 'step_down' in json_data_dic['defaults']:
+    step_down = float(json_data_dic['defaults']['step_down'])
+elif json_data_dic['defaults']['unit'] == 'mm':
+    step_down = 4.000
+else:
+    step_down = 0.1875
 
 if 'stock_depth' in json_data_dic['defaults']:
     stock_depth = float(json_data_dic['defaults']['stock_depth'])
@@ -699,6 +706,7 @@ for cut in sorted_cuts:
         cut['scale'] = json_data_dic['defaults']['scale']
         cut['finish_cut'] = finish_cut
         cut['stock_depth'] = stock_depth
+        cut['step_down'] = step_down
         if 'depth' in cut:
             cut['bottom'] = 0.0 - float(cut['depth'])
         elif 'bottom' in cut:
@@ -751,6 +759,7 @@ for cut in sorted_cuts:
                     cut_params['finish_cut'] = finish_cut
                     cut_params['ceiling'] = float(json_data_dic['defaults']['ceiling'])
                     cut_params['stock_depth'] = stock_depth
+                    cut_params['step_down'] = step_down
 
                 if 'radius' in cut:
                     cut_params['radius'] = float(cut['radius']) * json_data_dic['defaults']['scale'] - kerf
