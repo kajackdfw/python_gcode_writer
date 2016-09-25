@@ -386,11 +386,11 @@ def drill(params, feed_rate):
     nc_lines = "(drill " + str(params['diameter']) + " hole) \n"
     nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + "\n"
 
-    if (abs(params['bottom']) + 0.0625) > params['stock_depth']:
+    if 1 == 2 and (abs(params['bottom']) + 0.0625) > params['stock_depth']:
         params['bottom'] = (params['stock_depth'] + 0.0625) * -1
 
     # drill a center hole
-    if params['finish_cut'] > 0:
+    if params['finish_cut'] > 0 or params['diameter'] == params['tool_diameter']:
         nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 F" + str3dec(feed_rate / 2.0) + " \n"
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
@@ -635,14 +635,14 @@ if 'scale' in pattern_dic['defaults']:
 else:
     pattern_dic['defaults']['scale'] = 1.000
 
-if 'finish_cut' in json_data_dic['defaults']:
-    finish_cut = float(json_data_dic['defaults']['finish_cut'])
+if 'finish_cut' in pattern_dic['defaults']:
+    finish_cut = float(pattern_dic['defaults']['finish_cut'])
 else:
     finish_cut = 0.0
 
-if 'step_down' in json_data_dic['defaults']:
-    step_down = float(json_data_dic['defaults']['step_down'])
-elif json_data_dic['defaults']['unit'] == 'mm':
+if 'step_down' in pattern_dic['defaults']:
+    step_down = float(pattern_dic['defaults']['step_down'])
+elif pattern_dic['defaults']['unit'] == 'mm':
     step_down = 4.000
 else:
     step_down = 0.1875
@@ -703,7 +703,6 @@ for cut in sorted_cuts:
         cut['x'] = float(cut['x']) * pattern_dic['defaults']['scale'] + kerf
         cut['y'] = float(cut['y']) * pattern_dic['defaults']['scale'] + kerf
         cut['tool_diameter'] = float(pattern_dic['defaults']['tool_diameter'])
-        cut['diameter'] = float(cut['diameter'])
         cut['scale'] = pattern_dic['defaults']['scale']
         cut['finish_cut'] = finish_cut
         cut['stock_depth'] = stock_depth
@@ -714,6 +713,14 @@ for cut in sorted_cuts:
             cut['bottom'] = float(cut['bottom'])
         else:
             cut['bottom'] = 0.0 - stock_depth
+
+        if 'outside_diameter' in cut:
+            cut['diameter'] = float(cut['outside_diameter'])
+        elif 'diameter' in cut:
+            cut['diameter'] = float(cut['diameter'])
+
+        if 'inside_diameter' in cut:
+            cut['inside_diameter'] = float(cut['inside_diameter'])
 
     if 'feed_rate' in cut:
         tool_feed_rate = float(cut['feed_rate'])

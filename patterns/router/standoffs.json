@@ -1,12 +1,12 @@
 {
     "defaults" : {
         "unit" : "inch",
-        "tool_diameter" : "0.0625",
-        "feed_rate" : "60",
+        "tool_diameter" : "0.125",
+        "feed_rate" : "30",
         "scale" : "1.000",
         "retract_spindle_to" : "0.50",
         "stock_depth" : "0.1875",
-        "step_down" : "0.1875"
+        "step_down" : "0.08"
     },
     "border" : {
         "shape" : "none",
@@ -16,58 +16,30 @@
     "cuts" : {
       "0" : {
          "shape" : "drill",
-         "diameter" : "0.125" ,
-         "bottom" : "-0.1875" ,
+         "outside_diameter" : "0.125" ,
+         "bottom" : "-0.2" ,
          "top" : "0.000",
          "x" : "0",
          "y" : "0",
          "array" : {
             "columns" : "2",
-            "x_spacing" : "0.672",
-            "rows" : "12",
-            "y_spacing" : "0.388"
-         }
-      },
-      "1" : {
-         "shape" : "drill",
-         "diameter" : "0.125" ,
-         "bottom" : "-0.1875" ,
-         "top" : "0.000",
-         "x" : "0.336",
-         "y" : "0.194",
-         "array" : {
-             "columns": "2",
-             "x_spacing": "0.672",
-             "rows": "12",
-             "y_spacing": "0.388"
+            "x_spacing" : "0.5",
+            "rows" : "8",
+            "y_spacing" : "0.50"
          }
       },
       "2" : {
          "shape" : "drill",
-         "diameter" : "0.45" ,
-         "bottom" : "-0.1875" ,
+         "inside_diameter" : "0.325" ,
+         "bottom" : "-0.2" ,
          "top" : "0.000",
          "x" : "0",
          "y" : "0",
          "array" : {
             "columns" : "2",
-            "x_spacing" : "0.672",
-            "rows" : "12",
-            "y_spacing" : "0.388"
-         }
-      },
-      "3" : {
-         "shape" : "drill",
-         "diameter" : "0.45" ,
-         "bottom" : "-0.1875" ,
-         "top" : "0.000",
-         "x" : "0.336",
-         "y" : "0.194",
-         "array" : {
-            "columns" : "2",
-            "x_spacing" : "0.672",
-            "rows" : "12",
-            "y_spacing" : "0.388"
+            "x_spacing" : "0.5",
+            "rows" : "8",
+            "y_spacing" : "0.50"
          }
       }
     }
