@@ -398,7 +398,7 @@ def drill(params, feed_rate):
         params['outside_diameter'] = params['inside_diameter'] + params['tool_diameter'] + params['tool_diameter']
         params['hole_type'] = 'ring'
     else:
-        # legacy data support
+        # legacy data support, could go away some day
         nc_lines = "(drill " + str(params['diameter']) + " OD hole) \n"
         params['hole_type'] = 'drill_through'
         params['outside_diameter'] = params['diameter']
@@ -409,7 +409,7 @@ def drill(params, feed_rate):
         params['bottom'] = (params['stock_depth'] + 0.0625) * -1
 
     # drill a center hole
-    if params['finish_cut'] > 0 or params['outside_diameter'] == params['tool_diameter']:
+    if (params['finish_cut'] > 0 or params['outside_diameter'] == params['tool_diameter']) and 'inside_diameter' not in params:
         nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 F" + str3dec(feed_rate / 2.0) + " \n"
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
