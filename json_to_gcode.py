@@ -383,22 +383,41 @@ def circle(params, feed_rate):
 
 
 def drill(params, feed_rate):
-    nc_lines = "(drill " + str(params['diameter']) + " hole) \n"
+    # What kind of hole is it
+    if 'outside_diameter' in params and 'inside_diameter' in params and (abs(params['bottom'])) < params['stock_depth']:
+        nc_lines = "(doughnut " + str(params['outside_diameter']) + " OD " + str(params['inside_diameter']) + " ID hole ) \n"
+        params['hole_type'] = 'doughnut'
+        params['outside_diameter'] = params['outside_diameter']
+        params['inside_diameter'] = params['inside_diameter']
+    elif 'outside_diameter' in params:
+        nc_lines = "(drill " + str(params['outside_diameter']) + " OD hole) \n"
+        params['hole_type'] = 'drill_through'
+        params['outside_diameter'] = params['outside_diameter']
+    elif 'inside_diameter' in params:
+        nc_lines = "(drill " + str(params['inside_diameter']) + " ID hole) \n"
+        params['outside_diameter'] = params['inside_diameter'] + params['tool_diameter'] + params['tool_diameter']
+        params['hole_type'] = 'ring'
+    else:
+        # legacy data support, could go away some day
+        nc_lines = "(drill " + str(params['diameter']) + " OD hole) \n"
+        params['hole_type'] = 'drill_through'
+        params['outside_diameter'] = params['diameter']
+
     nc_lines += "G00 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + "\n"
 
     if 1 == 2 and (abs(params['bottom']) + 0.0625) > params['stock_depth']:
         params['bottom'] = (params['stock_depth'] + 0.0625) * -1
 
     # drill a center hole
-    if params['finish_cut'] > 0 or params['diameter'] == params['tool_diameter']:
+    if (params['finish_cut'] > 0 or params['outside_diameter'] == params['tool_diameter']) and 'inside_diameter' not in params:
         nc_lines += "M3 S" + str3dec(params['spindle_speed']) + " \n"
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z0.00 F" + str3dec(feed_rate / 2.0) + " \n"
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['bottom'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y']) + " Z" + str3dec(float(params['ceiling'])) + " F" + str3dec(feed_rate / 2.0) + " \n"
 
     # if the hole is bigger than the tool then start a helical pattern
-    if params['diameter'] > params['tool_diameter']:
-        removal_radius = (params['diameter'] / 2.0) - (params['tool_diameter'] / 2) - params['finish_cut']
+    if params['outside_diameter'] > params['tool_diameter']:
+        removal_radius = (params['outside_diameter'] / 2.0) - (params['tool_diameter'] / 2) - params['finish_cut']
 
         # create a straight down start hole
         nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + removal_radius) + \
@@ -410,7 +429,7 @@ def drill(params, feed_rate):
 
         # calculate depth steps
         start_z = 0.0
-        increment = math.pi * (1.0 / (params['diameter'] * 10.0))
+        increment = math.pi * (1.0 / (params['outside_diameter'] * 10.0))
         step_count = math.ceil(abs(params['bottom']) / 0.1) * -1
         #step_down = params['bottom'] / float(step_count)
         nc_lines += "(step down = " + str3dec(params['step_down']) + ")"
@@ -448,9 +467,9 @@ def drill(params, feed_rate):
         # finish cut
         if params['finish_cut'] > 0:
             nc_lines += '(finish cut)\n'
-            nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + (params['diameter'] / 2.0) - (params['tool_diameter'] / 2)) + \
+            nc_lines += "G01 X" + str3dec(params['x']) + " Y" + str3dec(params['y'] + (params['outside_diameter'] / 2.0) - (params['tool_diameter'] / 2)) + \
                         " Z" + str3dec(params['bottom']) + " F" + str3dec(feed_rate / 2.0) + " \n"
-            nc_lines += arc_2d(params['x'], params['y'], ((params['diameter'] / 2.0) - (params['tool_diameter'] / 2)), 0.0, math.pi * 6.2, increment, feed_rate / 2.0)
+            nc_lines += arc_2d(params['x'], params['y'], ((params['outside_diameter'] / 2.0) - (params['tool_diameter'] / 2)), 0.0, math.pi * 6.2, increment, feed_rate / 2.0)
 
     nc_lines += "G01 Z" + str3dec(params['ceiling']) + " F" + str3dec(feed_rate) + " \n"
     nc_lines += "M5 \n"
@@ -760,7 +779,14 @@ for cut in sorted_cuts:
                 elif cut['shape'] == 'text':
                     cut_params['unit'] = pattern_dic['defaults']['unit']
                 elif cut['shape'] == 'drill':
-                    cut_params['diameter'] = float(cut['diameter'])
+                    if 'outside_diameter' in cut:
+                        cut_params['diameter'] = float(cut['outside_diameter'])
+                    elif 'diameter' in cut:
+                        cut_params['diameter'] = float(cut['diameter'])
+
+                    if 'inside_diameter' in cut:
+                        cut_params['inside_diameter'] = float(cut['inside_diameter'])
+
                     cut_params['bottom'] = float(cut['bottom'])
                     cut_params['tool_diameter'] = float(pattern_dic['defaults']['tool_diameter'])
                     cut_params['scale'] = pattern_dic['defaults']['scale']
