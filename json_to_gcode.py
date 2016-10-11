@@ -429,7 +429,9 @@ def drill(params, feed_rate):
 
         # calculate depth steps
         start_z = 0.0
-        increment = math.pi * (1.0 / (params['outside_diameter'] * 10.0))
+        min_increment = math.pi / 8.0
+        proportionl_increment = math.pi * (1.0 / (params['outside_diameter'] * 10.0))
+        increment = (min_increment < proportionl_increment and min_increment) or proportionl_increment
         step_count = math.ceil(abs(params['bottom']) / 0.1) * -1
         #step_down = params['bottom'] / float(step_count)
         nc_lines += "(step down = " + str3dec(params['step_down']) + ")"
