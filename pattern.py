@@ -1,10 +1,10 @@
 class NCPattern:
 
-    def __init__(self):
+    def __init__(self, machine_setup):
         self.summary = 'NCPattern Class initialized.\n'
         self.status = 'initialized'
 
-    def set_machine_setup(self, json_machine_config):
+    def load(self, json_pattern):
         return False
 
     def get_summary(self):
