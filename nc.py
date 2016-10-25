@@ -4,8 +4,10 @@ import sys, getopt
 from pattern import NCPattern
 
 def main(argv):
-    nc_file = ''
-    outputfile = ''
+    command_line_args = []
+    command_line_args['nc_file'] = ''
+    command_line_args['pattern_file'] = ''
+    command_line_args['machine'] = 'shapeoko_3_xl'
     try:
         opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
     except getopt.GetoptError:
@@ -16,19 +18,20 @@ def main(argv):
             print('test.py -m <cnc_machine> -p <pattern_file> -n <nc_file>')
             sys.exit()
         elif opt in ("-m", "--machine"):
-            machine = arg
+            command_line_args['machine'] = arg
         elif opt in ("-n", "--ncfile"):
-            nc_file = arg
+            command_line_args['nc_file'] = arg
         elif opt in ("-p", "--pattern"):
-            pattern_file = arg
+            command_line_args['pattern_file'] = arg
+    return command_line_args
 
 # Parse the command line arguements
 if __name__ == "__main__":
-   main(sys.argv[1:])
+    args = main(sys.argv[1:])
 
 # Process file
-my_pattern = NCPattern('shapeoko_3_xl')
-my_pattern.load('patterns/router/vacuum_table_holes.json')
+my_pattern = NCPattern(args['machine'])
+my_pattern.load(args['pattern_file'])
 my_pattern.generate_nc_code()
 my_pattern.print_summary()
-my_pattern.save_nc_data('nc/test.nc')
+my_pattern.save_nc_data(args['nc_file'])
