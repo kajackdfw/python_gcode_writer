@@ -6,8 +6,8 @@ class NCPattern:
     def __init__(self, argv):
 
         self.nc_file = 'nc/test.nc'
-        self.pattern_file = 'patterns/router/vacuum_table_holes.json'
-        self.machine = 'shapeoko_3_xl'
+        self.pattern_file = ''
+        self.machine = ''
         try:
             opts, args = getopt.getopt(argv, "", ["machine=", "pattern_file=", "nc_file="])
         except getopt.GetoptError:
@@ -24,10 +24,17 @@ class NCPattern:
             elif opt in ("-p", "--pattern_file"):
                 self.pattern_file = arg
 
+        if self.machine == '':
+            print('Error: You must specify a cnc machine!')
+            sys.exit(2)
+
         self.summary = '  NCPattern Class initialized for ' + self.machine + '\n'
         self.status = 'initialized'
 
     def load(self):
+        if self.pattern_file == '':
+            print('Error: You must specify a json pattern file!')
+            sys.exit(2)
         self.summary += '  Load ' + self.pattern_file + ' \n'
         return False
 
