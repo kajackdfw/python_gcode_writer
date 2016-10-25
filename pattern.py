@@ -1,10 +1,34 @@
+import sys, getopt
+
+
 class NCPattern:
 
-    def __init__(self, machine_setup):
-        self.summary = 'NCPattern Class initialized.\n'
+    def __init__(self, argv):
+
+        self.nc_file = 'nc/test.nc'
+        self.pattern_file = 'patterns/router/vacuum_table_holes.json'
+        self.machine = 'shapeoko_3_xl'
+        try:
+            opts, args = getopt.getopt(argv, "", ["machine=", "pattern_file=", "nc_file="])
+        except getopt.GetoptError:
+            print('python nc.py -m <cnc_machine> -p <json_pattern_file>')
+            sys.exit(2)
+        for opt, arg in opts:
+            if opt == '-h':
+                print('test.py --machine=wazer.json --pattern_file=bird_house.json --nc_file=bird_house.nc')
+                sys.exit()
+            elif opt in ("-m", "--machine"):
+                self.machine = arg
+            elif opt in ("-n", "--nc_file"):
+                self.nc_file = arg
+            elif opt in ("-p", "--pattern_file"):
+                self.pattern_file = arg
+
+        self.summary = '  NCPattern Class initialized for ' + self.machine + '\n'
         self.status = 'initialized'
 
-    def load(self, json_pattern):
+    def load(self):
+        self.summary += '  Load ' + self.pattern_file + ' \n'
         return False
 
     def get_summary(self):
@@ -18,6 +42,7 @@ class NCPattern:
         status = 'no_data'
         return status
 
-    def save_nc_data(self, file_path_and_name):
+    def save_nc_data(self):
+        self.summary += '  Save NC data to ' + self.nc_file + ' \n'
         status = 'nothing_to_save'
         return status
