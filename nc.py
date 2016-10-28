@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sys
-from pattern import Cattern
+from cattern import Cattern
 my_pattern = Cattern(sys.argv[1:])
 
 # Process file
