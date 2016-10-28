@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
-from pattern import NCPattern
-my_pattern = NCPattern(sys.argv[1:])
+from pattern import Cattern
+my_pattern = Cattern(sys.argv[1:])
 
 # Process file
 my_pattern.load_pattern()

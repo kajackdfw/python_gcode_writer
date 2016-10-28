@@ -1,7 +1,7 @@
 import sys, getopt, json
 
 
-class NCPattern:
+class Cattern:
 
     def __init__(self, argv):
 
@@ -10,7 +10,7 @@ class NCPattern:
         self.machine_file = ''
 
         self.pattern = {}
-        self.pattern_group_count = 0;
+        self.group_count = 0
         self.pattern_perimeter = {}
 
         self.nc_data = ''
@@ -60,17 +60,19 @@ class NCPattern:
             pattern_fh = open(self.pattern_file, "r")
             json_array_string = str(pattern_fh.read())
             self.pattern = json.loads(json_array_string)
-            self.set_pattern_group_count()
-            return True
         except IOError:
             print("  Error : No pattern file found for " + self.pattern_file + '\n')
             sys.exit()
+        # set some statistics for use with code logic
+        self.set_group_count()
 
-    def set_pattern_group_count(self):
-        self.pattern_group_count = 0
+        return True
+
+    def set_group_count(self):
+        self.group_count = 0
         for x in self.pattern['groups'].items():
-            self.pattern_group_count += 1
-        self.summary += '  ' + str(self.pattern_group_count) + ' groups found.\n'
+            self.group_count += 1
+        self.summary += '  ' + str(self.group_count) + ' groups found.\n'
 
     def get_summary(self):
         return self.summary
