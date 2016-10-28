@@ -9,9 +9,11 @@ class Cattern:
         self.pattern_file = ''
         self.machine_file = ''
 
-        self.pattern = {}
+        self.groups = []
         self.group_count = 0
+
         self.pattern_perimeter = {}
+        self.pattern_dic = {}
 
         self.nc_data = ''
         self.entity_list = []
@@ -50,7 +52,7 @@ class Cattern:
         self.summary += '  NCPattern Class initialized \n'
         self.status = 'initialized'
 
-    def load_pattern(self):
+    def load(self):
         if self.pattern_file == '':
             print('Error: You must specify a json pattern file!')
             sys.exit(2)
@@ -59,33 +61,45 @@ class Cattern:
         try:
             pattern_fh = open(self.pattern_file, "r")
             json_array_string = str(pattern_fh.read())
-            self.pattern = json.loads(json_array_string)
+            self.pattern_dic = json.loads(json_array_string)
+            for cut_number, cut_values in self.pattern_dic['groups'].items():
+                self.groups.insert(int(cut_number), cut_values)
         except IOError:
             print("  Error : No pattern file found for " + self.pattern_file + '\n')
             sys.exit()
         # set some statistics for use with code logic
-        self.set_group_count()
-
+        self.group_count_setter()
         return True
 
-    def set_group_count(self):
+    def validator(self):
+        group_num = 0
+        for group in self.groups:
+            self.summary += '  Validating group ' + str(group_num) + '\n'
+            if 'shape' not in group:
+                self.summary += '    Error: Missing shape attribute. \n'
+                self.status = 'invalid'
+                print('group:' + str(group) + '\n')
+                return False
+            else:
+                self.summary += '    Shape = ' + group['shape'] + ' \n'
+            group_num += 1
+        return True
+
+    # Group methods *******************************************************************************
+
+    def group_count_setter(self):
         self.group_count = 0
-        for x in self.pattern['groups'].items():
+        for x in self.groups:
             self.group_count += 1
         self.summary += '  ' + str(self.group_count) + ' groups found.\n'
 
-    def get_summary(self):
-        return self.summary
+    # NC Code methods *****************************************************************************
 
-    def print_summary(self):
-        print(self.summary)
-        return True
-
-    def generate_nc_code(self):
+    def nc_code_generate(self):
         status = 'no_data'
         return status
 
-    def save_nc_data(self):
+    def nc_code_save(self):
         if len(self.nc_data) > 0:
             nc_fh = open(self.nc_file, "w")
             nc_fh.write(self.nc_data)
@@ -96,10 +110,15 @@ class Cattern:
             self.summary += '  No NC data to save! \n'
         return False
 
-    def get_nc_data(self):
+    def nc_code_get(self):
         return self.nc_data
 
-    def validate_pattern(self):
+    # Summary methods *****************************************************************************
 
+    def summary_get(self):
+        return self.summary
 
+    def summary_print(self):
+        print(self.summary)
         return True
+

@@ -35,8 +35,9 @@
         "sprue": "0.25",
         "chamfer": "0.063"
     },
-    "groups": {
-        "1": {
+    "groups":
+    {
+        "0": {
             "shape": "lines_and_arcs",
             "x": "1.000",
             "y": "3.000",
@@ -133,6 +134,20 @@
                         "y_offset": "-1.000"
                     }
                 }
+            }
+        },
+        "1" : {
+            "shape": "drill",
+            "diameter": "0.25",
+            "bottom": "-0.280",
+            "top": "0.000",
+            "x": "1.500",
+            "y": "1.500",
+            "array": {
+                "columns": "3",
+                "x_spacing": "1.000",
+                "rows": "3",
+                "y_spacing": "1.000"
             }
         }
     },
