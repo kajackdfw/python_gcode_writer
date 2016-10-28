@@ -74,14 +74,18 @@ class Cattern:
     def validator(self):
         group_num = 0
         for group in self.groups:
-            self.summary += '  Validating group ' + str(group_num) + '\n'
+            group_errors = 0
+            self.summary += '    Validate group ' + str(group_num) + ' \n'
             if 'shape' not in group:
-                self.summary += '    Error: Missing shape attribute. \n'
-                self.status = 'invalid'
-                print('group:' + str(group) + '\n')
-                return False
+                self.summary += '      Error: group ' + str(group_num) + ' is missing shape attribute. \n'
+                group_errors += 1
             else:
-                self.summary += '    Shape = ' + group['shape'] + ' \n'
+                self.summary += '      Shape = ' + group['shape'] + ' \n'
+
+            if 'x' not in group:
+                self.summary += '      Error: group ' + str(group_num) + ' is missing x attribute. \n'
+            if 'y' not in group:
+                self.summary += '      Error: group ' + str(group_num) + ' is missing y attribute. \n'
             group_num += 1
         return True
 
