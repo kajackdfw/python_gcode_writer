@@ -15,8 +15,9 @@ A python script to convert a json file to a gcode / nc file .
 
 visit : http://http://chilipeppr.com/grbl  and drag and drop your new NC file into this page.
 
+**Version v0.03.03 : development for this has ended, after being forked to https://github.com/kajackdfw/python_cattern_engine** 
 
-**Version v0.03.02 : improved drill functionality**
+Version v0.03.02 : improved drill functionality
 
 Version v0.03.01 : fixed radial copies of lines
 
