@@ -10,8 +10,8 @@ A python script to convert a json file to a gcode / nc file .
 **Usage** 
 
 On the command line
- >cd python_gcode_writer
- >python json_to_gcode.py patterns/router/vacuum_table_holes.json nc/my_test.nc
+ cd python_gcode_writer
+ python json_to_gcode.py patterns/router/vacuum_table_holes.json nc/my_test.nc
 
 **Preview NC File** : There is an online tool to preview the new file before sending it to your cnc machine.
 
